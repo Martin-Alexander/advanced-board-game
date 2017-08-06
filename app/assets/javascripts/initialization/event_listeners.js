@@ -4,7 +4,7 @@ function initializeMouseListener() {
 
     var rect = canvas.getBoundingClientRect();
     hand.mousePosition = {
-      x: event.clientX - rect.left - canvasWidth / 2,
+      x: (event.clientX - rect.left - canvasWidth / 2) * 0.97,
       y: event.clientY - rect.top + tileHeight / 2 - 34
     };
     hand.mouseIsoPosition = {
