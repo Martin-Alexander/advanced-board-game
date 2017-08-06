@@ -8,6 +8,9 @@ basis OUTSIDE of the unit object
 */
 
 function Unit() {
-  this.type; // "knight", "scout", "garrison", "worker", "ship"
+  this.type;      // "knight", "scout", "garrison", "worker", "ship"
   this.movesLeft; // Number of moves left to move 
+  this.player;    // Although this can be determined by the player status of the
+                  // square that the unit is in I may want to allow for a "spy"
+                  // unit to be able to occupy enemy squares
 }
