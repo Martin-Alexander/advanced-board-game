@@ -1,4 +1,7 @@
 function drawFromSource(input, x, y) {
+  if (input == "mountain") {
+    drawFromSource("grass", x, y)
+  }
   canvasContext.save();
   canvasContext.translate((x - y) * (tileWidth / 2 + 1), (x + y) * tileHeight / 2);
   canvasContext.drawImage(
@@ -19,7 +22,7 @@ function clearCanvas() {
 function renderBoard() {
   for (var i = 0; i < xSize * ySize; i++) {
     var square = game.globalBoard.data[i];
-    drawFromSource("water", square.x, square.y);
+    drawFromSource(square.terrain, square.x, square.y);
   }
 }
 
