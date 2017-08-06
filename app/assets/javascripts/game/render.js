@@ -20,14 +20,23 @@ function clearCanvas() {
 }
 
 function renderBoard() {
+  clearCanvas();
   for (var i = 0; i < xSize * ySize; i++) {
     var square = game.globalBoard.data[i];
     drawFromSource(square.terrain, square.x, square.y);
+
+    if (square.structure == "base" && square.player.number == 1) {
+      drawFromSource("playerOneBase", square.x, square.y);
+    } else if (square.structure == "base" && square.player.number == 2) {
+      drawFromSource("playerTwoBase", square.x, square.y);
+    }
   }
 }
 
 var drawFromSourceLookup = {
   grass: { x: 2, y: 0},
   water: { x: 3, y: 0},
-  mountain: { x: 4, y: 0}
+  mountain: { x: 4, y: 0},
+  playerOneBase: { x: 0, y: 0 },
+  playerTwoBase: { x: 0, y: 1 }
 }
