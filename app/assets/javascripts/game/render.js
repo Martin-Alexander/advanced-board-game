@@ -60,7 +60,7 @@ function drawSquareShape(color, x, y) {
   // Looks like the drawn tiles are not quite wide enought, not sure why, but
   // this little fix seems to work
 
-  var adjustment = 3;
+  var adjustment = 2;
 
   canvasContext.save();
   canvasContext.translate((x - y) * (tileWidth / 2 + 1), (y + x) * tileHeight / 2);
