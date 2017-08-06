@@ -7,9 +7,4 @@ const tildWidth = 0;
 
 // Images Sources
 
-// TODO
-
-// const terrainImage = ;
-// const unitImage = ;
-// const structureImage = ;
-// const elementImage = ;
+var sourceImages = document.getElementById("image-source");
