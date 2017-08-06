@@ -16,4 +16,8 @@ $(document).ready(function() {
   hand = new Hand;
 
   initializeMouseListener();
+
+  newGame();
+
+  renderingLoop();
 });

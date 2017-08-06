@@ -20,7 +20,6 @@ function clearCanvas() {
 }
 
 function renderBoard() {
-  clearCanvas();
   for (var i = 0; i < xSize * ySize; i++) {
     var square = game.globalBoard.data[i];
     drawFromSource(square.terrain, square.x, square.y);
@@ -31,6 +30,14 @@ function renderBoard() {
       drawFromSource("playerTwoBase", square.x, square.y);
     }
   }
+}
+
+function renderingLoop() {
+  window.setInterval(function() {
+    clearCanvas();
+    renderBoard();
+    hand.render();
+  }, 30);
 }
 
 var drawFromSourceLookup = {
