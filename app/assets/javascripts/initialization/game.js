@@ -11,14 +11,11 @@ var game = {
   }
 }
 
-/*
-
-Generating a new board will be somewhat tricky. 
-
-*/
+// Generate a brand new board
 game.generateNewBoard = function() {
 
-  var self = this
+  // Yeah, I don't know
+  var self = this;
 
   // Square has at least this many neighbours
   function hasAtLeastManyNeighbours(square, critereaTerrain, minNumber) {
@@ -125,7 +122,7 @@ game.generateNewBoard = function() {
       break
     }
   }
-  
+
   if (!complete) {
     for (var i = 0; i < xSize * ySize; i++) {
       var square = self.globalBoard.data[i];

@@ -3,7 +3,7 @@ function drawFromSource(input, x, y) {
     drawFromSource("grass", x, y)
   }
   canvasContext.save();
-  canvasContext.translate((x - y) * (tileWidth / 2 + 1), (x + y) * tileHeight / 2);
+  canvasContext.translate((x - y) * (tileWidth / 2 + 1), (x + y) * (tileHeight / 2));
   canvasContext.drawImage(
     sourceImage, 
     1 + (65 * drawFromSourceLookup[input].x), 1 + (49 * drawFromSourceLookup[input].y), tileWidth, 49,
