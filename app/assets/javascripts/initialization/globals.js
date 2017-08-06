@@ -2,9 +2,8 @@
 
 const xSize = 18;
 const ySize = 18;
-const tildWidth = 0;
-const tildWidth = 0;
+const tileWidth = 64;
+const tileHeight = 32;
 
-// Images Sources
-
-var sourceImages = document.getElementById("image-source");
+const canvasWidth = 1700;
+const canvasHeight = 1000;
