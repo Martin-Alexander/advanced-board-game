@@ -47,3 +47,17 @@ var drawFromSourceLookup = {
   playerOneBase: { x: 0, y: 0 },
   playerTwoBase: { x: 0, y: 1 }
 }
+
+function drawSquareShape(color, x, y) {
+  canvasContext.save();
+  canvasContext.translate((x - y) * tileWidth / 2, (y + x) * tileHeight / 2);
+  canvasContext.beginPath();
+  canvasContext.moveTo(0, 0);
+  canvasContext.lineTo(tileWidth / 2, tileHeight / 2);
+  canvasContext.lineTo(0, tileHeight);
+  canvasContext.lineTo(-tileWidth / 2, tileHeight / 2);
+  canvasContext.closePath();
+  canvasContext.fillStyle = color;
+  canvasContext.fill();
+  canvasContext.restore();   
+}
