@@ -30,14 +30,14 @@ function neighbours() {
   for (var i = 0; i < 8; i++) {
     var coords = relativePosition[i];
     if (
-      coords[0] > xSize ||
-      coords[0] < 0 ||
-      coords[1] > ySize ||
-      coords[1] < 0
+      this.x + coords[0] >= xSize ||
+      this.x + coords[0] < 0 ||
+      this.y + coords[1] >= ySize ||
+      this.y +coords[1] < 0
     ) {
       output.push(false);
     } else {
-      output.push(this.board.square(coords[0], coords[1]));
+      output.push(this.board.square(this.x + coords[0], this.y + coords[1]));
     }
   }
 
