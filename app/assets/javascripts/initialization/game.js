@@ -147,5 +147,9 @@ game.generateNewBoard = function() {
 }
 
 // A temporary move function for fog of war testing
-game.move = function() {
+game.move = function(fromSquare, toSquare) {
+  if (fromSquare.units.length > 0) {
+    toSquare.units.push(fromSquare.units[0]);
+    fromSquare.units = [];
+  }
 }

@@ -22,11 +22,8 @@ function Hand() {
     if (this.selectedTile == null) {
       this.selectedTile = clickedTile;
     } else if (this.selectedTile) {
+      game.move(this.selectedTile, clickedTile);
       this.selectedTile = null;
-    } else if (this.selectedTile.units.length > 0) {
-
-      // TODO: make a move() method for game
-      // game.move(this.selectedTile, clickedTile);
     }
 
   }
