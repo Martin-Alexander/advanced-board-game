@@ -31,7 +31,7 @@ game.generateNewBoard = function() {
           numberOfMatches++;
         }
       }
-      if (numberOfMatches < minNumber) {
+      if (numberOfMatches >= minNumber) {
         return true;
       } else {
         return false;
@@ -46,7 +46,7 @@ game.generateNewBoard = function() {
 
       if (square.terrain == terrain) {
 
-        if (hasAtLeastManyNeighbours(square, terrain, lowest)) {
+        if (!(hasAtLeastManyNeighbours(square, terrain, lowest))) {
           square.terrain = "grass"
         }
       }
@@ -110,12 +110,14 @@ game.generateNewBoard = function() {
   for (var i = 0; i < xSize * ySize; i++) {
 
     var square = self.globalBoard.data[i];
-    if (hasAtLeastManyNeighbours(square, "grass", 8)) {
+    if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 8)) {
       square.player = this.playerOne;
       square.structure = "base";
 
       this.globalBoard.square(square.y, square.x).player = this.playerTwo;
       this.globalBoard.square(square.y, square.x).structure = "base";
+
+      break
     }
   }
 }
