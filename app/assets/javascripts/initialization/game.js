@@ -1,7 +1,7 @@
 var game = {
   turnNumber: 0,
   playerOne: undefined,
-  playerOne: undefined,
+  playerTwo: undefined,
   globalBoard: [],
   turnplayer: function() {
     if (this.playerOne.isTurnPlayer) {
