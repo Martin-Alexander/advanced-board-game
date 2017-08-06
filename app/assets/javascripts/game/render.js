@@ -64,8 +64,10 @@ function renderingLoop() {
     clearCanvas();
     renderBoard();
     hand.render();
-    game.updateVision(game.playerOne);
   }, 30);
+  window.setInterval(function() {
+    game.updateVision(game.playerOne);
+  }, 10);
 }
 
 var drawFromSourceLookup = {
