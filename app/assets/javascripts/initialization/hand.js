@@ -32,6 +32,8 @@ function Hand() {
     if (this.selectedTile) {
       drawSquareShape("rgba(255, 255, 255, 0.8)", this.selectedTile.x, this.selectedTile.y);
     }
-    drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
+    if (this.hoverTile) {
+      drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
+    }
   }
 }
