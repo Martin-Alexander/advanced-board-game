@@ -107,17 +107,37 @@ game.generateNewBoard = function() {
     }
   }
 
+  // Plants initiall bases
+  var complete = false;
+
   for (var i = 0; i < xSize * ySize; i++) {
 
     var square = self.globalBoard.data[i];
-    if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 8)) {
+    if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 8) && square.x > 2 && square.y > 2) {
       square.player = this.playerOne;
       square.structure = "base";
 
       this.globalBoard.square(square.y, square.x).player = this.playerTwo;
       this.globalBoard.square(square.y, square.x).structure = "base";
 
+      complete = true;
+
       break
     }
+  }
+  
+  if (!complete) {
+    for (var i = 0; i < xSize * ySize; i++) {
+      var square = self.globalBoard.data[i];
+      if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 8)) {
+        square.player = this.playerOne;
+        square.structure = "base";
+
+        this.globalBoard.square(square.y, square.x).player = this.playerTwo;
+        this.globalBoard.square(square.y, square.x).structure = "base";
+
+        break
+      }  
+    }    
   }
 }
