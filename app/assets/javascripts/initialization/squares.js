@@ -1,17 +1,17 @@
-function Square() {
+function Square(x, y) {
   this.board      // The board that the square belongs to 
-  this.x;
-  this.y;
+  this.x = x;
+  this.y = y;
   this.terrain;   // "grass", "mountain", "water"
   this.structure; // "none", "farm", "base"
   this.player;    // A player object
   this.units = [];
 }
 
-function VisionSquare() {
+function VisionSquare(x, y) {
   this.board      // The board that the square belongs to 
-  this.x;
-  this.y;
+  this.x = x;
+  this.y = y;
   this.status;    // "black", "fog", "visible"
 }
 
