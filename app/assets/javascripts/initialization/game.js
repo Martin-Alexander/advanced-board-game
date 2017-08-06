@@ -111,11 +111,18 @@ game.generateNewBoard = function() {
 
     var square = self.globalBoard.data[i];
     if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 8) && square.x > 2 && square.y > 2) {
+      
+      var testUnit = new Unit;
+      testUnit.player = this.playerOne;
+      testUnit.type = "scout";
+
       square.player = this.playerOne;
       square.structure = "base";
 
+
       this.globalBoard.square(square.y, square.x).player = this.playerTwo;
       this.globalBoard.square(square.y, square.x).structure = "base";
+      this.globalBoard.square(square.y, square.x).units.push(testUnit);
 
       complete = true;
 
