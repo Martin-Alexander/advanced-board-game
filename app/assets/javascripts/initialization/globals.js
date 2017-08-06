@@ -1,7 +1,7 @@
 // Global variables
 
-const xSize = 18;
-const ySize = 18;
+const xSize = 25;
+const ySize = 25;
 const tileWidth = 64;
 const tileHeight = 32;
 

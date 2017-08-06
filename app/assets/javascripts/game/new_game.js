@@ -24,4 +24,6 @@ function newGame() {
 
   // A randomly generated board
   game.generateNewBoard();
+
+  renderBoard();
 }
