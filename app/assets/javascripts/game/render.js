@@ -49,14 +49,21 @@ var drawFromSourceLookup = {
 }
 
 function drawSquareShape(color, x, y) {
+  x++; y++;
+
+  // Looks like the drawn tiles are not quite wide enought, not sure why, but
+  // this little fix seems to work
+
+  var adjustment = 3;
+
   canvasContext.save();
   canvasContext.translate((x - y) * (tileWidth / 2 + 1), (y + x) * tileHeight / 2);
-  canvasContext.translate(0, -17);
+  canvasContext.translate(0, -16);
   canvasContext.beginPath();
   canvasContext.moveTo(0, 0);
-  canvasContext.lineTo(tileWidth / 2, tileHeight / 2);
+  canvasContext.lineTo(tileWidth / 2 + adjustment, tileHeight / 2);
   canvasContext.lineTo(0, tileHeight);
-  canvasContext.lineTo(-tileWidth / 2, tileHeight / 2);
+  canvasContext.lineTo(-tileWidth / 2 - adjustment, tileHeight / 2);
   canvasContext.closePath();
   canvasContext.fillStyle = color;
   canvasContext.fill();
