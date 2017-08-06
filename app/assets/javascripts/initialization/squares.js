@@ -3,8 +3,8 @@ function Square(x, y) {
   this.x = x;
   this.y = y;
   this.terrain;   // "grass", "mountain", "water"
-  this.structure; // "none", "farm", "base"
-  this.player;    // A player object
+  this.structure; // null, "farm", "base"
+  this.player;    // A player object or null
   this.units = [];
 }
 
