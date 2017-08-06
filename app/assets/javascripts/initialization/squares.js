@@ -15,7 +15,8 @@ function VisionSquare() {
   this.status;    // "black", "fog", "visible"
 }
 
-// Returns an array of adjacent squares
+// Returns an array of adjacent squares (in the case of the edge of the board
+// false is return)
 function neighbours() {
 
   var output = [];
@@ -34,7 +35,7 @@ function neighbours() {
       coords[1] > ySize ||
       coords[1] < 0
     ) {
-      output.push(undefined);
+      output.push(false);
     } else {
       output.push(this.board.square(coords[0], coords[1]));
     }
