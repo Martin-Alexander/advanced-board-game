@@ -1,4 +1,5 @@
 function Square() {
+  this.board      // The board that the square belongs to 
   this.x;
   this.y;
   this.terrain;   // "grass", "mountain", "water"
@@ -8,7 +9,39 @@ function Square() {
 }
 
 function VisionSquare() {
+  this.board      // The board that the square belongs to 
   this.x;
   this.y;
   this.status;    // "black", "fog", "visible"
 }
+
+// Returns an array of adjacent squares
+function neighbours() {
+
+  var output = [];
+
+  var relativePosition = [
+    [-1, 1], [0, 1], [1, 1],
+    [-1, 0], [1, 0],
+    [-1, -1], [0, -1], [1, -1]
+  ]
+
+  for (var i = 0; i < 8; i++) {
+    var coords = relativePosition[i];
+    if (
+      coords[0] > xSize ||
+      coords[0] < 0 ||
+      coords[1] > ySize ||
+      coords[1] < 0
+    ) {
+      output.push(undefined);
+    } else {
+      output.push(this.board.square(coords[0], coords[1]));
+    }
+  }
+
+  return output;
+}
+
+Square.prototype.neighbours = neighbours;
+VisionSquare.prototype.neighbours = neighbours;
