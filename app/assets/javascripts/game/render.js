@@ -21,19 +21,41 @@ function clearCanvas() {
 
 function renderBoard() {
   for (var i = 0; i < xSize * ySize; i++) {
+    var visionSquare = game.playerOne.vision.data[i];
     var square = game.globalBoard.data[i];
-    drawFromSource(square.terrain, square.x, square.y);
 
-    if (square.structure == "base" && square.player.number == 1) {
-      drawFromSource("playerOneBase", square.x, square.y);
-    } else if (square.structure == "base" && square.player.number == 2) {
-      drawFromSource("playerTwoBase", square.x, square.y);
+    if (visionSquare.status == "black") {
+      drawSquareShape("black", visionSquare.x, visionSquare.y);
+    } else if (visionSquare.status == "visible") {
+      drawFromSource(square.terrain, square.x, square.y);
+
+      if (square.structure == "base" && square.player.number == 1) {
+        drawFromSource("playerOneBase", square.x, square.y);
+      } else if (square.structure == "base" && square.player.number == 2) {
+        drawFromSource("playerTwoBase", square.x, square.y);
+      }
+
+      // For temporary testing purposes
+      if (square.units.length > 0) {
+        drawFromSource("playerOneScout", square.x, square.y);
+      }
+    } else if (visionSquare.status == "fog") {
+      drawFromSource(square.terrain, square.x, square.y);
+
+      if (square.structure == "base" && square.player.number == 1) {
+        drawFromSource("playerOneBase", square.x, square.y);
+      } else if (square.structure == "base" && square.player.number == 2) {
+        drawFromSource("playerTwoBase", square.x, square.y);
+      }
+
+      // For temporary testing purposes
+      if (square.units.length > 0) {
+        drawFromSource("playerOneScout", square.x, square.y);
+      }
+
+      drawSquareShape("rgba(0, 0, 0, 0.5)", square.x, square.y)
     }
 
-    // For temporary testing purposes
-    if (square.units.length > 0) {
-      drawFromSource("playerOneScout", square.x, square.y);
-    }
   }
 }
 
@@ -42,6 +64,7 @@ function renderingLoop() {
     clearCanvas();
     renderBoard();
     hand.render();
+    game.updateVision(game.playerOne);
   }, 30);
 }
 

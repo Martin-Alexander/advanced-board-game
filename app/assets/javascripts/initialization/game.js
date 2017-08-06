@@ -153,3 +153,48 @@ game.move = function(fromSquare, toSquare) {
     fromSquare.units = [];
   }
 }
+
+game.updateVision = function(player) {
+  for (var i = 0; i < xSize * ySize; i++) {
+
+    var visionSquare = player.vision.data[i];
+    var square = this.globalBoard.data[i];
+
+    var neighbours = square.neighbours();
+    var numberOfMatches = 0;
+
+    if (visionSquare.status == "black") {
+
+      if (square.structure == "base" || square.units.length > 0) {
+        visionSquare.status = "visible";
+      } else {
+
+        for (var j = 0; j < 8; j++) {
+          if (neighbours[j] && (neighbours[j].structure == "base" || neighbours[j].units.length > 0)) {
+            visionSquare.status = "visible";
+            break;
+          } else {
+            visionSquare.status = "black";
+          }
+        }
+      }
+
+    } else if (visionSquare.status == "visible" || visionSquare.status == "fog") {
+
+      if (square.structure == "base" || square.units.length > 0) {
+        visionSquare.status = "visible";
+      } else {
+
+        for (var j = 0; j < 8; j++) {
+          if (neighbours[j] && (neighbours[j].structure == "base" || neighbours[j].units.length > 0)) {
+            visionSquare.status = "visible";
+            break;
+          } else {
+            visionSquare.status = "fog";
+          }
+        }
+      }
+
+    }
+  }
+}
