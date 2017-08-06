@@ -145,3 +145,7 @@ game.generateNewBoard = function() {
     }    
   }
 }
+
+// A temporary move function for fog of war testing
+game.move = function() {
+}

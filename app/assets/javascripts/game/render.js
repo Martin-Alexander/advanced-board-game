@@ -29,6 +29,11 @@ function renderBoard() {
     } else if (square.structure == "base" && square.player.number == 2) {
       drawFromSource("playerTwoBase", square.x, square.y);
     }
+
+    // For temporary testing purposes
+    if (square.units.length > 0) {
+      drawFromSource("playerOneScout", square.x, square.y);
+    }
   }
 }
 
@@ -45,7 +50,8 @@ var drawFromSourceLookup = {
   water: { x: 3, y: 0},
   mountain: { x: 4, y: 0},
   playerOneBase: { x: 0, y: 0 },
-  playerTwoBase: { x: 0, y: 1 }
+  playerTwoBase: { x: 0, y: 1 },
+  playerOneScout: { x: 2, y: 2}
 }
 
 function drawSquareShape(color, x, y) {
