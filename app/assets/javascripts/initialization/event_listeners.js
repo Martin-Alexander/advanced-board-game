@@ -4,8 +4,8 @@ function initializeMouseListener() {
 
     var rect = canvas.getBoundingClientRect();
     hand.mousePosition = {
-      x: event.clientX - rect.left - 1100 / 2,
-      y: event.clientY - rect.top - 50
+      x: event.clientX - rect.left - canvasWidth / 2,
+      y: event.clientY - rect.top + tileHeight / 2
     };
     hand.mouseIsoPosition = {
       x: (hand.mousePosition.x + 2 * hand.mousePosition.y) / 2,
@@ -18,7 +18,7 @@ function initializeMouseListener() {
   });
 
   canvas.addEventListener("mouseup", function() {
-  
+    
     hand.click();
 
   });

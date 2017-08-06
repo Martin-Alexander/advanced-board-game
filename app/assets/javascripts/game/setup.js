@@ -10,7 +10,7 @@ $(document).ready(function() {
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
 
-  canvasContext.translate(canvas.width / 2, 32);
+  canvasContext.translate(canvas.width / 2, 0);
   sourceImage = document.getElementById("image-source");
 
   hand = new Hand;

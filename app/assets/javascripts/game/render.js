@@ -50,7 +50,8 @@ var drawFromSourceLookup = {
 
 function drawSquareShape(color, x, y) {
   canvasContext.save();
-  canvasContext.translate((x - y) * tileWidth / 2, (y + x) * tileHeight / 2);
+  canvasContext.translate((x - y) * (tileWidth / 2 + 1), (y + x) * tileHeight / 2);
+  canvasContext.translate(0, -17);
   canvasContext.beginPath();
   canvasContext.moveTo(0, 0);
   canvasContext.lineTo(tileWidth / 2, tileHeight / 2);
