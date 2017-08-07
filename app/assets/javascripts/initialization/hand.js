@@ -3,11 +3,14 @@ function Hand() {
   // Simple coordinate objects (x, y)
   this.mousePosition = {};
   this.mouseIsoPosition = {};
+  this.trueMousePosition = {};
 
   // Square objections (potentially VisionSquare objects)
   this.hoverTile;
   this.selectedTile = null;
   var clickedTile;
+  this.offset = { x: 0, y: 0 };
+  var canvasCenter = { x: canvasWidth / 2, y: canvasHeight / 2 };
 
   this.click = function() {
 
@@ -19,11 +22,15 @@ function Hand() {
     // Clicked outside of board bounds?
     if (!clickedTile) { return false; }
 
-    if (this.selectedTile == null) {
+    if (this.selectedTile == null && clickedTile.units.length > 0) {
       this.selectedTile = clickedTile;
     } else if (this.selectedTile) {
       game.move(this.selectedTile, clickedTile);
       this.selectedTile = null;
+    } else {
+      canvasContext.translate(canvasCenter.x - this.trueMousePosition.x, canvasCenter.y - this.trueMousePosition.y);
+      this.offset.x = this.offset.x + (canvasCenter.x - this.trueMousePosition.x);
+      this.offset.y = this.offset.y + (canvasCenter.y - this.trueMousePosition.y);
     }
 
   }
