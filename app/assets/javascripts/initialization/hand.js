@@ -86,6 +86,10 @@ function Hand() {
     }
   }
 
+  this.tab = function() {
+    
+  }
+
   this.render = function() {
 
     if (this.hoverTile) {

@@ -1,5 +1,13 @@
 function initializeMouseListener() {
 
+  window.addEventListener("keydown", function(e) { if (e.keyCode == 9) {e.preventDefault(); } });
+
+  window.addEventListener("keyup", function(e) {
+    if (e.keyCode == 9) {
+      hand.tab();
+    }
+  });
+
   canvas.addEventListener("dblclick", function(event) {
     
     var rect = canvas.getBoundingClientRect();
@@ -36,7 +44,7 @@ function initializeMouseListener() {
       console.log(game.globalBoard.square(hoverTile.x, hoverTile.y));
     }
   });
-  
+
   canvas.addEventListener("mousemove", function(event) {
 
     setMouseInput();
