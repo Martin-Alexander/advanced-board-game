@@ -83,16 +83,11 @@ function Hand() {
       drawSquareShape("rgba(255, 255, 255, 0.8)", this.selectedTile.x, this.selectedTile.y);
     }
     if (this.hoverTile) {
-      if (
-        Math.floor((hand.mouseIsoPosition.x) / tileHeight) >= 0 &&
-        Math.floor((hand.mouseIsoPosition.x) / tileHeight) < xSize &&
-        Math.floor((hand.mouseIsoPosition.y) / tileHeight) >= 0 &&
-        Math.floor((hand.mouseIsoPosition.y) / tileHeight) < ySize
-      ) {
         drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
-        drawTileicon();
-        populateSideBarContainers();
-      }
+    }
+    if (this.selectedTile || this.hoverTile) {
+      drawTileicon();
+      populateSideBarContainers();
     }
   }
 
@@ -113,7 +108,11 @@ function Hand() {
 
   // Does not assume that the hover square has any units
   function populateSideBarContainers() {
-    var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    if (hand.selectedTile) {
+      var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
+    } else {
+      var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    }
     var typesInThisSquare = unitTypeMapper(hoverSquare);
     canvasContext.save();
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth -50), 0 - hand.offset.y + 80);
