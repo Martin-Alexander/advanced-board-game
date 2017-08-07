@@ -136,7 +136,7 @@ game.generateNewBoard = function() {
       
       var testUnit = new Unit;
       testUnit.player = this.playerOne;
-      testUnit.type = "scout";
+      testUnit.type = "knight";
 
       square.player = this.playerOne;
       square.structure = "base";

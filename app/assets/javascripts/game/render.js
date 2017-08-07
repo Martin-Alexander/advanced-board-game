@@ -63,11 +63,22 @@ var drawFromSourceLookup = {
   grass: { x: 2, y: 0},
   water: { x: 3, y: 0},
   mountain: { x: 4, y: 0},
+  black: { x: 2, y: 3 },
+  fog: { x: 3, y: 3 },
   base1: { x: 0, y: 1 },
   base2: { x: 0, y: 0 },
-  scout1: { x: 2, y: 2},
-  black: { x: 2, y: 3 },
-  fog: { x: 3, y: 3 }
+  farm1: { x: 1, y: 1},
+  farm2: { x: 1, y: 0},
+  worker1: { x: 3, y: 1 },
+  worker2: { x: 2, y: 1 },
+  knight1: { x: 0, y: 2 },
+  knight2: { x: 4, y: 1 },
+  scout1: { x: 2, y: 2 },
+  scout2: { x: 1, y: 2 },
+  ship1: { x: 4, y: 2 },
+  ship2: { x: 3, y: 2 },
+  garrison1: { x: 1, y: 3 },
+  garrison2: { x: 0, y: 3 }
 }
 
 function drawSquareShape(color, x, y) {
