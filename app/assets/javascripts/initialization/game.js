@@ -132,7 +132,7 @@ game.generateNewBoard = function() {
   for (var i = 0; i < xSize * ySize; i++) {
 
     var square = self.globalBoard.data[i];
-    if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 8) && square.x > 2 && square.y > 2) {
+    if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 12) && square.x > 4 && square.y > 4) {
       
       var testUnit = new Unit;
       testUnit.player = this.playerOne;
