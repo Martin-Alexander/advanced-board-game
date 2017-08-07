@@ -137,10 +137,12 @@ game.generateNewBoard = function() {
       var testUnit1 = new Unit;
       testUnit1.player = this.playerOne;
       testUnit1.type = "scout";
+      testUnit1.movesLeft = 1;
 
       var testUnit2 = new Unit;
       testUnit2.player = this.playerOne;
-      testUnit2.type = "knight";      
+      testUnit2.type = "knight";
+      testUnit2.movesLeft = 1;
 
       square.player = this.playerOne;
       square.structure = "base";
@@ -173,7 +175,7 @@ game.generateNewBoard = function() {
 }
 
 // A temporary move function for fog of war testing
-game.move = function(fromSquare, toSquare, unitTypeSelect, amount) {
+game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
 
   // When/if spies are implemented this will have to change
   if (
@@ -184,22 +186,7 @@ game.move = function(fromSquare, toSquare, unitTypeSelect, amount) {
     (toSquare.player == null || toSquare.player == currentPlayer) &&
     areAdjacent(fromSquare, toSquare)
   ) {
-
-    var newUnitsForFromSquare = [];
-    var hasMoved = false;
-
-    for (var i = 0; i < fromSquare.units.length; i++) {
-      if (fromSquare.units[i].type == unitTypeSelect && !hasMoved) {
-        var unitToMove = fromSquare.units[i];
-        hasMoved = true;
-        toSquare.player = fromSquare.player;
-      } else {
-        newUnitsForFromSquare.push(fromSquare.units[i]);
-      }
-    }
-
-    fromSquare.units = newUnitsForFromSquare;
-    toSquare.units.push(unitToMove);
+    moveOneUnit(fromSquare, toSquare, type, movesLeft, amount);
 
     if (fromSquare.units.length == 0 && fromSquare.structure == null) {
       fromSquare.player = null;

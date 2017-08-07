@@ -44,3 +44,29 @@ function unitTypeMapper(square) {
   }
   return output;
 }
+
+// Moves a given number of units of a give type and `movesLeft` 
+// Run NO validations
+// May move this into an object
+function moveOneUnit(fromSquare, toSquare, type, movesLeft, amount) {
+
+  var newUnitsForFromSquare = [];
+  var newUnitsForToSquare = [];
+  var numberOfUnitsMoved = 0;
+
+  for (var i = 0; i < fromSquare.units.length; i++) {
+    console.log("here");
+    if (fromSquare.units[i].type == type && fromSquare.units[i].movesLeft >= movesLeft && numberOfUnitsMoved < amount) {
+      newUnitsForToSquare.push(fromSquare.units[i]);
+      numberOfUnitsMoved++;
+      toSquare.player = fromSquare.player;
+    } else {
+      newUnitsForFromSquare.push(fromSquare.units[i]);
+    }
+  }
+
+  fromSquare.units = newUnitsForFromSquare;
+  for (var i = 0; i < newUnitsForToSquare.length; i++) {
+    toSquare.units.push(newUnitsForToSquare[i]); 
+  }
+}
