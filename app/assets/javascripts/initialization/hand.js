@@ -91,6 +91,7 @@ function Hand() {
       ) {
         drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
         drawTileicon();
+        populateSideBarContainers();
       }
     }
   }
@@ -107,6 +108,19 @@ function Hand() {
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - 115, 0 - hand.offset.y);
     canvasContext.scale(1.5, 1.5);
     drawSquare(tileiconSquare, 0, 0);
+    canvasContext.restore();
+  }
+
+  // Does not assume that the hover square has any units
+  function populateSideBarContainers() {
+    var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    var typesInThisSquare = unitTypeMapper(hoverSquare);
+    canvasContext.save();
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth -50), 0 - hand.offset.y + 80);
+    canvasContext.scale(1.5, 1.5);
+    for (var i = 0; i < typesInThisSquare.length; i++) {
+      drawSource(typesInThisSquare[i] + hoverSquare.player.number, 0, 0 + i * 40);
+    }
     canvasContext.restore();
   }
 
@@ -156,6 +170,6 @@ function Hand() {
   // For a give square will return the unit with the highest selection priority
   // For now it'll just return the first unit's type
   function findDefaultUnitTypeSelect(square) {
-    return square.units[0].type;
+    return unitTypeMapper(square)[0];
   }
 }

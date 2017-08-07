@@ -126,10 +126,8 @@ function findImagesSources(square) {
     output.push(square.structure + square.player.number);
   }
 
-  // This'll eventually have to change, but that'll be done when the hand is 
-  // able to hand selecting individual units (as opposed to just squares)
   if (square.units.length > 0) {
-    output.push(square.units[0].type + square.player.number);
+    output.push(unitTypeMapper(square)[0] + square.player.number);
   }
 
   return output;
