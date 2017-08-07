@@ -15,3 +15,16 @@ function chance(int) {
     return false;
   }
 }
+
+function areAdjacent(squareOne, squareTwo) {
+  if (
+    squareOne.x < squareTwo.x + 2 &&
+    squareOne.x > squareTwo.x - 2 &&
+    squareOne.y < squareTwo.y + 2 &&
+    squareOne.y > squareTwo.y - 2
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
