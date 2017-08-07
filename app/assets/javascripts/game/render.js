@@ -120,6 +120,31 @@ function drawLeftBox() {
   var pattern = canvasContext.createPattern(textureImage, "repeat");
   canvasContext.fillStyle = pattern;
   canvasContext.fillRect(0, 0, leftBoxWidth, leftBoxHeight);
+
+  // If it's your turn
+  canvasContext.font = "18px serif";
+  canvasContext.fillStyle = "black"
+  if (currentPlayer.isTurnPlayer) {
+    canvasContext.fillText("Your Turn!", 20, 40);
+  } else {
+    canvasContext.fillText("Waiting for other players...", 20, 40);
+  }
+
+  // The game turn
+  canvasContext.fillText("Turn: " + game.turnNumber, leftBoxWidth - 110, 40)
+
+  // How much gold you have
+  canvasContext.fillText("Gold: " + currentPlayer.gold, 20, 100);
+
+  // How much gold you make per turn
+  canvasContext.fillText("Income: " + (Math.floor(currentPlayer.numberOfFarms / farmIncome) - currentPlayer.numberOfBases), leftBoxWidth - 110, 100);
+
+  // Number of farms
+  canvasContext.fillText("Farms: " + currentPlayer.numberOfFarms, 20, 150);
+
+  // Number of bases
+  canvasContext.fillText("Bases: " + currentPlayer.numberOfBases, leftBoxWidth - 110, 150);
+
   canvasContext.restore();
 }
 
