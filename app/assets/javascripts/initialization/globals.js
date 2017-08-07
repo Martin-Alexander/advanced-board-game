@@ -11,3 +11,6 @@ const canvasHeight = window.innerHeight;
 const leftBoxHeight = 200;
 const leftBoxWidth = 300;
 const rightBoxWidth = 250;
+
+const farmIncome = 4;
+const baseCost = 1;
