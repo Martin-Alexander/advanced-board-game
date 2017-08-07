@@ -10,40 +10,16 @@ function renderBoard() {
     var visionSquare = game.playerOne.vision.data[i];
     var square = game.globalBoard.data[i];
 
-    placeTile(square);
+    // placeTile(square);
 
-    // if (visionSquare.status == "black") {
-    //   drawFromSource("black", visionSquare.x, visionSquare.y);
-    // } else if (visionSquare.status == "visible") {
-    //   drawFromSource(square.terrain, square.x, square.y);
-
-    //   if (square.structure == "base" && square.player.number == 1) {
-    //     drawFromSource("playerOneBase", square.x, square.y);
-    //   } else if (square.structure == "base" && square.player.number == 2) {
-    //     drawFromSource("playerTwoBase", square.x, square.y);
-    //   }
-
-    //   // For temporary testing purposes
-    //   if (square.units.length > 0) {
-    //     drawFromSource("playerOneScout", square.x, square.y);
-    //   }
-    // } else if (visionSquare.status == "fog") {
-    //   drawFromSource(square.terrain, square.x, square.y);
-
-    //   if (square.structure == "base" && square.player.number == 1) {
-    //     drawFromSource("playerOneBase", square.x, square.y);
-    //   } else if (square.structure == "base" && square.player.number == 2) {
-    //     drawFromSource("playerTwoBase", square.x, square.y);
-    //   }
-
-    //   // For temporary testing purposes
-    //   if (square.units.length > 0) {
-    //     drawFromSource("playerOneScout", square.x, square.y);
-    //   }
-
-    //   drawFromSource("fog", square.x, square.y)
-    // }
-
+    if (visionSquare.status == "black") {
+      placeFog(visionSquare, "black");
+    } else if (visionSquare.status == "visible") {
+      placeTile(square);
+    } else if (visionSquare.status == "fog") {
+      placeTile(square);
+      placeFog(visionSquare, "fog");
+    }
   }
 }
 
@@ -149,4 +125,12 @@ function placeTile(square) {
   canvasContext.translate((square.x - square.y) * (tileWidth / 2 + 0), (square.x + square.y) * (tileHeight / 2));
   drawSquare(square, -tileWidth / 2, 0);
   canvasContext.restore();
+}
+
+function placeFog(square, fog) {
+  canvasContext.save();
+  canvasContext.translate((square.x - square.y) * (tileWidth / 2 + 0), (square.x + square.y) * (tileHeight / 2));
+  // drawSquare(square, -tileWidth / 2, 0);
+  drawSource(fog, -tileWidth / 2, 0);
+  canvasContext.restore();  
 }
