@@ -33,7 +33,7 @@ function initializeMouseListener() {
     }
 
     hand.mousePosition = {
-      x: ((event.clientX - rect.left - canvasWidth / 2) * 0.97) - hand.offset.x,
+      x: ((event.clientX - rect.left - canvasWidth / 2)) - hand.offset.x,
       y: (event.clientY - rect.top + tileHeight / 2 - 34) - hand.offset.y
     };
     hand.mouseIsoPosition = {
