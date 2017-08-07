@@ -2,6 +2,7 @@ var canvas
 var canvasContext;
 var sourceImage;
 var hand;
+var currentPlayer;
 
 $(document).ready(function() {
   canvas = document.getElementById("canvas");
@@ -21,6 +22,9 @@ $(document).ready(function() {
   initializeMouseListener();
 
   newGame();
+
+  // Each player has a browser, and this variables deterines which player that is
+  currentPlayer = game.playerOne;
 
   renderingLoop();
 });
