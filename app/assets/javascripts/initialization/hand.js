@@ -5,7 +5,7 @@ function Hand() {
   this.mouseIsoPosition = {};
   this.trueMousePosition = {};
 
-  // Square objections (potentially VisionSquare objects)
+  // Square objects (potentially VisionSquare objects)
   this.hoverTile;
   this.selectedTile = null;
   var clickedTile;
@@ -44,6 +44,10 @@ function Hand() {
   }
 
   this.render = function() {
+
+    drawLeftBox();
+    drawRightBox();
+
     if (this.selectedTile) {
       drawSquareShape("rgba(255, 255, 255, 0.8)", this.selectedTile.x, this.selectedTile.y);
     }
@@ -55,7 +59,51 @@ function Hand() {
         Math.floor((hand.mouseIsoPosition.y) / tileHeight) < ySize
       ) {
         drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
+        drawHoverImage();
       }
     }
+  }
+
+  function drawLeftBox() {
+    canvasContext.save();
+    canvasContext.translate(canvasWidth / -2 - hand.offset.x, canvasHeight - leftBoxHeight - hand.offset.y);
+    var pattern = canvasContext.createPattern(textureImage, "repeat");
+    canvasContext.fillStyle = pattern;
+    canvasContext.fillRect(0, 0, leftBoxWidth, leftBoxHeight);
+
+    // If it's your turn
+    canvasContext.font = "18px serif";
+    canvasContext.fillStyle = "black"
+    if (currentPlayer.isTurnPlayer) {
+      canvasContext.fillText("Your Turn!", 20, 40);
+    } else {
+      canvasContext.fillText("Waiting for other players...", 20, 40);
+    }
+
+    // The game turn
+    canvasContext.fillText("Turn: " + game.turnNumber, leftBoxWidth - 110, 40)
+
+    // How much gold you have
+    canvasContext.fillText("Gold: " + currentPlayer.gold, 20, 100);
+
+    // How much gold you make per turn
+    canvasContext.fillText("Income: " + (Math.floor(currentPlayer.numberOfFarms / farmIncome) - currentPlayer.numberOfBases), leftBoxWidth - 110, 100);
+
+    // Number of farms
+    canvasContext.fillText("Farms: " + currentPlayer.numberOfFarms, 20, 150);
+
+    // Number of bases
+    canvasContext.fillText("Bases: " + currentPlayer.numberOfBases, leftBoxWidth - 110, 150);
+
+    canvasContext.restore();
+  }
+
+  function drawRightBox() {
+    canvasContext.save();
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - rightBoxWidth, 0 - hand.offset.y);
+    var pattern = canvasContext.createPattern(textureImage, "repeat");
+    canvasContext.fillStyle = pattern;
+    canvasContext.fillRect(0, 0, rightBoxWidth, canvasHeight);
+    canvasContext.restore();
   }
 }

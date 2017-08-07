@@ -79,8 +79,6 @@ function renderingLoop() {
     fillBackground();
     renderBoard();
     hand.render();
-    drawLeftBox();
-    drawRightBox();
   }, 30);
   window.setInterval(function() {
     game.updateVision(game.playerOne);
@@ -114,55 +112,9 @@ function drawSquareShape(color, x, y) {
   canvasContext.restore();   
 }
 
-function drawLeftBox() {
-  canvasContext.save();
-  canvasContext.translate(canvasWidth / -2 - hand.offset.x, canvasHeight - leftBoxHeight - hand.offset.y);
-  var pattern = canvasContext.createPattern(textureImage, "repeat");
-  canvasContext.fillStyle = pattern;
-  canvasContext.fillRect(0, 0, leftBoxWidth, leftBoxHeight);
-
-  // If it's your turn
-  canvasContext.font = "18px serif";
-  canvasContext.fillStyle = "black"
-  if (currentPlayer.isTurnPlayer) {
-    canvasContext.fillText("Your Turn!", 20, 40);
-  } else {
-    canvasContext.fillText("Waiting for other players...", 20, 40);
-  }
-
-  // The game turn
-  canvasContext.fillText("Turn: " + game.turnNumber, leftBoxWidth - 110, 40)
-
-  // How much gold you have
-  canvasContext.fillText("Gold: " + currentPlayer.gold, 20, 100);
-
-  // How much gold you make per turn
-  canvasContext.fillText("Income: " + (Math.floor(currentPlayer.numberOfFarms / farmIncome) - currentPlayer.numberOfBases), leftBoxWidth - 110, 100);
-
-  // Number of farms
-  canvasContext.fillText("Farms: " + currentPlayer.numberOfFarms, 20, 150);
-
-  // Number of bases
-  canvasContext.fillText("Bases: " + currentPlayer.numberOfBases, leftBoxWidth - 110, 150);
-
-  canvasContext.restore();
-}
-
-function drawRightBox() {
-  canvasContext.save();
-  canvasContext.translate(canvasWidth / 2 - hand.offset.x - rightBoxWidth, 0 - hand.offset.y);
-  var pattern = canvasContext.createPattern(textureImage, "repeat");
-  canvasContext.fillStyle = pattern;
-  canvasContext.fillRect(0, 0, rightBoxWidth, canvasHeight);
-  canvasContext.restore();
-}
-
 function fillBackground() {
   canvasContext.save();
   canvasContext.translate(canvasWidth / -2 - hand.offset.x, 0 - hand.offset.y);
-  // var pattern = canvasContext.createPattern(textureImage2, "repeat");
-  // canvasContext.fillStyle = "rgb(20, 20, 20)";
-  // canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
   canvasContext.drawImage(backgroundImage, 0, 0, canvasWidth, canvasHeight);
   canvasContext.fillStyle = "rgba(0, 0, 0, 0.3)";
   canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
