@@ -3,6 +3,8 @@ function Player() {
   this.isTurnPlayer; // true or false
   this.gold;
   this.vision;
+  this.numberOfFarms;
+  this.numberOfBases;
 }
 
 // Sets every square of a players vision to "black"

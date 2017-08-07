@@ -12,6 +12,8 @@ function newGame() {
   game.playerOne.number = 1;
   game.playerOne.isTurnPlayer = true;
   game.playerOne.gold = 0;
+  game.playerOne.numberOfFarms = 0;
+  game.playerOne.numberOfBases = 1;
   game.playerOne.vision = new Board;
   game.playerOne.blind();
 
@@ -19,6 +21,8 @@ function newGame() {
   game.playerTwo.number = 2;
   game.playerTwo.isTurnPlayer = false;
   game.playerTwo.gold = 0;
+  game.playerTwo.numberOfFarms = 0;
+  game.playerTwo.numberOfBases = 1;  
   game.playerTwo.vision = new Board;
   game.playerTwo.blind();
 
