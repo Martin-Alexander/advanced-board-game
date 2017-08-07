@@ -168,8 +168,8 @@ game.generateNewBoard = function() {
 }
 
 // A temporary move function for fog of war testing
-game.move = function(fromSquare, toSquare) {
-  if (fromSquare.units.length > 0) {
+game.move = function(fromSquare, toSquare, unitTypeSelect) {
+  if (fromSquare.units.length > 0 && fromSquare.units[0].type == unitTypeSelect) {
     toSquare.units.push(fromSquare.units[0]);
     toSquare.player = fromSquare.player;
     fromSquare.units = [];

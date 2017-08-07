@@ -8,9 +8,13 @@ function Hand() {
   // Square objects (potentially VisionSquare objects)
   this.hoverTile;
   this.selectedTile = null;
+
   var clickedTile;
-  this.offset = { x: 0, y: 0 };
   var canvasCenter = { x: canvasWidth / 2, y: canvasHeight / 2 };
+  
+  this.offset = { x: 0, y: 0 };
+
+  this.unitTypeSelect = null;
 
   this.click = function() {
 
@@ -30,17 +34,44 @@ function Hand() {
       return false; 
     }
 
-    if (this.selectedTile == null && clickedTile.player == currentPlayer && (clickedTile.units.length > 0 || clickedTile.structure == "base")) {
+    // Not gonna be the most DRY flow control, but hopefully it'll be easy to understand
+
+    if (this.selectedTile == null && clickedTile.player == currentPlayer && clickedTile.units.length > 0) {
+      // Without prior selection clicking on a square that has units of yours
+
       this.selectedTile = clickedTile;
-    } else if (this.selectedTile) {
-      game.move(this.selectedTile, clickedTile);
-      this.selectedTile = null;
-    } else {
+      this.unitTypeSelect = findDefaultUnitTypeSelect(clickedTile);
+
+    } else if (this.selectedTile == null && clickedTile.player == currentPlayer && clickedTile.structure == "base") {
+      // Without prior selection clicking on a square that has a base of yours
+
+      this.selectedTile = clickedTile;
+
+    } else if (this.selectedTile == null && clickedTile.player != currentPlayer) {
+      // Without prior selection clicking a square that you do not own
+
       canvasContext.translate(Math.floor(canvasCenter.x - this.trueMousePosition.x), Math.floor(canvasCenter.y - this.trueMousePosition.y));
       this.offset.x += Math.floor(canvasCenter.x - this.trueMousePosition.x);
       this.offset.y += Math.floor(canvasCenter.y - this.trueMousePosition.y);
-    }
 
+    } else if (this.selectedTile == clickedTile) {
+      // Selection again the square you had already selected 
+
+      this.selectedTile = null;
+
+    } else if (this.unitTypeSelect && this.selectedTile != clickedTile) {
+      // While having a unit type select you click another square
+    
+      game.move(this.selectedTile, clickedTile, this.unitTypeSelect);
+      this.selectedTile = null;
+
+    } else if (this.unitTypeSelect == null && this.selectedTile) {
+      // While having prior selection WITHOUT unit select you click somewhere
+      // (i.e., you were slecting a city without units in it)
+
+      this.selectedTile = null;
+      
+    }
   }
 
   this.render = function() {
@@ -74,7 +105,6 @@ function Hand() {
 
     canvasContext.save();
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - 115, 0 - hand.offset.y);
-
     canvasContext.scale(1.5, 1.5);
     drawSquare(tileiconSquare, 0, 0);
     canvasContext.restore();
@@ -121,5 +151,11 @@ function Hand() {
     canvasContext.fillStyle = pattern;
     canvasContext.fillRect(0, 0, rightBoxWidth, canvasHeight);
     canvasContext.restore();
+  }
+
+  // For a give square will return the unit with the highest selection priority
+  // For now it'll just return the first unit's type
+  function findDefaultUnitTypeSelect(square) {
+    return square.units[0].type;
   }
 }
