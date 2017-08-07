@@ -5,5 +5,5 @@ const ySize = 40;
 const tileWidth = 64;
 const tileHeight = 32;
 
-const canvasWidth = window.innerWidth - 20;
-const canvasHeight = window.innerHeight - 20;
+const canvasWidth = window.innerWidth;
+const canvasHeight = window.innerHeight;
