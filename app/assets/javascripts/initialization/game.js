@@ -168,14 +168,38 @@ game.generateNewBoard = function() {
 }
 
 // A temporary move function for fog of war testing
-game.move = function(fromSquare, toSquare, unitTypeSelect) {
-  if (fromSquare.units.length > 0 && fromSquare.units[0].type == unitTypeSelect) {
-    toSquare.units.push(fromSquare.units[0]);
-    toSquare.player = fromSquare.player;
-    fromSquare.units = [];
-  }
-  if (fromSquare.units.length == 0 && fromSquare.structure == null) {
-    fromSquare.player = null;
+game.move = function(fromSquare, toSquare, unitTypeSelect, amount) {
+
+  // When/if spies are implemented this will have to change
+  if (
+    fromSquare.units.length > 0 &&  
+    fromSquare.player.isTurnPlayer &&
+    fromSquare.player == currentPlayer &&
+    toSquare.terrain == "grass" &&
+    (toSquare.player == null || toSquare.player == currentPlayer) &&
+    areAdjacent(fromSquare, toSquare)
+  ) {
+
+    var newUnitsForFromSquare = [];
+    var hasMoved = false;
+
+    for (var i = 0; i < fromSquare.units.length; i++) {
+      if (fromSquare.units[i].type == unitTypeSelect && !hasMoved) {
+        var unitToMove = fromSquare.units[i];
+        hasMoved = true;
+        toSquare.player = fromSquare.player;
+      } else {
+        newUnitsForFromSquare.push(fromSquare.units[i]);
+      }
+    }
+
+    fromSquare.units = newUnitsForFromSquare;
+    toSquare.units.push(unitToMove);
+
+    if (fromSquare.units.length == 0 && fromSquare.structure == null) {
+      fromSquare.player = null;
+    }
+
   }
 }
 
