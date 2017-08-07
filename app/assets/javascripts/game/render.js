@@ -62,9 +62,11 @@ function renderBoard() {
 function renderingLoop() {
   window.setInterval(function() {
     clearCanvas();
+    fillBackground();
     renderBoard();
     hand.render();
     drawLeftBox();
+    drawRightBox();
   }, 30);
   window.setInterval(function() {
     game.updateVision(game.playerOne);
@@ -104,5 +106,26 @@ function drawLeftBox() {
   var pattern = canvasContext.createPattern(textureImage, "repeat");
   canvasContext.fillStyle = pattern;
   canvasContext.fillRect(0, 0, 300, 200);
+  canvasContext.restore();
+}
+
+function drawRightBox() {
+  canvasContext.save();
+  canvasContext.translate(canvasWidth / 2 - hand.offset.x - 250, 0 - hand.offset.y);
+  var pattern = canvasContext.createPattern(textureImage, "repeat");
+  canvasContext.fillStyle = pattern;
+  canvasContext.fillRect(0, 0, 250, canvasHeight);
+  canvasContext.restore();
+}
+
+function fillBackground() {
+  canvasContext.save();
+  canvasContext.translate(canvasWidth / -2 - hand.offset.x - 250, 0 - hand.offset.y);
+  // var pattern = canvasContext.createPattern(textureImage2, "repeat");
+  // canvasContext.fillStyle = "rgb(20, 20, 20)";
+  // canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
+  canvasContext.drawImage(backgroundImage, 0, 0, canvasWidth, canvasHeight);
+  canvasContext.fillStyle = "rgba(0, 0, 0, 0.3)";
+  canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
   canvasContext.restore();
 }
