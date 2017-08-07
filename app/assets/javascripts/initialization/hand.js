@@ -59,10 +59,20 @@ function Hand() {
         Math.floor((hand.mouseIsoPosition.y) / tileHeight) < ySize
       ) {
         drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
-        drawHoverImage();
+        // drawTilecon();
       }
     }
   }
+
+  // function drawTilecon() {
+  //   var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+  //   canvasContext.save();
+  //   canvasContext.translate(canvasWidth / 2 - hand.offset.x - rightBoxWidth, 0 - hand.offset.y);
+
+  //   canvasContext.scale(1.5, 1.5);
+  //   renderSquare(hoverSquare, 4, 0);
+  //   canvasContext.restore();
+  // }
 
   function drawLeftBox() {
     canvasContext.save();
