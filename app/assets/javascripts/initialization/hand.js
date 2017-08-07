@@ -30,7 +30,7 @@ function Hand() {
       return false; 
     }
 
-    if (this.selectedTile == null && clickedTile.units.length > 0) {
+    if (this.selectedTile == null && clickedTile.player == currentPlayer && (clickedTile.units.length > 0 || clickedTile.structure == "base")) {
       this.selectedTile = clickedTile;
     } else if (this.selectedTile) {
       game.move(this.selectedTile, clickedTile);
@@ -59,18 +59,24 @@ function Hand() {
         Math.floor((hand.mouseIsoPosition.y) / tileHeight) < ySize
       ) {
         drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
-        drawTilecon();
+        drawTileicon();
       }
     }
   }
 
-  function drawTilecon() {
-    var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+  function drawTileicon() {
+
+    if (hand.selectedTile) {
+      var tileiconSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
+    } else {
+      var tileiconSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    }
+
     canvasContext.save();
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - 115, 0 - hand.offset.y);
 
     canvasContext.scale(1.5, 1.5);
-    drawSquare(hoverSquare, 0, 0);
+    drawSquare(tileiconSquare, 0, 0);
     canvasContext.restore();
   }
 

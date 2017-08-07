@@ -171,7 +171,11 @@ game.generateNewBoard = function() {
 game.move = function(fromSquare, toSquare) {
   if (fromSquare.units.length > 0) {
     toSquare.units.push(fromSquare.units[0]);
+    toSquare.player = fromSquare.player;
     fromSquare.units = [];
+  }
+  if (fromSquare.units.length == 0 && fromSquare.structure == null) {
+    fromSquare.player = null;
   }
 }
 
