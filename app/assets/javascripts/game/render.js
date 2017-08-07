@@ -102,8 +102,7 @@ function drawLeftBox() {
   canvasContext.save();
   canvasContext.translate(canvasWidth / -2 - hand.offset.x, canvasHeight - 200 - hand.offset.y);
   var pattern = canvasContext.createPattern(textureImage, "repeat");
-  canvasContext.rect(0, 0, 300, 200);
   canvasContext.fillStyle = pattern;
-  canvasContext.fill();
+  canvasContext.fillRect(0, 0, 300, 200);
   canvasContext.restore();
 }
