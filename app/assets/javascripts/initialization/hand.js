@@ -10,7 +10,7 @@ function Hand() {
   this.selectedTile = null;
 
   var clickedTile;
-  var canvasCenter = { x: canvasWidth / 2, y: canvasHeight / 2 };
+  var canvasCenter = { x: canvasWidth / 2 - rightBoxWidth / 2, y: canvasHeight / 2 };
   
   this.offset = { x: 0, y: 0 };
 
@@ -81,6 +81,7 @@ function Hand() {
 
     if (this.selectedTile) {
       drawSquareShape("rgba(255, 255, 255, 0.8)", this.selectedTile.x, this.selectedTile.y);
+      drawSelectedUnit();
     }
     if (this.hoverTile) {
       drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
@@ -88,6 +89,16 @@ function Hand() {
     if (this.selectedTile || this.hoverTile) {
       drawTileicon();
       populateSideBarContainers();
+    }
+  }
+
+  function drawSelectedUnit() {
+    if (hand.unitTypeSelect) {
+      canvasContext.save();
+      canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + 130);
+      canvasContext.scale(1.5, 1.5);
+      drawSource(hand.unitTypeSelect + currentPlayer.number, 0, 0);
+      canvasContext.restore();      
     }
   }
 
@@ -115,7 +126,7 @@ function Hand() {
     }
     var typesInThisSquare = unitTypeMapper(hoverSquare);
     canvasContext.save();
-    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + 160);
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + 250);
     canvasContext.scale(1.5, 1.5);
     for (var i = 0; i < typesInThisSquare.length; i++) {
       drawSource(typesInThisSquare[i] + hoverSquare.player.number, 0, 0 + i * 50);
