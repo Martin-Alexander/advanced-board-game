@@ -86,14 +86,6 @@ game.generateNewBoard = function() {
   terrainify("water", 65);
   terrainify("mountain", 90);
 
-  // Prune terrain
-  for (var i = 0; i < 10; i++) {
-    prune("mountain", 2);
-  }
-  for (var i = 0; i < 8; i++) {
-    prune("water", 4);
-  }
-
   // Mirror board for fairness
   for (var i = 0; i < xSize * ySize; i++) {
     
@@ -103,6 +95,36 @@ game.generateNewBoard = function() {
       square.terrain = this.globalBoard.square(square.y, square.x).terrain;
     }
   }
+
+  // Prune terrain
+  for (var i = 0; i < 20; i++) {
+    prune("mountain", 2);
+  }
+  for (var i = 0; i < 20; i++) {
+    prune("water", 4);
+  }  
+
+  for (var i = 0; i < xSize * ySize; i++) {
+
+    var square = this.globalBoard.data[i];
+
+    if (square.terrain == "grass" || square.terrain == "mountain") {
+
+      var neighbours = square.neighbours();
+      var numberOfMatches = 0;
+
+      for (var j = 0; j < 8; j++) {
+        if (neighbours[j] && neighbours[j].terrain == "water") {
+          numberOfMatches++;
+        }
+      }
+      if (numberOfMatches > 4) {
+        square.terrain = "water";
+      }
+
+    }
+  }  
+
 
   // Plants initiall bases
   var complete = false;
