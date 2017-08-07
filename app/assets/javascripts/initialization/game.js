@@ -140,11 +140,10 @@ game.generateNewBoard = function() {
 
       square.player = this.playerOne;
       square.structure = "base";
-
+      square.units.push(testUnit);
 
       this.globalBoard.square(square.y, square.x).player = this.playerTwo;
       this.globalBoard.square(square.y, square.x).structure = "base";
-      this.globalBoard.square(square.y, square.x).units.push(testUnit);
 
       complete = true;
 
