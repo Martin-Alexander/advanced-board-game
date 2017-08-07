@@ -16,6 +16,7 @@ function chance(int) {
   }
 }
 
+// Returns true if two squares are adjacent to each other
 function areAdjacent(squareOne, squareTwo) {
   if (
     squareOne.x < squareTwo.x + 2 &&
@@ -27,4 +28,19 @@ function areAdjacent(squareOne, squareTwo) {
   } else {
     return false;
   }
+}
+
+// Returns an ordered array of unit types
+function unitTypeMapper(square) {
+  var output = [];
+  var properOrder = ["garrison", "knight", "scout", "ship", "worker"];
+  for (var i = 0; i < properOrder.length; i++) {
+    for (var j = 0; j < square.units.length; j++) {
+      if (square.units[j].type == properOrder[i]) {
+        output.push(square.units[j].type);
+        break;
+      }
+    }
+  }
+  return output;
 }
