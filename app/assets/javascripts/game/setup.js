@@ -12,6 +12,7 @@ $(document).ready(function() {
 
   canvasContext.translate(canvas.width / 2, 0);
   sourceImage = document.getElementById("image-source");
+  textureImage = document.getElementById("texture-source");
 
   hand = new Hand;
 
