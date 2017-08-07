@@ -40,7 +40,14 @@ function Hand() {
       drawSquareShape("rgba(255, 255, 255, 0.8)", this.selectedTile.x, this.selectedTile.y);
     }
     if (this.hoverTile) {
-      drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
+      if (
+        Math.floor((hand.mouseIsoPosition.x) / tileHeight) >= 0 &&
+        Math.floor((hand.mouseIsoPosition.x) / tileHeight) < xSize &&
+        Math.floor((hand.mouseIsoPosition.y) / tileHeight) >= 0 &&
+        Math.floor((hand.mouseIsoPosition.y) / tileHeight) < ySize
+      ) {
+        drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
+      }
     }
   }
 }
