@@ -73,7 +73,7 @@ function Hand() {
     } else if (this.unitTypeSelect && this.selectedTile != clickedTile) {
       // While having a unit type select you click another square
     
-      game.move(this.selectedTile, clickedTile, this.unitTypeSelect, "one");
+      game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, 0);
       this.selectedTile = null;
       this.unitTypeSelect = null;
 
