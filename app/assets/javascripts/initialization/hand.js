@@ -83,7 +83,7 @@ function Hand() {
       drawSquareShape("rgba(255, 255, 255, 0.8)", this.selectedTile.x, this.selectedTile.y);
     }
     if (this.hoverTile) {
-        drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
+      drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
     }
     if (this.selectedTile || this.hoverTile) {
       drawTileicon();
@@ -100,7 +100,7 @@ function Hand() {
     }
 
     canvasContext.save();
-    canvasContext.translate(canvasWidth / 2 - hand.offset.x - 115, 0 - hand.offset.y);
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - 120, 0 - hand.offset.y + 18);
     canvasContext.scale(1.5, 1.5);
     drawSquare(tileiconSquare, 0, 0);
     canvasContext.restore();
@@ -115,10 +115,10 @@ function Hand() {
     }
     var typesInThisSquare = unitTypeMapper(hoverSquare);
     canvasContext.save();
-    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth -50), 0 - hand.offset.y + 80);
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + 160);
     canvasContext.scale(1.5, 1.5);
     for (var i = 0; i < typesInThisSquare.length; i++) {
-      drawSource(typesInThisSquare[i] + hoverSquare.player.number, 0, 0 + i * 40);
+      drawSource(typesInThisSquare[i] + hoverSquare.player.number, 0, 0 + i * 50);
     }
     canvasContext.restore();
   }
@@ -127,8 +127,11 @@ function Hand() {
     canvasContext.save();
     canvasContext.translate(canvasWidth / -2 - hand.offset.x, canvasHeight - leftBoxHeight - hand.offset.y);
     var pattern = canvasContext.createPattern(textureImage, "repeat");
-    canvasContext.fillStyle = pattern;
+    var pattern2 = canvasContext.createPattern(textureImage2, "repeat");
+    canvasContext.fillStyle = pattern2;
     canvasContext.fillRect(0, 0, leftBoxWidth, leftBoxHeight);
+    canvasContext.fillStyle = pattern;
+    canvasContext.fillRect(10, 10, leftBoxWidth - 20, leftBoxHeight - 20);
 
     // If it's your turn
     canvasContext.font = "18px serif";
@@ -161,8 +164,13 @@ function Hand() {
     canvasContext.save();
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - rightBoxWidth, 0 - hand.offset.y);
     var pattern = canvasContext.createPattern(textureImage, "repeat");
-    canvasContext.fillStyle = pattern;
+    var pattern2 = canvasContext.createPattern(textureImage2, "repeat");
+    canvasContext.fillStyle = pattern2;
     canvasContext.fillRect(0, 0, rightBoxWidth, canvasHeight);
+    canvasContext.fillStyle = pattern;
+    canvasContext.fillRect(10, 10, rightBoxWidth - 20, 100);
+    canvasContext.fillRect(10, 120, rightBoxWidth - 20, 100);
+    canvasContext.fillRect(10, 230, rightBoxWidth - 20, canvasHeight - 240);
     canvasContext.restore();
   }
 
