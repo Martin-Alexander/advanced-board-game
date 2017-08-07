@@ -23,7 +23,7 @@ function Hand() {
     if (!clickedTile) { return false; }
 
     // Are you clicking a box?
-    if (this.trueMousePosition.x > canvasWidth - 250 || (this.trueMousePosition.y > canvasHeight - 200 && this.trueMousePosition.x < 300)) { 
+    if (this.trueMousePosition.x > canvasWidth - rightBoxWidth || (this.trueMousePosition.y > canvasHeight - leftBoxHeight && this.trueMousePosition.x < leftBoxWidth)) { 
       
       // TODO: Handle box functionality here
       // For now, return false

@@ -116,25 +116,25 @@ function drawSquareShape(color, x, y) {
 
 function drawLeftBox() {
   canvasContext.save();
-  canvasContext.translate(canvasWidth / -2 - hand.offset.x, canvasHeight - 200 - hand.offset.y);
+  canvasContext.translate(canvasWidth / -2 - hand.offset.x, canvasHeight - leftBoxHeight - hand.offset.y);
   var pattern = canvasContext.createPattern(textureImage, "repeat");
   canvasContext.fillStyle = pattern;
-  canvasContext.fillRect(0, 0, 300, 200);
+  canvasContext.fillRect(0, 0, leftBoxWidth, leftBoxHeight);
   canvasContext.restore();
 }
 
 function drawRightBox() {
   canvasContext.save();
-  canvasContext.translate(canvasWidth / 2 - hand.offset.x - 250, 0 - hand.offset.y);
+  canvasContext.translate(canvasWidth / 2 - hand.offset.x - rightBoxWidth, 0 - hand.offset.y);
   var pattern = canvasContext.createPattern(textureImage, "repeat");
   canvasContext.fillStyle = pattern;
-  canvasContext.fillRect(0, 0, 250, canvasHeight);
+  canvasContext.fillRect(0, 0, rightBoxWidth, canvasHeight);
   canvasContext.restore();
 }
 
 function fillBackground() {
   canvasContext.save();
-  canvasContext.translate(canvasWidth / -2 - hand.offset.x - 250, 0 - hand.offset.y);
+  canvasContext.translate(canvasWidth / -2 - hand.offset.x, 0 - hand.offset.y);
   // var pattern = canvasContext.createPattern(textureImage2, "repeat");
   // canvasContext.fillStyle = "rgb(20, 20, 20)";
   // canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
