@@ -3,7 +3,7 @@ function drawFromSource(input, x, y) {
     drawFromSource("grass", x, y)
   }
   canvasContext.save();
-  canvasContext.translate((x - y) * (tileWidth / 2 + 1), (x + y) * (tileHeight / 2));
+  canvasContext.translate((x - y) * (tileWidth / 2 + 0), (x + y) * (tileHeight / 2));
   canvasContext.drawImage(
     sourceImage, 
     1 + (65 * drawFromSourceLookup[input].x), 1 + (49 * drawFromSourceLookup[input].y), tileWidth, 49,
@@ -25,7 +25,7 @@ function renderBoard() {
     var square = game.globalBoard.data[i];
 
     if (visionSquare.status == "black") {
-      drawSquareShape("black", visionSquare.x, visionSquare.y);
+      drawFromSource("black", visionSquare.x, visionSquare.y);
     } else if (visionSquare.status == "visible") {
       drawFromSource(square.terrain, square.x, square.y);
 
@@ -53,7 +53,7 @@ function renderBoard() {
         drawFromSource("playerOneScout", square.x, square.y);
       }
 
-      drawSquareShape("rgba(0, 0, 0, 0.5)", square.x, square.y)
+      drawFromSource("fog", square.x, square.y)
     }
 
   }
@@ -64,6 +64,7 @@ function renderingLoop() {
     clearCanvas();
     renderBoard();
     hand.render();
+    drawLeftBox();
   }, 30);
   window.setInterval(function() {
     game.updateVision(game.playerOne);
@@ -76,20 +77,21 @@ var drawFromSourceLookup = {
   mountain: { x: 4, y: 0},
   playerOneBase: { x: 0, y: 0 },
   playerTwoBase: { x: 0, y: 1 },
-  playerOneScout: { x: 2, y: 2}
+  playerOneScout: { x: 2, y: 2},
+  black: { x: 2, y: 3 },
+  fog: { x: 3, y: 3 }
 }
 
 function drawSquareShape(color, x, y) {
-  x++; y++;
 
   // Looks like the drawn tiles are not quite wide enought, not sure why, but
   // this little fix seems to work
 
-  var adjustment = 2;
+  var adjustment = 1;
 
   canvasContext.save();
-  canvasContext.translate((x - y) * (tileWidth / 2 + 1), (y + x) * tileHeight / 2);
-  canvasContext.translate(0, -16);
+  canvasContext.translate((x - y) * (tileWidth / 2 + 0), (y + x) * tileHeight / 2);
+  canvasContext.translate(0, 16);
   canvasContext.beginPath();
   canvasContext.moveTo(0, 0);
   canvasContext.lineTo(tileWidth / 2 + adjustment, tileHeight / 2);
@@ -99,4 +101,14 @@ function drawSquareShape(color, x, y) {
   canvasContext.fillStyle = color;
   canvasContext.fill();
   canvasContext.restore();   
+}
+
+function drawLeftBox() {
+  canvasContext.save();
+  canvasContext.translate(canvasWidth / -2 - hand.offset.x, canvasHeight - 200 - hand.offset.y);
+  var pattern = canvasContext.createPattern(textureImage, "repeat");
+  canvasContext.rect(0, 0, 300, 200);
+  canvasContext.fillStyle = pattern;
+  canvasContext.fill();
+  canvasContext.restore();
 }

@@ -28,9 +28,9 @@ function Hand() {
       game.move(this.selectedTile, clickedTile);
       this.selectedTile = null;
     } else {
-      canvasContext.translate(canvasCenter.x - this.trueMousePosition.x, canvasCenter.y - this.trueMousePosition.y);
-      this.offset.x = this.offset.x + (canvasCenter.x - this.trueMousePosition.x);
-      this.offset.y = this.offset.y + (canvasCenter.y - this.trueMousePosition.y);
+      canvasContext.translate(Math.floor(canvasCenter.x - this.trueMousePosition.x), Math.floor(canvasCenter.y - this.trueMousePosition.y));
+      this.offset.x += Math.floor(canvasCenter.x - this.trueMousePosition.x);
+      this.offset.y += Math.floor(canvasCenter.y - this.trueMousePosition.y);
     }
 
   }
