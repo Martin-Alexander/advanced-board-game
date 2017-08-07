@@ -127,7 +127,11 @@ function findImagesSources(square) {
   }
 
   if (square.units.length > 0) {
-    output.push(unitTypeMapper(square)[0] + square.player.number);
+    if (hand.unitTypeSelect && square == hand.selectedTile) {
+      output.push(hand.unitTypeSelect + square.player.number);
+    } else {
+      output.push(unitTypeMapper(square)[0] + square.player.number);
+    }
   }
 
   return output;

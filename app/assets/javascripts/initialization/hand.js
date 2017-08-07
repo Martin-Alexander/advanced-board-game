@@ -21,16 +21,24 @@ function Hand() {
     // Warning, basing hand logic on the global board might give a player 
     // information from outside thier line of sight. Should eventually be 
     // changed to the player board
-    clickedTile = game.globalBoard.square(this.hoverTile.x, this.hoverTile.y);
+    if (this.hoverTile) {
+      clickedTile = game.globalBoard.square(this.hoverTile.x, this.hoverTile.y);
+    } else {
+      clickedTile = null;
+    }
 
     // Clicked outside of board bounds?
-    if (!clickedTile) { return false; }
+    // if (!clickedTile) { return false; }
 
     // Are you clicking a box?
     if (this.trueMousePosition.x > canvasWidth - rightBoxWidth || (this.trueMousePosition.y > canvasHeight - leftBoxHeight && this.trueMousePosition.x < leftBoxWidth)) { 
       
       // TODO: Handle box functionality here
       // For now, return false
+      if (this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > 250 && this.selectedTile) {
+        var rowClickedOn = Math.floor((this.trueMousePosition.y - 250) / 75);
+        this.unitTypeSelect = unitTypeMapper(this.selectedTile)[rowClickedOn]
+      }
       return false; 
     }
 
@@ -45,9 +53,11 @@ function Hand() {
     } else if (this.selectedTile == null && clickedTile.player == currentPlayer && clickedTile.structure == "base") {
       // Without prior selection clicking on a square that has a base of yours
 
+      // Only fires when base is empty!
+
       this.selectedTile = clickedTile;
 
-    } else if (this.selectedTile == null && clickedTile.player != currentPlayer) {
+    } else if (this.selectedTile == null && clickedTile.player != currentPlayer && clickedTile) {
       // Without prior selection clicking a square that you do not own
 
       canvasContext.translate(Math.floor(canvasCenter.x - this.trueMousePosition.x), Math.floor(canvasCenter.y - this.trueMousePosition.y));
@@ -58,12 +68,14 @@ function Hand() {
       // Selection again the square you had already selected 
 
       this.selectedTile = null;
+      this.unitTypeSelect = null;
 
     } else if (this.unitTypeSelect && this.selectedTile != clickedTile) {
       // While having a unit type select you click another square
     
       game.move(this.selectedTile, clickedTile, this.unitTypeSelect, "one");
       this.selectedTile = null;
+      this.unitTypeSelect = null;
 
     } else if (this.unitTypeSelect == null && this.selectedTile) {
       // While having prior selection WITHOUT unit select you click somewhere
@@ -76,15 +88,16 @@ function Hand() {
 
   this.render = function() {
 
+    if (this.hoverTile) {
+      drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
+    }
+
     drawLeftBox();
     drawRightBox();
 
     if (this.selectedTile) {
       drawSquareShape("rgba(255, 255, 255, 0.8)", this.selectedTile.x, this.selectedTile.y);
       drawSelectedUnit();
-    }
-    if (this.hoverTile) {
-      drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
     }
     if (this.selectedTile || this.hoverTile) {
       drawTileicon();
