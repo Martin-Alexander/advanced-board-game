@@ -190,12 +190,12 @@ game.updateVision = function(player) {
 
     if (visionSquare.status == "black") {
 
-      if (square.structure == "base" || square.units.length > 0) {
+      if (square.player == currentPlayer) {
         visionSquare.status = "visible";
       } else {
 
         for (var j = 0; j < 8; j++) {
-          if (neighbours[j] && (neighbours[j].structure == "base" || neighbours[j].units.length > 0)) {
+          if (neighbours[j] && (neighbours[j].player == currentPlayer)) {
             visionSquare.status = "visible";
             break;
           } else {
@@ -206,12 +206,12 @@ game.updateVision = function(player) {
 
     } else if (visionSquare.status == "visible" || visionSquare.status == "fog") {
 
-      if (square.structure == "base" || square.units.length > 0) {
+      if (square.player == currentPlayer) {
         visionSquare.status = "visible";
       } else {
 
         for (var j = 0; j < 8; j++) {
-          if (neighbours[j] && (neighbours[j].structure == "base" || neighbours[j].units.length > 0)) {
+          if (neighbours[j] && (neighbours[j].player == currentPlayer)) {
             visionSquare.status = "visible";
             break;
           } else {
