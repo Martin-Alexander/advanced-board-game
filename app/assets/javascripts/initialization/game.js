@@ -73,7 +73,6 @@ game.generateNewBoard = function() {
   for (var y = 0; y < ySize; y++) {
     for (var x = 0; x < xSize; x++) {
       var newSquare = new Square(x, y);
-      newSquare.board = this.globalBoard;
       newSquare.player = null;
       newSquare.structure = null;
       newSquare.terrain = "grass"
@@ -192,6 +191,7 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
   } else {
     return false;
   }
+  sendToServer();
 }
 
 game.updateVision = function(player) {
@@ -256,6 +256,18 @@ game.nextTurn = function() {
       }
     }
   }
+}
+
+game.sendToServer = function() {
+  var gameData = JSON.stringify(game);
+  $.ajax({
+    method: "POST",
+    url: "/input",
+    data: {
+      game: gameData,
+      playerNumber: currentPlayer.number
+    }
+  });
 }
 
 // Temporary for testing purposes

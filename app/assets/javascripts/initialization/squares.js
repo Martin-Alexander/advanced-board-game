@@ -1,5 +1,4 @@
 function Square(x, y) {
-  this.board      // The board that the square belongs to 
   this.x = x;
   this.y = y;
   this.terrain;   // "grass", "mountain", "water"
@@ -9,7 +8,6 @@ function Square(x, y) {
 }
 
 function VisionSquare(x, y) {
-  this.board      // The board that the square belongs to 
   this.x = x;
   this.y = y;
   this.status;    // "black", "fog", "visible"
@@ -39,7 +37,34 @@ function neighbours() {
     ) {
       output.push(false);
     } else {
-      output.push(this.board.square(this.x + coords[0], this.y + coords[1]));
+      output.push(game.globalBoard.square(this.x + coords[0], this.y + coords[1]));
+    }
+  }
+
+  return output;
+}
+
+function visionNeighbours() {
+
+  var output = [];
+
+  var relativePosition = [
+    [-1, 1], [0, 1], [1, 1],
+    [-1, 0], [1, 0],
+    [-1, -1], [0, -1], [1, -1]
+  ]
+
+  for (var i = 0; i < 8; i++) {
+    var coords = relativePosition[i];
+    if (
+      this.x + coords[0] >= xSize ||
+      this.x + coords[0] < 0 ||
+      this.y + coords[1] >= ySize ||
+      this.y +coords[1] < 0
+    ) {
+      output.push(false);
+    } else {
+      output.push(currentPlayer.vision.square(this.x + coords[0], this.y + coords[1]));
     }
   }
 
@@ -120,4 +145,4 @@ Square.prototype.count = count;
 Square.prototype.exactCount = exactCount;
 Square.prototype.isCostal = isCostal;
 Square.prototype.listOfMovesLeft = listOfMovesLeft;
-VisionSquare.prototype.neighbours = neighbours;
+VisionSquare.prototype.neighbours = visionNeighbours;

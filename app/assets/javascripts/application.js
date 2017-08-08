@@ -1,7 +1,7 @@
 //= require jquery
 //= require turbolinks
-//= require_tree ./channels
 //= require cable
+//= require_tree ./channels
 //= require_tree ./initialization
 //= require_tree ./game
 

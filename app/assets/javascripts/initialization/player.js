@@ -14,7 +14,6 @@ Player.prototype.blind = function blindPlayer() {
     for (var x = 0; x < xSize; x++) {
       var newVisionSquare = new VisionSquare(x, y);
       newVisionSquare.status = "black";
-      newVisionSquare.board = this.vision;
       this.vision.data.push(newVisionSquare);
     }
   }
