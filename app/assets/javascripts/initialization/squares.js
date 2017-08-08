@@ -53,24 +53,25 @@ function addUnit(type, player) {
   newUnit.player = player;
 
   if (type == "scout") {
-    newUnit.movesLeft = 2;
+    newUnit.movesLeft = scoutMoves;
   } else if (type == "garrison") {
-    newUnit.movesLeft = 0;
+    newUnit.movesLeft = garrisonMoves;
   } else {
-    newUnit.movesLeft = 1;
+    newUnit.movesLeft = knightMoves;
   }
 
   this.units.push(newUnit);
   this.player = player;
 }
 
-function count(type, movesLeft) {
+function count(type, movesLeft = false) {
   var counter = 0;
-  for (var i = 0; i < this.units.length; i++) {
-    if (this.units[i].type == type && this.units[i].movesLeft == movesLeft) {
-      counter++;
+
+    for (var i = 0; i < this.units.length; i++) {
+      if (this.units[i].type == type && this.units[i].movesLeft >= movesLeft) {
+        counter++;
+      }
     }
-  }
 
   return counter;
 }

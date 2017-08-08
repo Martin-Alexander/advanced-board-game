@@ -14,3 +14,9 @@ const rightBoxWidth = 250;
 
 const farmIncome = 4;
 const baseCost = 1;
+
+const scoutMoves = 2;
+const garrisonMoves = 0;
+const knightMoves = 1;
+const workerMoves = 1;
+const shipMoves = 6;

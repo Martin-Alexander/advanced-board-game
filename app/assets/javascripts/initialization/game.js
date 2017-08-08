@@ -245,11 +245,11 @@ game.nextTurn = function() {
   for (var i = 0; i < xSize * ySize; i++) {
     for (var j = 0; j < game.globalBoard.data[i].units.length; j++) {
       if (game.globalBoard.data[i].units[j].type == "scout") {
-        game.globalBoard.data[i].units[j].movesLeft = 2;
+        game.globalBoard.data[i].units[j].movesLeft = scoutMoves;
       } else if (game.globalBoard.data[i].units[j].type == "garrison") {
-        game.globalBoard.data[i].units[j].movesLeft = 0;
+        game.globalBoard.data[i].units[j].movesLeft = garrisonMoves;
       } else {
-        game.globalBoard.data[i].units[j].movesLeft = 1;
+        game.globalBoard.data[i].units[j].movesLeft = knightMoves;
       }
     }
   }
