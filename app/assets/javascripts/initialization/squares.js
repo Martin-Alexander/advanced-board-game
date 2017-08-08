@@ -105,9 +105,19 @@ function listOfMovesLeft(type) {
   return output.sort().reverse();
 }
 
+// Returns whether or not a base has a water tile next to it
+function isCostal() {
+  var squaresNeighbours = this.neighbours();
+  for (var i = 0; i < 8; i++) {
+    if (squaresNeighbours[i].terrain == "water") { return true; }
+  }
+  return false;
+}
+
 Square.prototype.neighbours = neighbours;
 Square.prototype.addUnit = addUnit;
 Square.prototype.count = count;
 Square.prototype.exactCount = exactCount;
+Square.prototype.isCostal = isCostal;
 Square.prototype.listOfMovesLeft = listOfMovesLeft;
 VisionSquare.prototype.neighbours = neighbours;
