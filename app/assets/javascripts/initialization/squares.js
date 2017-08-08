@@ -64,6 +64,18 @@ function addUnit(type, player) {
   this.player = player;
 }
 
+function count(type, movesLeft) {
+  var counter = 0;
+  for (var i = 0; i < this.units.length; i++) {
+    if (this.units[i].type == type && this.units[i].movesLeft == movesLeft) {
+      counter++;
+    }
+  }
+
+  return counter;
+}
+
 Square.prototype.neighbours = neighbours;
 Square.prototype.addUnit = addUnit;
+Square.prototype.count = count;
 VisionSquare.prototype.neighbours = neighbours;
