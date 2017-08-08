@@ -46,5 +46,24 @@ function neighbours() {
   return output;
 }
 
+
+function addUnit(type, player) {
+  var newUnit = new Unit;
+  newUnit.type = type;
+  newUnit.player = player;
+
+  if (type == "scout") {
+    newUnit.movesLeft = 2;
+  } else if (type == "garrison") {
+    newUnit.movesLeft = 0;
+  } else {
+    newUnit.movesLeft = 1;
+  }
+
+  this.units.push(newUnit);
+  this.player = player;
+}
+
 Square.prototype.neighbours = neighbours;
+Square.prototype.addUnit = addUnit;
 VisionSquare.prototype.neighbours = neighbours;
