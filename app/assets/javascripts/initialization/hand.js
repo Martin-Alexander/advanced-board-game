@@ -18,6 +18,9 @@ function Hand() {
   this.moveLeftSelect = null;
   this.moveLeftSelectPointer = 0;
 
+  this.inherentPriority = ["knight", "scout", "ship", "worker", "garrison"];
+  this.savedSquare = null;
+
   this.click = function() {
 
     // Warning, basing hand logic on the global board might give a player 
@@ -40,6 +43,8 @@ function Hand() {
       if (this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > 250 && this.selectedTile) {
         var rowClickedOn = Math.floor((this.trueMousePosition.y - 250) / 75);
         this.unitTypeSelect = unitTypeMapper(this.selectedTile)[rowClickedOn];
+        refreshInherentPriority();
+        this.inherentPriority.splice(0, 0, this.unitTypeSelect);
         setMovesLeftSelect(this.selectedTile);
 
       }
@@ -52,9 +57,16 @@ function Hand() {
       // Without prior selection clicking on a square that has units of yours
 
       this.selectedTile = clickedTile;
+      
+      if (this.savedSquare == null && this.unitTypeSelect) {
+        this.savedSquare = this.selectedTile;
+        this.inherentPriority.splice(1, 0, this.unitTypeSelect);
+      } else if (this.selectedTile != this.savedSquare) {
+        refreshInherentPriority();
+      }
+
       setUnitTypeSelect(this.selectedTile);
       setMovesLeftSelect(this.selectedTile);
-      
 
     } else if (this.selectedTile == null && clickedTile.player == currentPlayer && clickedTile.structure == "base") {
       // Without prior selection clicking on a square that has a base of yours
@@ -246,11 +258,10 @@ function Hand() {
   function setUnitTypeSelect(square) {
 
     var found = false;
-    var properOrder = ["knight", "scout", "ship", "worker", "garrison"];
-    for (var i = 0; i < properOrder.length; i++) {
+    for (var i = 0; i < hand.inherentPriority.length; i++) {
       for (var j = 0; j < square.units.length; j++) {
         if (found) { break; }
-        if (square.units[j].type == properOrder[i] && square.units[j].movesLeft > 0) {
+        if (square.units[j].type == hand.inherentPriority[i] && square.units[j].movesLeft > 0) {
           hand.unitTypeSelect = square.units[j].type;
           found = true;
           break
@@ -263,8 +274,19 @@ function Hand() {
     }
   }
 
+  // For a give square and your current type selection priority it will set you
+  // movesLeft selector
   function setMovesLeftSelect(square) {
     
     hand.moveLeftSelect = square.listOfMovesLeft(hand.unitTypeSelect)[hand.moveLeftSelectPointer];
+  }
+
+  function refreshInherentPriority() {
+    var truePriority = ["knight", "scout", "ship", "worker", "garrison"];
+    hand.inherentPriority = [];
+
+    for (var i = 0; i < truePriority.length; i++) {
+      hand.inherentPriority.push(truePriority[i]);
+    }
   }
 }
