@@ -174,23 +174,30 @@ function Hand() {
   var beginningOfUnitList = 270;
 
   function drawTrainableUnitList() {
+
+    if (hand.selectedTile && hand.selectedTile.isCostal()) {
+      var units = displayPriority.costal;
+    } else {
+      var units = displayPriority.landLocked;
+    }
+
     canvasContext.save();
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 10), 0 - hand.offset.y + beginningOfUnitList);
     canvasContext.scale(1.5, 1.5);
-    for (var i = 0; i < displayPriority.length; i++) {
-      drawSource(displayPriority[i] + currentPlayer.number, 0, 0 + i * 50);
+    for (var i = 0; i < units.length; i++) {
+      drawSource(units[i] + currentPlayer.number, 0, 0 + i * 50);
     }
     canvasContext.restore();
 
     canvasContext.save();
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + beginningOfUnitList);
-    for (var i = 0; i < displayPriority.length; i++) {
+    for (var i = 0; i < units.length; i++) {
       canvasContext.font = "18px serif";
       canvasContext.fillStyle = "black"
-      canvasContext.fillText(capitalize(displayPriority[i]), 80, 25 + i * 75);
+      canvasContext.fillText(capitalize(units[i]), 80, 25 + i * 75);
       canvasContext.font = "14px serif";
-      canvasContext.fillText("Movement: " + movesLeftLookup[displayPriority[i]], 80, 45 + i * 75);
-      canvasContext.fillText("Strength: " + powerLookup[displayPriority[i]], 80, 65 + i * 75);
+      canvasContext.fillText("Movement: " + movesLeftLookup[units[i]], 80, 45 + i * 75);
+      canvasContext.fillText("Strength: " + powerLookup[units[i]], 80, 65 + i * 75);
     }
     canvasContext.restore();    
   }

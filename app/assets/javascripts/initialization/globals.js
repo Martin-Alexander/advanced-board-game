@@ -30,7 +30,10 @@ const movesLeftLookup = {
 }
 
 const truePriority = ["knight", "scout", "ship", "worker", "garrison"];
-const displayPriority = ["garrison", "knight", "scout", "ship", "worker"];
+const displayPriority = {
+  costal: ["garrison", "knight", "scout", "ship", "worker"],
+  landLocked: ["garrison", "knight", "scout", "worker"]
+}
 
 const powerLookup = {
   scout: 1,
