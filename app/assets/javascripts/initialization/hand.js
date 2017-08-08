@@ -96,7 +96,7 @@ function Hand() {
 
   this.tab = function() {
     this.moveLeftSelectPointer++;
-    this.moveLeftSelectPointer = this.moveLeftSelectPointer % this.selectedTile.listOfMovesLeft().length;
+    this.moveLeftSelectPointer = this.moveLeftSelectPointer % this.selectedTile.listOfMovesLeft(this.unitTypeSelect).length;
     setMovesLeftSelect(this.selectedTile);
   }
 
@@ -125,7 +125,15 @@ function Hand() {
       canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + 130);
       canvasContext.scale(1.5, 1.5);
       drawSource(hand.unitTypeSelect + currentPlayer.number, 0, 0);
-      canvasContext.restore();      
+      canvasContext.restore();
+
+      canvasContext.save();
+      canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 50), 0 - hand.offset.y + 130);
+      canvasContext.font = "17px serif";
+      canvasContext.fillStyle = "black"
+      canvasContext.fillText("Total: " + hand.selectedTile.exactCount(hand.unitTypeSelect, hand.moveLeftSelect), 48, 25);
+      canvasContext.fillText("Moves left: " + hand.moveLeftSelect + "/" + movesLeftLookup[hand.unitTypeSelect], 48, 50);
+      canvasContext.restore();
     }
   }
 
@@ -234,7 +242,6 @@ function Hand() {
       for (var j = 0; j < square.units.length; j++) {
         if (found) { break; }
         if (square.units[j].type == properOrder[i] && square.units[j].movesLeft > 0) {
-          console.log(square.units[j].type);
           hand.unitTypeSelect = square.units[j].type;
           found = true;
           break
@@ -249,6 +256,6 @@ function Hand() {
 
   function setMovesLeftSelect(square) {
     
-    hand.moveLeftSelectPointer = square.listOfMovesLeft(hand.unitTypeSelect)[hand.moveLeftSelectPointer];
+    hand.moveLeftSelect = square.listOfMovesLeft(hand.unitTypeSelect)[hand.moveLeftSelectPointer];
   }
 }
