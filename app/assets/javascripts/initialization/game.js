@@ -134,20 +134,16 @@ game.generateNewBoard = function() {
     var square = self.globalBoard.data[i];
     if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 12) && square.x > 4 && square.y > 4) {
       
-      var testUnit1 = new Unit;
-      testUnit1.player = this.playerOne;
-      testUnit1.type = "scout";
-      testUnit1.movesLeft = 1;
+      square.addUnit("scout", game.playerOne);
+      square.addUnit("scout", game.playerOne);
+      square.addUnit("scout", game.playerOne);
 
-      var testUnit2 = new Unit;
-      testUnit2.player = this.playerOne;
-      testUnit2.type = "knight";
-      testUnit2.movesLeft = 1;
+      square.addUnit("garrison", game.playerOne);
+      square.addUnit("knight", game.playerOne);
+      square.addUnit("worker", game.playerOne);
 
       square.player = this.playerOne;
       square.structure = "base";
-      square.units.push(testUnit1);
-      square.units.push(testUnit2);
 
       this.globalBoard.square(square.y, square.x).player = this.playerTwo;
       this.globalBoard.square(square.y, square.x).structure = "base";
@@ -239,3 +235,29 @@ game.updateVision = function(player) {
     }
   }
 }
+
+// Updates game number, swaps turnplayer, and refreshes all units moves
+game.nextTurn = function() {
+  game.turnNumber++;
+  game.playerOne.isTurnPlayer = !game.playerOne.isTurnPlayer;
+  game.playerTwo.isTurnPlayer = !game.playerTwo.isTurnPlayer;
+
+  for (var i = 0; i < xSize * ySize; i++) {
+    for (var j = 0; j < game.globalBoard.data[i].units.length; j++) {
+      if (game.globalBoard.data[i].units[j].type == "scout") {
+        game.globalBoard.data[i].units[j].movesLeft = 2;
+      } else if (game.globalBoard.data[i].units[j].type == "garrison") {
+        game.globalBoard.data[i].units[j].movesLeft = 0;
+      } else {
+        game.globalBoard.data[i].units[j].movesLeft = 1;
+      }
+    }
+  }
+}
+
+// Temporary for testing purposes
+window.addEventListener("keyup", function(e) {
+  if (e.keyCode == 13) {
+    game.nextTurn();
+  }
+});
