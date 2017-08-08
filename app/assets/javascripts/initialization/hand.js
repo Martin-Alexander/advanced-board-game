@@ -75,6 +75,7 @@ function Hand() {
 
       this.selectedTile = null;
       this.unitTypeSelect = null;
+      this.moveLeftSelectPointer = 0;
 
     } else if (this.unitTypeSelect && this.selectedTile != clickedTile) {
       // While having a unit type select you click another square
@@ -82,6 +83,7 @@ function Hand() {
       game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect);
       this.selectedTile = null;
       this.unitTypeSelect = null;
+      this.moveLeftSelectPointer = 0;
 
     } else if (this.unitTypeSelect == null && this.selectedTile) {
       // While having prior selection WITHOUT unit select you click somewhere
@@ -93,7 +95,8 @@ function Hand() {
   }
 
   this.tab = function() {
-
+    this.moveLeftSelectPointer++;
+    this.moveLeftSelectPointer = this.moveLeftSelectPointer % setMovesLeftSelect(this.selectedTile).length;
   }
 
   this.render = function() {
