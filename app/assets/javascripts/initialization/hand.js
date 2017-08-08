@@ -80,9 +80,20 @@ function Hand() {
     } else if (this.unitTypeSelect && this.selectedTile != clickedTile) {
       // While having a unit type select you click another square
     
-      game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect);
-      this.selectedTile = null;
-      this.unitTypeSelect = null;
+      if (this.moveLeftSelect > 1) {
+
+        game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect);
+        this.moveLeftSelect--;
+        this.selectedTile = clickedTile;
+
+      } else {
+
+        game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect);
+
+        this.selectedTile = null;
+        this.unitTypeSelect = null;
+      }
+
       this.moveLeftSelectPointer = 0;
 
     } else if (this.unitTypeSelect == null && this.selectedTile) {
@@ -102,15 +113,10 @@ function Hand() {
 
   this.render = function() {
 
-    if (this.hoverTile) {
-      drawSquareShape("rgba(255, 255, 255, 0.2)", this.hoverTile.x, this.hoverTile.y);
-    }
-
     drawLeftBox();
     drawRightBox();
 
     if (this.selectedTile) {
-      drawSquareShape("rgba(255, 255, 255, 0.8)", this.selectedTile.x, this.selectedTile.y);
       drawSelectedUnit();
     }
     if (this.selectedTile || this.hoverTile) {
@@ -131,7 +137,7 @@ function Hand() {
       canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 50), 0 - hand.offset.y + 130);
       canvasContext.font = "17px serif";
       canvasContext.fillStyle = "black"
-      canvasContext.fillText("Total: " + hand.selectedTile.exactCount(hand.unitTypeSelect, hand.moveLeftSelect), 48, 25);
+      canvasContext.fillText("Selected: " + hand.selectedTile.exactCount(hand.unitTypeSelect, hand.moveLeftSelect), 48, 25);
       canvasContext.fillText("Moves left: " + hand.moveLeftSelect + "/" + movesLeftLookup[hand.unitTypeSelect], 48, 50);
       canvasContext.restore();
     }
@@ -148,7 +154,11 @@ function Hand() {
     canvasContext.save();
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - 120, 0 - hand.offset.y + 18);
     canvasContext.scale(1.5, 1.5);
-    drawSquare(tileiconSquare, 0, 0);
+
+    var toDraw = findImagesSources(tileiconSquare);
+    for (var i = 0; i < toDraw.length; i++) {
+      drawSource(toDraw[i], 0, 0);
+    }
     canvasContext.restore();
   }
 

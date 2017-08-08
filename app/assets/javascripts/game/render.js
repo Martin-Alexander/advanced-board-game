@@ -96,7 +96,7 @@ var drawFromSourceLookup = {
 function drawSquareShape(color, x, y) {
 
   canvasContext.save();
-  canvasContext.translate((x - y) * (tileWidth / 2 + 0), (y + x) * tileHeight / 2);
+  // canvasContext.translate((x - y) * (tileWidth / 2 + 0), (y + x) * tileHeight / 2);
   canvasContext.translate(0, 16);
   canvasContext.beginPath();
   canvasContext.moveTo(0, 0);
@@ -108,6 +108,21 @@ function drawSquareShape(color, x, y) {
   canvasContext.fill();
   canvasContext.restore();   
 }
+
+// function drawSquareShapeRaw(color, x, y) {
+
+//   canvasContext.save();
+//   canvasContext.translate(0, 16);
+//   canvasContext.beginPath();
+//   canvasContext.moveTo(0, 0);
+//   canvasContext.lineTo(tileWidth / 2, tileHeight / 2);
+//   canvasContext.lineTo(0, tileHeight);
+//   canvasContext.lineTo(-tileWidth / 2, tileHeight / 2);
+//   canvasContext.closePath();
+//   canvasContext.fillStyle = color;
+//   canvasContext.fill();
+//   canvasContext.restore();   
+// }
 
 function fillBackground() {
   canvasContext.save();
@@ -151,9 +166,14 @@ function drawSource(source, x, y) {
 // Draws a square representation at any give location
 function drawSquare(square, x, y) {
   var toDraw = findImagesSources(square);
-
   for (var i = 0; i < toDraw.length; i++) {
     drawSource(toDraw[i], x, y);
+    if (i == 1 && hand.selectedTile == square) {
+      drawSquareShape("rgba(255, 255, 255, 0.8)", hand.selectedTile.x, hand.selectedTile.y);
+    }
+    if (i == 1 && hand.hoverTile && hand.hoverTile.x == square.x && hand.hoverTile.y == square.y) {
+      drawSquareShape("rgba(255, 255, 255, 0.2)", hand.hoverTile.x, hand.hoverTile.y);
+    }
   }
 }
 
