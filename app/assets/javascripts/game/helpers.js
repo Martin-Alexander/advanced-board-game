@@ -48,14 +48,14 @@ function unitTypeMapper(square) {
 // Moves a given number of units of a give type and `movesLeft` 
 // Run NO validations
 // May move this into an object
-function moveOneUnit(fromSquare, toSquare, type, movesLeft, amount) {
+function moveOneUnit(fromSquare, toSquare, type, amount, movesLeft) {
 
   var newUnitsForFromSquare = [];
   var newUnitsForToSquare = [];
   var numberOfUnitsMoved = 0;
 
   for (var i = 0; i < fromSquare.units.length; i++) {
-    if (fromSquare.units[i].type == type && fromSquare.units[i].movesLeft > movesLeft && numberOfUnitsMoved < amount) {
+    if (fromSquare.units[i].type == type && fromSquare.units[i].movesLeft > 0 && numberOfUnitsMoved < amount && fromSquare.units[i].movesLeft == movesLeft) {
       fromSquare.units[i].movesLeft--;
       newUnitsForToSquare.push(fromSquare.units[i]);
       numberOfUnitsMoved++;

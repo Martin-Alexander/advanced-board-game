@@ -182,7 +182,7 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
     (toSquare.player == null || toSquare.player == currentPlayer) &&
     areAdjacent(fromSquare, toSquare)
   ) {
-    moveOneUnit(fromSquare, toSquare, type, movesLeft, amount);
+    moveOneUnit(fromSquare, toSquare, type, amount, movesLeft);
 
     if (fromSquare.units.length == 0 && fromSquare.structure == null) {
       fromSquare.player = null;
