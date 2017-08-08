@@ -188,6 +188,9 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
       fromSquare.player = null;
     }
 
+    return true;
+  } else {
+    return false;
   }
 }
 
