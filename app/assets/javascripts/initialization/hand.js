@@ -55,8 +55,10 @@ function Hand() {
 
     if (this.selectedTile == null && clickedTile.player == currentPlayer && clickedTile.units.length > 0) {
       // Without prior selection clicking on a square that has units of yours
-
+      
       this.selectedTile = clickedTile;
+
+      setUnitTypeSelect(this.selectedTile);
       
       if (this.savedSquare == null && this.unitTypeSelect) {
         this.savedSquare = this.selectedTile;
@@ -65,7 +67,6 @@ function Hand() {
         refreshInherentPriority();
       }
 
-      setUnitTypeSelect(this.selectedTile);
       setMovesLeftSelect(this.selectedTile);
 
     } else if (this.selectedTile == null && clickedTile.player == currentPlayer && clickedTile.structure == "base") {
