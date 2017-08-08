@@ -11,6 +11,7 @@ function Hand() {
 
   var clickedTile;
   var canvasCenter = { x: canvasWidth / 2 - rightBoxWidth / 2, y: canvasHeight / 2 };
+  var beginningOfUnitList = 270;
   
   this.offset = { x: 0, y: 0 };
 
@@ -42,26 +43,29 @@ function Hand() {
     if (this.trueMousePosition.x > canvasWidth - rightBoxWidth || (this.trueMousePosition.y > canvasHeight - leftBoxHeight && this.trueMousePosition.x < leftBoxWidth)) { 
       
       // If you clicked on a sidebar container
-      if (this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > 265 && this.selectedTile) {
+      if (this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > beginningOfUnitList && this.selectedTile) {
         if (this.trainTabOpenned == false) {
-          var rowClickedOn = Math.floor((this.trueMousePosition.y - 265) / 75);
+          var rowClickedOn = Math.floor((this.trueMousePosition.y - beginningOfUnitList) / 75);
           this.unitTypeSelect = unitTypeMapper(this.selectedTile)[rowClickedOn];
           refreshInherentPriority();
           this.inherentPriority.splice(0, 0, this.unitTypeSelect);
           setMovesLeftSelect(this.selectedTile);
         } else {
-
+          if (this.selectedTile.isCostal()) {
+            var units = displayPriority.costal;
+          } else {
+            var units = displayPriority.landLocked;
+          }
+          var rowClickedOn = Math.floor((this.trueMousePosition.y - beginningOfUnitList) / 75);
         }
       }
 
       // If you clicked on a sidebar tab
-      if (this.trainTab && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.x > canvasWidth - (rightBoxWidth / 2 + 10) && this.trueMousePosition.y > 230 && this.trueMousePosition.y < 265) {
+      if (this.trainTab && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.x > canvasWidth - (rightBoxWidth / 2 + 10) && this.trueMousePosition.y > 230 && this.trueMousePosition.y < beginningOfUnitList) {
         this.trainTabOpenned = true;
-      } else if (this.trueMousePosition.x < canvasWidth - (rightBoxWidth / 2 + 10) && this.trueMousePosition.x > canvasWidth - rightBoxWidth - 10 && this.trueMousePosition.y > 230 && this.trueMousePosition.y < 265) {
+      } else if (this.trueMousePosition.x < canvasWidth - (rightBoxWidth / 2 + 10) && this.trueMousePosition.x > canvasWidth - rightBoxWidth - 10 && this.trueMousePosition.y > 230 && this.trueMousePosition.y < beginningOfUnitList) {
         this.trainTabOpenned = false;
       }
-
-      console.log(this.trainTabOpenned);
 
       return false; 
     }
@@ -170,8 +174,6 @@ function Hand() {
       drawTrainTabButton();
     }
   }
-
-  var beginningOfUnitList = 270;
 
   function drawTrainableUnitList() {
 
