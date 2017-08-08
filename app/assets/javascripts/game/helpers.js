@@ -70,3 +70,7 @@ function moveOneUnit(fromSquare, toSquare, type, movesLeft, amount) {
     toSquare.units.push(newUnitsForToSquare[i]); 
   }
 }
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
