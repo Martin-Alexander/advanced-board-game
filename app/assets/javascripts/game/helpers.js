@@ -55,8 +55,8 @@ function moveOneUnit(fromSquare, toSquare, type, movesLeft, amount) {
   var numberOfUnitsMoved = 0;
 
   for (var i = 0; i < fromSquare.units.length; i++) {
-    console.log("here");
     if (fromSquare.units[i].type == type && fromSquare.units[i].movesLeft >= movesLeft && numberOfUnitsMoved < amount) {
+      fromSquare.units[i].movesLeft--;
       newUnitsForToSquare.push(fromSquare.units[i]);
       numberOfUnitsMoved++;
       toSquare.player = fromSquare.player;
