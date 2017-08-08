@@ -20,3 +20,11 @@ const garrisonMoves = 0;
 const knightMoves = 1;
 const workerMoves = 1;
 const shipMoves = 6;
+
+const movesLeftLookup = {
+  scout: scoutMoves,
+  knight: knightMoves,
+  worker: workerMoves,
+  garrison: garrisonMoves,
+  ship: shipMoves
+}
