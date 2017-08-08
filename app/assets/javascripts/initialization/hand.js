@@ -16,6 +16,7 @@ function Hand() {
 
   this.unitTypeSelect = null;
   this.moveLeftSelect = null;
+  this.moveLeftSelectPointer = 0;
 
   this.click = function() {
 
@@ -38,7 +39,9 @@ function Hand() {
       // For now, return false
       if (this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > 250 && this.selectedTile) {
         var rowClickedOn = Math.floor((this.trueMousePosition.y - 250) / 75);
-        this.unitTypeSelect = unitTypeMapper(this.selectedTile)[rowClickedOn]
+        this.unitTypeSelect = unitTypeMapper(this.selectedTile)[rowClickedOn];
+        setMovesLeftSelect(this.selectedTile);
+
       }
       return false; 
     }
@@ -49,7 +52,9 @@ function Hand() {
       // Without prior selection clicking on a square that has units of yours
 
       this.selectedTile = clickedTile;
-      this.unitTypeSelect = findDefaultUnitTypeSelect(clickedTile);
+      setUnitTypeSelect(this.selectedTile);
+      setMovesLeftSelect(this.selectedTile);
+      
 
     } else if (this.selectedTile == null && clickedTile.player == currentPlayer && clickedTile.structure == "base") {
       // Without prior selection clicking on a square that has a base of yours
@@ -74,7 +79,7 @@ function Hand() {
     } else if (this.unitTypeSelect && this.selectedTile != clickedTile) {
       // While having a unit type select you click another square
     
-      game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, 1);
+      game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect);
       this.selectedTile = null;
       this.unitTypeSelect = null;
 
@@ -217,12 +222,29 @@ function Hand() {
 
   // For a give square will return the unit with the highest selection priority
   // unless it's a garrison
-  function findDefaultUnitTypeSelect(square) {
+  function setUnitTypeSelect(square) {
 
-    if (unitTypeMapper(square)[0] == "garrison" && unitTypeMapper(square).length > 1) {
-      return unitTypeMapper(square)[1];
-    } else {
-      return unitTypeMapper(square)[0];
+    var found = false;
+    var properOrder = ["knight", "scout", "ship", "worker", "garrison"];
+    for (var i = 0; i < properOrder.length; i++) {
+      for (var j = 0; j < square.units.length; j++) {
+        if (found) { break; }
+        if (square.units[j].type == properOrder[i] && square.units[j].movesLeft > 0) {
+          console.log(square.units[j].type);
+          hand.unitTypeSelect = square.units[j].type;
+          found = true;
+          break
+        }
+      }
     }
+
+    if (!found) {
+      hand.unitTypeSelect = unitTypeMapper(square)[0];
+    }
+  }
+
+  function setMovesLeftSelect(square) {
+    
+    hand.moveLeftSelectPointer = square.listOfMovesLeft(hand.unitTypeSelect)[hand.moveLeftSelectPointer];
   }
 }

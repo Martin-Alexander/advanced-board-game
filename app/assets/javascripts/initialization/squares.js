@@ -88,7 +88,7 @@ function listOfMovesLeft(type) {
     }
   }
 
-  return output.sort();
+  return output.sort().reverse();
 }
 
 Square.prototype.neighbours = neighbours;
