@@ -76,7 +76,23 @@ function count(type, movesLeft = false) {
   return counter;
 }
 
+// Returns an array of all different moves left withing a given square for a 
+// given unit type
+// WARNING: assumes that no unit will have movesLeft of over 10
+function listOfMovesLeft(type) {
+  var output = [];
+
+  for (var i = 0; i < this.units.length; i++) {
+    if (!elementIsInArray(this.units[i].movesLeft, output) && this.units[i].type == type) {
+      output.push(this.units[i].movesLeft);
+    }
+  }
+
+  return output.sort();
+}
+
 Square.prototype.neighbours = neighbours;
 Square.prototype.addUnit = addUnit;
 Square.prototype.count = count;
+Square.prototype.listOfMovesLeft = listOfMovesLeft;
 VisionSquare.prototype.neighbours = neighbours;
