@@ -96,7 +96,8 @@ function Hand() {
 
   this.tab = function() {
     this.moveLeftSelectPointer++;
-    this.moveLeftSelectPointer = this.moveLeftSelectPointer % setMovesLeftSelect(this.selectedTile).length;
+    this.moveLeftSelectPointer = this.moveLeftSelectPointer % this.selectedTile.listOfMovesLeft().length;
+    setMovesLeftSelect(this.selectedTile);
   }
 
   this.render = function() {
