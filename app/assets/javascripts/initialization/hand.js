@@ -21,6 +21,9 @@ function Hand() {
   this.inherentPriority = ["knight", "scout", "ship", "worker", "garrison"];
   this.savedSquare = null;
 
+  this.trainTab = false;
+  this.trainTabOpenned = false;
+
   this.click = function() {
 
     // Warning, basing hand logic on the global board might give a player 
@@ -38,16 +41,28 @@ function Hand() {
     // Are you clicking a box?
     if (this.trueMousePosition.x > canvasWidth - rightBoxWidth || (this.trueMousePosition.y > canvasHeight - leftBoxHeight && this.trueMousePosition.x < leftBoxWidth)) { 
       
-      // TODO: Handle box functionality here
-      // For now, return false
-      if (this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > 250 && this.selectedTile) {
-        var rowClickedOn = Math.floor((this.trueMousePosition.y - 250) / 75);
-        this.unitTypeSelect = unitTypeMapper(this.selectedTile)[rowClickedOn];
-        refreshInherentPriority();
-        this.inherentPriority.splice(0, 0, this.unitTypeSelect);
-        setMovesLeftSelect(this.selectedTile);
+      // If you clicked on a sidebar container
+      if (this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > 265 && this.selectedTile) {
+        if (this.trainTabOpenned == false) {
+          var rowClickedOn = Math.floor((this.trueMousePosition.y - 265) / 75);
+          this.unitTypeSelect = unitTypeMapper(this.selectedTile)[rowClickedOn];
+          refreshInherentPriority();
+          this.inherentPriority.splice(0, 0, this.unitTypeSelect);
+          setMovesLeftSelect(this.selectedTile);
+        } else {
 
+        }
       }
+
+      // If you clicked on a sidebar tab
+      if (this.trainTab && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.x > canvasWidth - (rightBoxWidth / 2 + 10) && this.trueMousePosition.y > 230 && this.trueMousePosition.y < 265) {
+        this.trainTabOpenned = true;
+      } else if (this.trueMousePosition.x < canvasWidth - (rightBoxWidth / 2 + 10) && this.trueMousePosition.x > canvasWidth - rightBoxWidth - 10 && this.trueMousePosition.y > 230 && this.trueMousePosition.y < 265) {
+        this.trainTabOpenned = false;
+      }
+
+      console.log(this.trainTabOpenned);
+
       return false; 
     }
 
@@ -115,6 +130,17 @@ function Hand() {
       this.selectedTile = null;
       
     }
+
+    // After all the click logic, if you're still selecting a tile that contains
+    // a city of yours then the train tab is rendered, otherwise it's removed
+    if (this.selectedTile && this.selectedTile.player == currentPlayer && this.selectedTile.structure == "base") {
+
+      this.trainTab = true;
+    } else {
+
+      this.trainTab = false;
+      this.trainTabOpenned = false;
+    }
   }
 
   this.tab = function() {
@@ -133,8 +159,59 @@ function Hand() {
     }
     if (this.selectedTile || this.hoverTile) {
       drawTileicon();
-      populateSideBarContainers();
+      if (!this.trainTabOpenned) {
+        populateSideBarContainers();
+      } else {
+        drawTrainableUnitList()
+      }
     }
+
+    if (this.trainTab) {
+      drawTrainTabButton();
+    }
+  }
+
+  var beginningOfUnitList = 270;
+
+  function drawTrainableUnitList() {
+    canvasContext.save();
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 10), 0 - hand.offset.y + beginningOfUnitList);
+    canvasContext.scale(1.5, 1.5);
+    for (var i = 0; i < displayPriority.length; i++) {
+      drawSource(displayPriority[i] + currentPlayer.number, 0, 0 + i * 50);
+    }
+    canvasContext.restore();
+
+    canvasContext.save();
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + beginningOfUnitList);
+    for (var i = 0; i < displayPriority.length; i++) {
+      canvasContext.font = "18px serif";
+      canvasContext.fillStyle = "black"
+      canvasContext.fillText(capitalize(displayPriority[i]), 80, 25 + i * 75);
+      canvasContext.font = "14px serif";
+      canvasContext.fillText("Movement: " + movesLeftLookup[displayPriority[i]], 80, 45 + i * 75);
+      canvasContext.fillText("Strength: " + powerLookup[displayPriority[i]], 80, 65 + i * 75);
+    }
+    canvasContext.restore();    
+  }
+
+  function drawTrainTabButton() {
+    var padding = 37;
+    canvasContext.save();
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 10), 0 - hand.offset.y + 255);
+    canvasContext.font = "17px serif";
+    canvasContext.fillStyle = "black";
+    canvasContext.fillText("Train", (rightBoxWidth - 20) / 2 + padding, -4);
+    canvasContext.fillText("Units", 0 + padding, -4);
+
+    if (hand.trainTabOpenned) {
+      canvasContext.fillStyle = "rgba(0, 0, 0, 0.2)";
+      canvasContext.fillRect(0, -25, rightBoxWidth / 2 - 10, 30);
+    } else {
+      canvasContext.fillStyle = "rgba(0, 0, 0, 0.2)";
+      canvasContext.fillRect((rightBoxWidth - 20) / 2, -25, rightBoxWidth / 2 - 10, 30);
+    }
+    canvasContext.restore();
   }
 
   function drawSelectedUnit() {
@@ -148,7 +225,7 @@ function Hand() {
       canvasContext.save();
       canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 50), 0 - hand.offset.y + 130);
       canvasContext.font = "17px serif";
-      canvasContext.fillStyle = "black"
+      canvasContext.fillStyle = "black";
       canvasContext.fillText("Selected: " + hand.selectedTile.exactCount(hand.unitTypeSelect, hand.moveLeftSelect), 48, 25);
       canvasContext.fillText("Moves left: " + hand.moveLeftSelect + "/" + movesLeftLookup[hand.unitTypeSelect], 48, 50);
       canvasContext.restore();
@@ -183,7 +260,7 @@ function Hand() {
     }
     var typesInThisSquare = unitTypeMapper(hoverSquare);
     canvasContext.save();
-    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 10), 0 - hand.offset.y + 250);
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 10), 0 - hand.offset.y + beginningOfUnitList);
     canvasContext.scale(1.5, 1.5);
     for (var i = 0; i < typesInThisSquare.length; i++) {
       drawSource(typesInThisSquare[i] + hoverSquare.player.number, 0, 0 + i * 50);
@@ -191,7 +268,7 @@ function Hand() {
     canvasContext.restore();
 
     canvasContext.save();
-    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + 250);
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + beginningOfUnitList);
     for (var i = 0; i < typesInThisSquare.length; i++) {
       canvasContext.font = "18px serif";
       canvasContext.fillStyle = "black"

@@ -28,3 +28,14 @@ const movesLeftLookup = {
   garrison: garrisonMoves,
   ship: shipMoves
 }
+
+const truePriority = ["knight", "scout", "ship", "worker", "garrison"];
+const displayPriority = ["garrison", "knight", "scout", "ship", "worker"];
+
+const powerLookup = {
+  scout: 1,
+  knight: 4,
+  worker: 0,
+  garrison: 8,
+  ship: 8
+}
