@@ -15,6 +15,7 @@ function Hand() {
   this.offset = { x: 0, y: 0 };
 
   this.unitTypeSelect = null;
+  this.moveLeftSelect = null;
 
   this.click = function() {
 
@@ -143,10 +144,22 @@ function Hand() {
     }
     var typesInThisSquare = unitTypeMapper(hoverSquare);
     canvasContext.save();
-    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + 250);
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 10), 0 - hand.offset.y + 250);
     canvasContext.scale(1.5, 1.5);
     for (var i = 0; i < typesInThisSquare.length; i++) {
       drawSource(typesInThisSquare[i] + hoverSquare.player.number, 0, 0 + i * 50);
+    }
+    canvasContext.restore();
+
+    canvasContext.save();
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 15), 0 - hand.offset.y + 250);
+    for (var i = 0; i < typesInThisSquare.length; i++) {
+      canvasContext.font = "18px serif";
+      canvasContext.fillStyle = "black"
+      canvasContext.fillText(capitalize(typesInThisSquare[i]), 80, 25 + i * 75);
+      canvasContext.font = "14px serif";
+      canvasContext.fillText("Total: " + hoverSquare.count(typesInThisSquare[i], 0), 80, 45 + i * 75);
+      canvasContext.fillText("Ready: " + hoverSquare.count(typesInThisSquare[i], 1), 80, 65 + i * 75);
     }
     canvasContext.restore();
   }
@@ -203,8 +216,13 @@ function Hand() {
   }
 
   // For a give square will return the unit with the highest selection priority
-  // For now it'll just return the first unit's type
+  // unless it's a garrison
   function findDefaultUnitTypeSelect(square) {
-    return unitTypeMapper(square)[0];
+
+    if (unitTypeMapper(square)[0] == "garrison" && unitTypeMapper(square).length > 1) {
+      return unitTypeMapper(square)[1];
+    } else {
+      return unitTypeMapper(square)[0];
+    }
   }
 }
