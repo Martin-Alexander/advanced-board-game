@@ -74,3 +74,12 @@ function moveOneUnit(fromSquare, toSquare, type, movesLeft, amount) {
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+
+// Is a given element found in a given array
+function elementIsInArray(element, array) {
+  for (var i = 0; i < array.length; i++) {
+    if (element == array[i]) { return true; }
+  }
+  return false;
+}
