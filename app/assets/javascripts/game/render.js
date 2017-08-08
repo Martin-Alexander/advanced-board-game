@@ -9,33 +9,33 @@ function renderBoard() {
 
   //  Looks nicer
   for (var i = 0; i < xSize * ySize; i++) {
-    var visionSquare = game.playerOne.vision.data[i];
+    var visionSquare = currentPlayer.vision.data[i];
     var square = game.globalBoard.data[i];
 
-    placeTile(square);
+    // placeTile(square);
 
-    // if (visionSquare.status == "visible" || visionSquare.status == "fog") {
-    //   placeTile(square);
-    // }
+    if (visionSquare.status == "visible" || visionSquare.status == "fog") {
+      placeTile(square);
+    }
   }
 
-  // for (var i = 0; i < xSize * ySize; i++) {
-  //   var visionSquare = game.playerOne.vision.data[i];
-  //   var square = game.globalBoard.data[i];
+  for (var i = 0; i < xSize * ySize; i++) {
+    var visionSquare = currentPlayer.vision.data[i];
+    var square = game.globalBoard.data[i];
 
-  //   if (visionSquare.status == "black") {
-  //     placeFog(visionSquare, "black");
-  //   } 
-  // }
+    if (visionSquare.status == "black") {
+      placeFog(visionSquare, "black");
+    } 
+  }
 
-  // for (var i = 0; i < xSize * ySize; i++) {
-  //   var visionSquare = game.playerOne.vision.data[i];
-  //   var square = game.globalBoard.data[i];
+  for (var i = 0; i < xSize * ySize; i++) {
+    var visionSquare = currentPlayer.vision.data[i];
+    var square = game.globalBoard.data[i];
 
-  //   if (visionSquare.status == "fog") {
-  //     placeFog(visionSquare, "fog");
-  //   }
-  // }
+    if (visionSquare.status == "fog") {
+      placeFog(visionSquare, "fog");
+    }
+  }
 
   // Better performance
   // for (var i = 0; i < xSize * ySize; i++) {
@@ -67,7 +67,7 @@ function renderingLoop() {
     hand.render();
   }, 60);
   window.setInterval(function() {
-    game.updateVision(game.playerOne);
+    game.updateVision(currentPlayer);
   }, 60);
 }
 
