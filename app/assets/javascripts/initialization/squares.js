@@ -64,11 +64,25 @@ function addUnit(type, player) {
   this.player = player;
 }
 
+// The number of units in a square of a given type with at least this many moves left
 function count(type, movesLeft = false) {
   var counter = 0;
 
     for (var i = 0; i < this.units.length; i++) {
       if (this.units[i].type == type && this.units[i].movesLeft >= movesLeft) {
+        counter++;
+      }
+    }
+
+  return counter;
+}
+
+// The number of units in a square of a given type with exactly this many moves left
+function exactCount(type, movesLeft ) {
+  var counter = 0;
+
+    for (var i = 0; i < this.units.length; i++) {
+      if (this.units[i].type == type && this.units[i].movesLeft == movesLeft) {
         counter++;
       }
     }
@@ -94,5 +108,6 @@ function listOfMovesLeft(type) {
 Square.prototype.neighbours = neighbours;
 Square.prototype.addUnit = addUnit;
 Square.prototype.count = count;
+Square.prototype.exactCount = exactCount;
 Square.prototype.listOfMovesLeft = listOfMovesLeft;
 VisionSquare.prototype.neighbours = neighbours;
