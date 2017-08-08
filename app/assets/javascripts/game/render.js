@@ -113,7 +113,7 @@ function fillBackground() {
   canvasContext.save();
   canvasContext.translate(canvasWidth / -2 - hand.offset.x, 0 - hand.offset.y);
   canvasContext.drawImage(backgroundImage, 0, 0, canvasWidth, canvasHeight);
-  canvasContext.fillStyle = "rgba(0, 0, 0, 0.3)";
+  canvasContext.fillStyle = "rgba(0, 0, 0, 0.6)";
   canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
   canvasContext.restore();
 }
