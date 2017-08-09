@@ -204,20 +204,32 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
 }
 
 game.fight = function(fromSquare, toSquare) {
-  var toSquarePower = powerOf(toSquare);
-  var fromSquarePower = powerOf(fromSquare);
 
-  console.log(Math.ceil(toSquarePower / 2));
-  console.log(Math.ceil(fromSquarePower / 2));
+  if (powerOf(fromSquare) > 0) {
+    var toSquarePower = powerOf(toSquare);
+    var fromSquarePower = powerOf(fromSquare);
 
-  damage(fromSquare, Math.ceil(toSquarePower / 2));
-  damage(toSquare, Math.ceil(fromSquarePower / 2));
+    console.log(Math.ceil(toSquarePower / 2));
+    console.log(Math.ceil(fromSquarePower / 2));
 
-  hand.drawDamage = {
-    fromSquare: fromSquare,
-    toSquare: toSquare,
-    fromDamage: Math.ceil(toSquarePower / 2),
-    toDamage: Math.ceil(fromSquarePower / 2)
+    var fromSquareDamage = damage(fromSquare, Math.ceil(toSquarePower / 2));
+    var toSquareDamage = damage(toSquare, Math.ceil(fromSquarePower / 2));
+
+    hand.drawDamage = {
+      fromSquare: fromSquare,
+      toSquare: toSquare,
+      fromDamage: fromSquareDamage,
+      toDamage: toSquareDamage
+    }
+
+    if (fromSquare.units.length == 0 && fromSquare.structure == null) { fromSquare.player = null; }
+    if (toSquare.units.length == 0 && toSquare.structure == null) { toSquare.player = null; }
+    
+    this.sendToServer();
+    
+    return true;
+  } else {
+    return false;
   }
 }
 

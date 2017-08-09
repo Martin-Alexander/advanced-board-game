@@ -152,6 +152,7 @@ function powerOf(square) {
 // Applies a given amount of damage to a square
 function damage(square, damage) {
   var damageRemaining = damage;
+  var totalDamage = 0;
 
   square.units.sort(function(a, b) {
     return powerLookup[b.type] - powerLookup[a.type];
@@ -160,10 +161,13 @@ function damage(square, damage) {
   while (damageRemaining > 0) {
     if (square.units.length > 0 && powerLookup[square.units[0].type] <= damageRemaining) {
       damageRemaining -= powerLookup[square.units[0].type];
+      totalDamage += powerLookup[square.units[0].type];
       deleteUnitByType(square, square.units[0].type, 1);
       if (square.units.length == 0) { break; }
     } else {
       break;
     }
   }
+
+  return totalDamage;
 }

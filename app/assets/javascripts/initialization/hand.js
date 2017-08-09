@@ -121,7 +121,11 @@ function Hand() {
     
       if (clickedTile.player && clickedTile.player != currentPlayer) {
         // Fight
-        game.fight(this.selectedTile, clickedTile)
+        if (game.fight(this.selectedTile, clickedTile)) {
+
+          this.selectedTile = null;
+          this.unitTypeSelect = null;
+        }
       } else {
         // Regular Move
 
@@ -132,10 +136,12 @@ function Hand() {
 
         } else {
 
-          game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect);
+          if (game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)) {
 
-          this.selectedTile = null;
-          this.unitTypeSelect = null;
+            this.selectedTile = null;
+            this.unitTypeSelect = null;
+          }
+
         }
       }
 
