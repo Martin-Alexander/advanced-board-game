@@ -96,7 +96,7 @@ function count(type, movesLeft = false) {
 }
 
 // The number of units in a square of a given type with exactly this many moves left
-function exactCount(type, movesLeft ) {
+function exactCount(type, movesLeft) {
   var counter = 0;
 
     for (var i = 0; i < this.units.length; i++) {

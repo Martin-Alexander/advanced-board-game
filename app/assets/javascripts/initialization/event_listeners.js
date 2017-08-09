@@ -11,6 +11,20 @@ function initializeMouseListener() {
         hand.build("farm"); break;
       case 66:
         hand.build("base"); break;
+      case 16:
+        hand.shiftDown = false; break;
+      case 17:
+        hand.ctrlDown = false; break;
+    }
+  });
+
+  window.addEventListener("keydown", function(event) {
+
+    switch (event.keyCode) {
+      case 16:
+        hand.shiftDown = true; break;
+      case 17:
+        hand.ctrlDown = true; break;
     }
   });
 

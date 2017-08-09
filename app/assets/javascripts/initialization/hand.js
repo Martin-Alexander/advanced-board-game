@@ -24,8 +24,12 @@ function Hand() {
 
   this.trainTab = false;
   this.trainTabOpenned = false;
+  
   this.drawDamage = false;
   this.drawDamageCounter = 20;
+
+  this.shiftDown = false;
+  this.ctrlDown = false;
 
   this.click = function() {
 

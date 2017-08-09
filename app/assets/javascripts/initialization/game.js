@@ -181,6 +181,12 @@ game.generateNewBoard = function() {
 // Handles moving 
 game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
 
+  if (hand.shiftDown) {
+    var amount = fromSquare.exactCount(type, movesLeft);
+  } else if (hand.ctrlDown && fromSquare.exactCount(type, movesLeft) > 1) {
+    var amount = Math.floor(fromSquare.exactCount(type, movesLeft) / 2);
+  }
+
   // When/if spies are implemented this will have to change
   if (
     fromSquare.units.length > 0 &&  
