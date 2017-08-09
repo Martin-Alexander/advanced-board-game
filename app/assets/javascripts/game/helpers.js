@@ -93,7 +93,7 @@ function deleteUnitByType(square, type, amount) {
   var numberOfUnitsDeleted = 0;
 
   for (var i = 0; i < square.units.length; i++) {
-    if (square.units[i].type == type && square.units[i].movesLeft > 0 && numberOfUnitsDeleted < amount) {
+    if (square.units[i].type == type && numberOfUnitsDeleted < amount) {
             numberOfUnitsDeleted++;
     } else {
       newUnitsForSquare.push(square.units[i]);

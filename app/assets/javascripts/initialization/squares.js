@@ -140,13 +140,23 @@ function inactivateAll() {
 }
 
 // Returns the total power of a square
-function power() {
+function attackPower() {
 
   var counter = 0;
   for (var i = 0; i < this.units.length; i++) {
     if (this.units[i].movesLeft > 0) {
       counter += powerLookup[this.units[i].type];
     }
+  }
+
+  return counter;  
+}
+
+function power() {
+
+  var counter = 0;
+  for (var i = 0; i < this.units.length; i++) {
+    counter += powerLookup[this.units[i].type];
   }
 
   return counter;  
@@ -184,5 +194,6 @@ Square.prototype.isCostal = isCostal;
 Square.prototype.listOfMovesLeft = listOfMovesLeft;
 Square.prototype.inactivateAll = inactivateAll;
 Square.prototype.power = power;
+Square.prototype.attackPower = attackPower;
 Square.prototype.damage = damage;
 VisionSquare.prototype.neighbours = visionNeighbours;

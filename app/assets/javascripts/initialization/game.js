@@ -1,4 +1,5 @@
 var game = {
+  over: false,
   turnNumber: 0,
   playerOne: undefined,
   playerTwo: undefined,
@@ -211,9 +212,12 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
 
 game.fight = function(fromSquare, toSquare) {
 
-  if (fromSquare.power() > 0) {
+  if (fromSquare.attackPower() > 0) {
     var toSquarePower = toSquare.power();
-    var fromSquarePower = fromSquare.power();
+    var fromSquarePower = fromSquare.attackPower();
+
+    console.log(toSquarePower);
+    console.log(fromSquarePower);
 
     console.log(Math.ceil(toSquarePower / 2));
     console.log(Math.ceil(fromSquarePower / 2));
@@ -242,7 +246,7 @@ game.fight = function(fromSquare, toSquare) {
 }
 
 game.pillage = function(fromSquare, toSquare) {
-  if (fromSquare.power() > 0) {
+  if (fromSquare.attackPower() > 0) {
 
     fromSquare.inactivateAll();
     if (toSquare.structure == "base") {
@@ -268,6 +272,8 @@ game.pillage = function(fromSquare, toSquare) {
 }
 
 game.winner = function(player) {
+  this.over = true;
+  this.sendToServer();
   alert("Player " + player.number + "wins!");
 }
 
@@ -334,6 +340,9 @@ game.updateVision = function(player) {
 
 // Updates game number, swaps turnplayer, and refreshes all units moves
 game.nextTurn = function() {
+
+  if (this.over) { return false; }
+
   game.turnNumber++;
   game.playerOne.isTurnPlayer = !game.playerOne.isTurnPlayer;
   game.playerTwo.isTurnPlayer = !game.playerTwo.isTurnPlayer;
