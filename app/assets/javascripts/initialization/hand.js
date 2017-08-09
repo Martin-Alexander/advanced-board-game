@@ -77,7 +77,7 @@ function Hand() {
 
     // Not gonna be the most DRY flow control, but hopefully it'll be easy to understand
 
-    if (this.selectedTile == null && clickedTile.player == currentPlayer && clickedTile.units.length > 0) {
+    if (this.selectedTile == null && clickedTile && clickedTile.player == currentPlayer && clickedTile.units.length > 0) {
       // Without prior selection clicking on a square that has units of yours
       
       this.selectedTile = clickedTile;
@@ -93,14 +93,14 @@ function Hand() {
 
       setMovesLeftSelect(this.selectedTile);
 
-    } else if (this.selectedTile == null && clickedTile.player == currentPlayer && clickedTile.structure == "base") {
+    } else if (this.selectedTile == null && clickedTile && clickedTile.player == currentPlayer && clickedTile.structure == "base") {
       // Without prior selection clicking on a square that has a base of yours
 
       // Only fires when base is empty!
 
       this.selectedTile = clickedTile;
 
-    } else if (this.selectedTile == null && clickedTile.player != currentPlayer && clickedTile) {
+    } else if (this.selectedTile == null && clickedTile && clickedTile.player != currentPlayer && clickedTile) {
       // Without prior selection clicking a square that you do not own
 
       canvasContext.translate(Math.floor(canvasCenter.x - this.trueMousePosition.x), Math.floor(canvasCenter.y - this.trueMousePosition.y));
@@ -119,7 +119,7 @@ function Hand() {
     
       if (clickedTile.player && clickedTile.player != currentPlayer) {
         // Fight
-        game.fight(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)
+        game.fight(this.selectedTile, clickedTile)
       } else {
         // Regular Move
 
