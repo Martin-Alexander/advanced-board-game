@@ -203,8 +203,15 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
   }
 }
 
-game.fight = function(fromSquare, toSquare, type, amount, movesLeft) {
+game.fight = function(fromSquare, toSquare) {
+  var toSquarePower = powerOf(toSquare);
+  var fromSquarePower = powerOf(fromSquare);
 
+  console.log(Math.ceil(toSquarePower / 2));
+  console.log(Math.ceil(fromSquarePower / 2));
+  
+  damage(fromSquare, Math.ceil(toSquarePower / 2));
+  damage(toSquare, Math.ceil(fromSquarePower / 2));
 }
 
 game.updateVision = function(player) {
