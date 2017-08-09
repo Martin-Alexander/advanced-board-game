@@ -76,14 +76,7 @@ function addUnit(type, player) {
   var newUnit = new Unit;
   newUnit.type = type;
   newUnit.player = player;
-
-  if (type == "scout") {
-    newUnit.movesLeft = scoutMoves;
-  } else if (type == "garrison") {
-    newUnit.movesLeft = garrisonMoves;
-  } else {
-    newUnit.movesLeft = knightMoves;
-  }
+  newUnit.movesLeft = movesLeftLookup[type];
 
   this.units.push(newUnit);
   this.player = player;
