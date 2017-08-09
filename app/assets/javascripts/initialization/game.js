@@ -259,15 +259,7 @@ game.nextTurn = function() {
 }
 
 game.sendToServer = function() {
-  var gameData = JSON.stringify(game);
-  $.ajax({
-    method: "POST",
-    url: "/input",
-    data: {
-      game: gameData,
-      playerNumber: currentPlayer.number
-    }
-  });
+
 }
 
 // Temporary for testing purposes
