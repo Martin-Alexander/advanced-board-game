@@ -169,7 +169,7 @@ game.generateNewBoard = function() {
   }
 }
 
-// A temporary move function for fog of war testing
+// Handles moving 
 game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
 
   // When/if spies are implemented this will have to change
@@ -192,6 +192,10 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
   } else {
     return false;
   }
+}
+
+game.fight = function(fromSquare, toSquare, type, amount, movesLeft) {
+  
 }
 
 game.updateVision = function(player) {

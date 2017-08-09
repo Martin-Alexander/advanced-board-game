@@ -117,17 +117,24 @@ function Hand() {
     } else if (this.unitTypeSelect && this.selectedTile != clickedTile) {
       // While having a unit type select you click another square
     
-      if (this.moveLeftSelect > 1 && game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)) {
-
-        this.moveLeftSelect--;
-        this.selectedTile = clickedTile;
-
+      if (clickedTile.player && clickedTile.player != currentPlayer) {
+        // Fight
+        game.fight(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)
       } else {
+        // Regular Move
 
-        game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect);
+        if (this.moveLeftSelect > 1 && game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)) {
 
-        this.selectedTile = null;
-        this.unitTypeSelect = null;
+          this.moveLeftSelect--;
+          this.selectedTile = clickedTile;
+
+        } else {
+
+          game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect);
+
+          this.selectedTile = null;
+          this.unitTypeSelect = null;
+        }
       }
 
       this.moveLeftSelectPointer = 0;
