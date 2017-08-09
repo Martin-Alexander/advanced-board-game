@@ -34,9 +34,9 @@ JSONifyVision = function(player) {
 
   var visionJSON = [];
 
-  for (var i = 0; i < player.vision.length; i++) {
+  for (var i = 0; i < player.vision.data.length; i++) {
     
-    var visionSquare = player.vision[i];
+    var visionSquare = player.vision.data[i];
 
     if (visionSquare.player == null) {
       var playerNumber = 0;
@@ -117,7 +117,7 @@ updatePlayerFromJSON = function(player, playerJSON) {
   player.isTurnPlayer = playerJSON.isTurnPlayer;
   player.gold = playerJSON.gold;
 
-  updateVisionFromJSON(player, playerJSON.vision);
+  updateVisionFromJSON(player.vision.data, playerJSON.vision);
 
   player.numberOfFarms = playerJSON.numberOfFarms;
   player.numberOfBases = playerJSON.numberOfBases;
