@@ -42,3 +42,11 @@ const powerLookup = {
   garrison: 8,
   ship: 8
 }
+
+const unitCostLookup = {
+  scout: 1,
+  knight: 1,
+  worker: 1,
+  garrison: 1,
+  ship: 1 
+}
