@@ -250,8 +250,10 @@ game.updateVision = function(player) {
     var neighbours = square.neighbours();
     var numberOfMatches = 0;
 
+    // If it's initially black
     if (visionSquare.status == "black") {
 
+      // If you're standing on a black square (should never happen if you think about it)
       if (square.player == currentPlayer) {
         visionSquare.status = "visible";
       } else {
@@ -260,14 +262,14 @@ game.updateVision = function(player) {
           if (neighbours[j] && (neighbours[j].player == currentPlayer)) {
             visionSquare.status = "visible";
             break;
-          } else {
-            visionSquare.status = "black";
           }
         }
       }
 
-    } else if (visionSquare.status == "visible" || visionSquare.status == "fog") {
+    // If it's initially fog
+    } else if (visionSquare.status == "fog") {
 
+      // If you're standing on a fog square
       if (square.player == currentPlayer) {
         visionSquare.status = "visible";
       } else {
@@ -276,12 +278,26 @@ game.updateVision = function(player) {
           if (neighbours[j] && (neighbours[j].player == currentPlayer)) {
             visionSquare.status = "visible";
             break;
-          } else {
-            visionSquare.status = "fog";
           }
         }
       }
 
+    } else if (visionSquare.status == "visible") {
+    // This is where fogging/locking occurs. Squares are left in the state they
+    // were last seen at
+
+      for (var j = 0; j < 8; j++) {
+        if (square.player != currentPlayer && (!neighbours[j] || (neighbours[j] && (neighbours[j].player != currentPlayer)))) {
+          numberOfMatches++;
+        }
+      }
+
+      if (numberOfMatches == 8) {
+        visionSquare.status = "fog";
+        visionSquare.player = square.player;
+        visionSquare.structure = square.structure;
+        visionSquare.terrain = square.terrain;
+      }
     }
   }
 }

@@ -13,6 +13,7 @@ function VisionSquare(x, y) {
   this.status;    // "black", "fog", "visible"
   this.structure;
   this.player;
+  this.terrain;
 }
 
 // Returns an array of adjacent squares (in the case of the edge of the board

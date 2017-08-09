@@ -14,53 +14,12 @@ function renderBoard() {
 
     if (visionSquare.status == "black") {
       placeFog(visionSquare, "black");
-    } 
-  }
-
-    for (var i = 0; i < xSize * ySize; i++) {
-    var visionSquare = currentPlayer.vision.data[i];
-    var square = game.globalBoard.data[i];
-
-    if (visionSquare.status == "fog") {
+    } else if (visionSquare.status == "fog") {
+      placeFogTile(square) 
+    } else if (visionSquare.status == "visible") {
       placeTile(square);
     }
   }
-
-  for (var i = 0; i < xSize * ySize; i++) {
-    var visionSquare = currentPlayer.vision.data[i];
-    placeFog(visionSquare, "fog");
-  }
-
-  for (var i = 0; i < xSize * ySize; i++) {
-    var visionSquare = currentPlayer.vision.data[i];
-    var square = game.globalBoard.data[i];
-
-    if (visionSquare.status == "visible") {
-      placeTile(square);
-    }
-  }
-
-
-  // Better performance
-  // for (var i = 0; i < xSize * ySize; i++) {
-  //   var visionSquare = game.playerOne.vision.data[i];
-  //   var square = game.globalBoard.data[i];
-
-  //   if (visionSquare.status == "visible" || visionSquare.status == "fog") {
-  //     placeTile(square);
-  //   } else {
-  //     placeFog(visionSquare, "black");
-  //   }
-  // }
-
-  // for (var i = 0; i < xSize * ySize; i++) {
-  //   var visionSquare = game.playerOne.vision.data[i];
-  //   var square = game.globalBoard.data[i];
-
-  //   if (visionSquare.status == "black") {
-  //     placeFog(visionSquare, "black");
-  //   } 
-  // }
 }
 
 function renderingLoop() {
@@ -95,18 +54,20 @@ var drawFromSourceLookup = {
   ship2: { x: 3, y: 2 },
   garrison1: { x: 1, y: 3 },
   garrison2: { x: 0, y: 3 },
-  shield11: { x: 0 , y: 4 },
-  shield12: { x: 1 , y: 4 },
-  shield13: { x: 2 , y: 4 },
-  shield14: { x: 3 , y: 4 },
-  shield15: { x: 4 , y: 4 },
-  shield16: { x: 1 , y: 6 },
-  shield21: { x: 0 , y: 5 },
-  shield22: { x: 1 , y: 5 },
-  shield23: { x: 2 , y: 5 },
-  shield24: { x: 3 , y: 5 },
-  shield25: { x: 4 , y: 5 },
-  shield26: { x: 1 , y: 6 }
+  shield11: { x: 0, y: 4 },
+  shield12: { x: 1, y: 4 },
+  shield13: { x: 2, y: 4 },
+  shield14: { x: 3, y: 4 },
+  shield15: { x: 4, y: 4 },
+  shield16: { x: 1, y: 6 },
+  shield21: { x: 0, y: 5 },
+  shield22: { x: 1, y: 5 },
+  shield23: { x: 2, y: 5 },
+  shield24: { x: 3, y: 5 },
+  shield25: { x: 4, y: 5 },
+  shield26: { x: 1, y: 6 },
+  fogbase1: { x: 2, y: 6 },
+  fogbase2: { x: 3, y: 6 }
 }
 
 function drawSquareShape(color, x, y) {
@@ -150,23 +111,35 @@ function fillBackground() {
 }
 
 // Returns are ordered array of sources to draw
-function findImagesSources(square) {
+function findImagesSources(square, foggy = false) {
   var output = ["grass"];
 
   output.push(square.terrain);
   
-  if (square.structure) {
-    output.push(square.structure + square.player.number);
-  }
 
-  if (square.units.length > 0) {
-    if (hand.unitTypeSelect && square == hand.selectedTile) {
-      output.push(hand.unitTypeSelect + square.player.number);
-    } else {
-      output.push(unitTypeMapper(square)[0] + square.player.number);
+  if (!foggy) {
+    if (square.structure) {
+      output.push(square.structure + square.player.number);
     }
+    if (square.units.length > 0) {
+      if (hand.unitTypeSelect && square == hand.selectedTile) {
+        output.push(hand.unitTypeSelect + square.player.number);
+      } else {
+        output.push(unitTypeMapper(square)[0] + square.player.number);
+      }
 
-    output.push("shield" + square.player.number + "" + findPowerRange(square));
+      output.push("shield" + square.player.number + "" + findPowerRange(square));
+    }
+  } else {
+    if (square.structure == "farm")  {
+      output.push("farm" + square.player.number);
+      output.push("fog");
+    } else if (square.structure == "base") {
+      output.push("fog");
+      output.push("fogbase" + square.player.number);
+    } else {
+      output.push("fog");
+    }
   }
 
   return output;
@@ -182,8 +155,8 @@ function drawSource(source, x, y) {
 }
 
 // Draws a square representation at any give location
-function drawSquare(square, x, y) {
-  var toDraw = findImagesSources(square);
+function drawSquare(square, x, y, foggy = false) {
+  var toDraw = findImagesSources(square, foggy);
   for (var i = 0; i < toDraw.length; i++) {
     drawSource(toDraw[i], x, y);
     if (i == 1 && hand.selectedTile == square) {
@@ -203,10 +176,18 @@ function placeTile(square) {
   canvasContext.restore();
 }
 
+function placeFogTile(square) {
+  canvasContext.save();
+  canvasContext.translate((square.x - square.y) * (tileWidth / 2 + 0), (square.x + square.y) * (tileHeight / 2));
+  drawSquare(square, -tileWidth / 2, 0, true);
+  canvasContext.restore();
+}
+
+
 function placeFog(square, fog) {
   canvasContext.save();
   canvasContext.translate((square.x - square.y) * (tileWidth / 2 + 0), (square.x + square.y) * (tileHeight / 2));
   // drawSquare(square, -tileWidth / 2, 0);
   drawSource(fog, -tileWidth / 2, 0);
-  canvasContext.restore();  
+  canvasContext.restore();
 }
