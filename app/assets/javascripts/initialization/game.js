@@ -187,11 +187,11 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
       fromSquare.player = null;
     }
 
+    this.sendToServer();
     return true;
   } else {
     return false;
   }
-  sendToServer();
 }
 
 game.updateVision = function(player) {
@@ -256,6 +256,8 @@ game.nextTurn = function() {
       }
     }
   }
+
+  this.sendToServer();
 }
 
 game.sendToServer = function() {
