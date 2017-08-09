@@ -58,6 +58,9 @@ function Hand() {
           }
           var rowClickedOn = Math.floor((this.trueMousePosition.y - beginningOfUnitList) / 75);
           game.train(units[rowClickedOn], this.selectedTile);
+          this.unitTypeSelect = units[rowClickedOn];
+          setMovesLeftSelect(this.selectedTile);
+          this.savedSquare = this.selectedTile;
         }
       }
 
@@ -180,6 +183,9 @@ function Hand() {
     if (this.selectedTile) {
       if (game.build(structure, this.selectedTile)) {
         this.selectedTile = null;
+        this.unitTypeSelect = null;
+        this.moveLeftSelect = null;
+        this.moveLeftSelectPointer = 0;
       }
     }
   }
