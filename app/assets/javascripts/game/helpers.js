@@ -99,3 +99,26 @@ function elementIsInArray(element, array) {
   }
   return false;
 }
+
+// Returns the power range of square for use in shield rendering
+function findPowerRange(square) {
+  
+  var counter = 0;
+  for (var i = 0; i < square.units.length; i++) {
+    counter += powerLookup[square.units[i].type];
+  }
+
+  if (counter > 500) {
+    return 6;
+  } else if (counter > 256) {
+    return 5;
+  } else if (counter > 64) {
+    return 4;
+  } else if (counter > 16) {
+    return 3;
+  } else if (counter > 4) {
+    return 2;
+  } else {
+    return 1;
+  }
+}

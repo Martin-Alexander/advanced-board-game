@@ -90,7 +90,19 @@ var drawFromSourceLookup = {
   ship1: { x: 4, y: 2 },
   ship2: { x: 3, y: 2 },
   garrison1: { x: 1, y: 3 },
-  garrison2: { x: 0, y: 3 }
+  garrison2: { x: 0, y: 3 },
+  shield11: { x: 0 , y: 4 },
+  shield12: { x: 1 , y: 4 },
+  shield13: { x: 2 , y: 4 },
+  shield14: { x: 3 , y: 4 },
+  shield15: { x: 4 , y: 4 },
+  shield16: { x: 1 , y: 6 },
+  shield21: { x: 0 , y: 5 },
+  shield22: { x: 1 , y: 5 },
+  shield23: { x: 2 , y: 5 },
+  shield24: { x: 3 , y: 5 },
+  shield25: { x: 4 , y: 5 },
+  shield26: { x: 1 , y: 6 }
 }
 
 function drawSquareShape(color, x, y) {
@@ -149,6 +161,8 @@ function findImagesSources(square) {
     } else {
       output.push(unitTypeMapper(square)[0] + square.player.number);
     }
+
+    output.push("shield" + square.player.number + "" + findPowerRange(square));
   }
 
   return output;
