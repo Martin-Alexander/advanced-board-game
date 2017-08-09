@@ -209,9 +209,16 @@ game.fight = function(fromSquare, toSquare) {
 
   console.log(Math.ceil(toSquarePower / 2));
   console.log(Math.ceil(fromSquarePower / 2));
-  
+
   damage(fromSquare, Math.ceil(toSquarePower / 2));
   damage(toSquare, Math.ceil(fromSquarePower / 2));
+
+  hand.drawDamage = {
+    fromSquare: fromSquare,
+    toSquare: toSquare,
+    fromDamage: Math.ceil(toSquarePower / 2),
+    toDamage: Math.ceil(fromSquarePower / 2)
+  }
 }
 
 game.updateVision = function(player) {

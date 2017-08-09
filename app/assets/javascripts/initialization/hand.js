@@ -24,6 +24,8 @@ function Hand() {
 
   this.trainTab = false;
   this.trainTabOpenned = false;
+  this.drawDamage = false;
+  this.drawDamageCounter = 20;
 
   this.click = function() {
 
@@ -184,6 +186,35 @@ function Hand() {
 
     if (this.trainTab) {
       drawTrainTabButton();
+    }
+
+    if (this.drawDamage) {
+
+        var fromSquare = this.drawDamage.fromSquare;
+        var toSquare = this.drawDamage.toSquare;
+        var fromDamage = this.drawDamage.fromDamage;
+        var toDamage = this.drawDamage.toDamage;
+
+        canvasContext.save();
+        canvasContext.translate((fromSquare.x - fromSquare.y) * (tileWidth / 2 + 0), (fromSquare.x + fromSquare.y) * (tileHeight / 2));
+        canvasContext.font = "18px sans-serif";
+        canvasContext.fillStyle = 'red';
+        canvasContext.fillText("-" + fromDamage, 0, 0);   
+        canvasContext.restore();
+
+        canvasContext.save();
+        canvasContext.translate((toSquare.x - toSquare.y) * (tileWidth / 2 + 0), (toSquare.x + toSquare.y) * (tileHeight / 2));
+        canvasContext.font = "18px sans-serif";
+        canvasContext.fillStyle = 'red';
+        canvasContext.fillText("-" + toDamage, 0, 0);   
+        canvasContext.restore();
+
+        this.drawDamageCounter--;
+
+        if (this.drawDamageCounter == 0) {
+          this.drawDamage = false;
+          this.drawDamageCounter = 20;
+        }
     }
   }
 
