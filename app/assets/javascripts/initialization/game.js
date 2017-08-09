@@ -280,6 +280,18 @@ game.train = function(type, location) {
   }
 }
 
+game.build = function(struction, location) {
+  if (location.player == currentPlayer && location.structure == null && location.count("worker", 1)) {
+    deleteUnit(location, "worker", 1, 1);
+    location.structure = "farm";
+    currentPlayer.numberOfFarms++;
+    this.sendToServer();
+    return true;
+  } else {
+    return false;
+  }
+}
+
 // Temporary for testing purposes
 window.addEventListener("keyup", function(e) {
   if (e.keyCode == 13) {

@@ -2,9 +2,13 @@ function initializeMouseListener() {
 
   window.addEventListener("keydown", function(e) { if (e.keyCode == 9) {e.preventDefault(); } });
 
-  window.addEventListener("keyup", function(e) {
-    if (e.keyCode == 9) {
-      hand.tab();
+  window.addEventListener("keyup", function(event) {
+
+    switch (event.keyCode) {
+      case 9:
+        hand.tab(); break;
+      case 70:
+        hand.build("farm"); break;
     }
   });
 

@@ -176,6 +176,14 @@ function Hand() {
     }
   }
 
+  this.build = function(structure) {
+    if (this.selectedTile) {
+      if (game.build(structure, this.selectedTile)) {
+        this.selectedTile = null;
+      }
+    }
+  }
+
   function drawTrainableUnitList() {
 
     if (hand.selectedTile && hand.selectedTile.isCostal()) {
