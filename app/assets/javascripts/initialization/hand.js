@@ -24,7 +24,7 @@ function Hand() {
 
   this.trainTab = false;
   this.trainTabOpenned = false;
-  
+
   this.drawDamage = false;
   this.drawDamageCounter = 20;
 
@@ -49,7 +49,7 @@ function Hand() {
     if (this.trueMousePosition.x > canvasWidth - rightBoxWidth || (this.trueMousePosition.y > canvasHeight - leftBoxHeight && this.trueMousePosition.x < leftBoxWidth)) { 
       
       // If you clicked on a sidebar container
-      if (this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > beginningOfUnitList && this.selectedTile) {
+      if (currentPlayer.isTurnPlayer && this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > beginningOfUnitList && this.selectedTile) {
         if (this.trainTabOpenned == false) {
           var rowClickedOn = Math.floor((this.trueMousePosition.y - beginningOfUnitList) / 75);
           this.unitTypeSelect = unitTypeMapper(this.selectedTile)[rowClickedOn];
@@ -64,9 +64,9 @@ function Hand() {
           }
           var rowClickedOn = Math.floor((this.trueMousePosition.y - beginningOfUnitList) / 75);
           if (game.train(units[rowClickedOn], this.selectedTile)) {
+            this.savedSquare = this.selectedTile;
             this.unitTypeSelect = units[rowClickedOn];
             setMovesLeftSelect(this.selectedTile);
-            this.savedSquare = this.selectedTile;
           }
         }
       }
@@ -133,19 +133,22 @@ function Hand() {
       } else {
         // Regular Move
 
-        if (this.moveLeftSelect > 1 && game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)) {
+        if (this.moveLeftSelect > 1) {
 
-          this.moveLeftSelect--;
-          this.selectedTile = clickedTile;
+          if (game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)) {
+            this.moveLeftSelect--;
+            this.selectedTile = clickedTile;
+          } else {
+            this.selectedTile = null;
+            this.unitTypeSelect = null;            
+          }
 
         } else {
 
-          if (game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)) {
+          game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)
 
-            this.selectedTile = null;
-            this.unitTypeSelect = null;
-          }
-
+          this.selectedTile = null;
+          this.unitTypeSelect = null;
         }
       }
 
