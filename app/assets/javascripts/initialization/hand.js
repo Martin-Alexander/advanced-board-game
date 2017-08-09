@@ -66,6 +66,8 @@ function Hand() {
           if (game.train(units[rowClickedOn], this.selectedTile)) {
             this.savedSquare = this.selectedTile;
             this.unitTypeSelect = units[rowClickedOn];
+            refreshInherentPriority();
+            this.inherentPriority.splice(0, 0, this.unitTypeSelect);
             setMovesLeftSelect(this.selectedTile);
           }
         }
@@ -92,7 +94,7 @@ function Hand() {
       
       if (this.savedSquare == null && this.unitTypeSelect) {
         this.savedSquare = this.selectedTile;
-        this.inherentPriority.splice(1, 0, this.unitTypeSelect);
+        this.inherentPriority.splice(0, 0, this.unitTypeSelect);
       } else if (this.selectedTile != this.savedSquare) {
         refreshInherentPriority();
       }
