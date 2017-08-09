@@ -12,30 +12,34 @@ function renderBoard() {
     var visionSquare = currentPlayer.vision.data[i];
     var square = game.globalBoard.data[i];
 
-    placeTile(square);
-
-    // if (visionSquare.status == "visible" || visionSquare.status == "fog") {
-    //   placeTile(square);
-    // }
+    if (visionSquare.status == "black") {
+      placeFog(visionSquare, "black");
+    } 
   }
 
-  // for (var i = 0; i < xSize * ySize; i++) {
-  //   var visionSquare = currentPlayer.vision.data[i];
-  //   var square = game.globalBoard.data[i];
+    for (var i = 0; i < xSize * ySize; i++) {
+    var visionSquare = currentPlayer.vision.data[i];
+    var square = game.globalBoard.data[i];
 
-  //   if (visionSquare.status == "black") {
-  //     placeFog(visionSquare, "black");
-  //   } 
-  // }
+    if (visionSquare.status == "fog") {
+      placeTile(square);
+    }
+  }
 
-  // for (var i = 0; i < xSize * ySize; i++) {
-  //   var visionSquare = currentPlayer.vision.data[i];
-  //   var square = game.globalBoard.data[i];
+  for (var i = 0; i < xSize * ySize; i++) {
+    var visionSquare = currentPlayer.vision.data[i];
+    placeFog(visionSquare, "fog");
+  }
 
-  //   if (visionSquare.status == "fog") {
-  //     placeFog(visionSquare, "fog");
-  //   }
-  // }
+  for (var i = 0; i < xSize * ySize; i++) {
+    var visionSquare = currentPlayer.vision.data[i];
+    var square = game.globalBoard.data[i];
+
+    if (visionSquare.status == "visible") {
+      placeTile(square);
+    }
+  }
+
 
   // Better performance
   // for (var i = 0; i < xSize * ySize; i++) {
