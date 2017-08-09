@@ -205,15 +205,15 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
 
 game.fight = function(fromSquare, toSquare) {
 
-  if (powerOf(fromSquare) > 0) {
-    var toSquarePower = powerOf(toSquare);
-    var fromSquarePower = powerOf(fromSquare);
+  if (fromSquare.power() > 0) {
+    var toSquarePower = toSquare.power();
+    var fromSquarePower = fromSquare.power();
 
     console.log(Math.ceil(toSquarePower / 2));
     console.log(Math.ceil(fromSquarePower / 2));
 
-    var fromSquareDamage = damage(fromSquare, Math.ceil(toSquarePower / 2));
-    var toSquareDamage = damage(toSquare, Math.ceil(fromSquarePower / 2));
+    var fromSquareDamage = fromSquare.damage(Math.ceil(toSquarePower / 2));
+    var toSquareDamage = toSquare.damage(Math.ceil(fromSquarePower / 2));
 
     hand.drawDamage = {
       fromSquare: fromSquare,
@@ -222,11 +222,13 @@ game.fight = function(fromSquare, toSquare) {
       toDamage: toSquareDamage
     }
 
+    fromSquare.inactivateAll();
+
     if (fromSquare.units.length == 0 && fromSquare.structure == null) { fromSquare.player = null; }
     if (toSquare.units.length == 0 && toSquare.structure == null) { toSquare.player = null; }
     
     this.sendToServer();
-    
+
     return true;
   } else {
     return false;

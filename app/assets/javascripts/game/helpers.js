@@ -119,15 +119,15 @@ function elementIsInArray(element, array) {
 // Returns the power range of square for use in shield rendering
 function findPowerRange(square) {
 
-  if (powerOf(square) > 500) {
+  if (square.power() > 500) {
     return 6;
-  } else if (powerOf(square) > 256) {
+  } else if (square.power() > 256) {
     return 5;
-  } else if (powerOf(square) > 64) {
+  } else if (square.power() > 64) {
     return 4;
-  } else if (powerOf(square) > 16) {
+  } else if (square.power() > 16) {
     return 3;
-  } else if (powerOf(square) > 4) {
+  } else if (square.power() > 4) {
     return 2;
   } else {
     if (square.units.length > 1) {
@@ -136,38 +136,4 @@ function findPowerRange(square) {
       return 1;
     }
   }
-}
-
-// Returns the total power of a square
-function powerOf(square) {
-
-  var counter = 0;
-  for (var i = 0; i < square.units.length; i++) {
-    counter += powerLookup[square.units[i].type];
-  }
-
-  return counter;  
-}
-
-// Applies a given amount of damage to a square
-function damage(square, damage) {
-  var damageRemaining = damage;
-  var totalDamage = 0;
-
-  square.units.sort(function(a, b) {
-    return powerLookup[b.type] - powerLookup[a.type];
-  });
-
-  while (damageRemaining > 0) {
-    if (square.units.length > 0 && powerLookup[square.units[0].type] <= damageRemaining) {
-      damageRemaining -= powerLookup[square.units[0].type];
-      totalDamage += powerLookup[square.units[0].type];
-      deleteUnitByType(square, square.units[0].type, 1);
-      if (square.units.length == 0) { break; }
-    } else {
-      break;
-    }
-  }
-
-  return totalDamage;
 }

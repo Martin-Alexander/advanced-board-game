@@ -132,10 +132,56 @@ function isCostal() {
   return false;
 }
 
+function inactivateAll() {
+  for (var i = 0; i < this.units.length; i++) {
+    this.units[i].movesLeft = 0;
+  }
+}
+
+// Returns the total power of a square
+function power() {
+
+  var counter = 0;
+  for (var i = 0; i < this.units.length; i++) {
+    if (this.units[i].movesLeft > 0) {
+      counter += powerLookup[this.units[i].type];
+    }
+  }
+
+  return counter;  
+}
+
+// Applies a given amount of damage to a square
+function damage(damage) {
+  var damageRemaining = damage;
+  var totalDamage = 0;
+
+  this.units.sort(function(a, b) {
+    return powerLookup[b.type] - powerLookup[a.type];
+  });
+
+  while (damageRemaining > 0) {
+    if (this.units.length > 0 && powerLookup[this.units[0].type] <= damageRemaining) {
+      damageRemaining -= powerLookup[this.units[0].type];
+      totalDamage += powerLookup[this.units[0].type];
+      deleteUnitByType(this, this.units[0].type, 1);
+      if (this.units.length == 0) { break; }
+    } else {
+      break;
+    }
+  }
+
+  return totalDamage;
+}
+
+
 Square.prototype.neighbours = neighbours;
 Square.prototype.addUnit = addUnit;
 Square.prototype.count = count;
 Square.prototype.exactCount = exactCount;
 Square.prototype.isCostal = isCostal;
 Square.prototype.listOfMovesLeft = listOfMovesLeft;
+Square.prototype.inactivateAll = inactivateAll;
+Square.prototype.power = power;
+Square.prototype.damage = damage;
 VisionSquare.prototype.neighbours = visionNeighbours;
