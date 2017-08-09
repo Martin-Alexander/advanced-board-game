@@ -277,6 +277,10 @@ game.train = function(type, location) {
     currentPlayer.gold -= unitCostLookup[type];
 
     location.addUnit(type, currentPlayer);
+    this.sendToServer();
+    return true;
+  } else {
+    return false;
   }
 }
 

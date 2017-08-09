@@ -57,10 +57,11 @@ function Hand() {
             var units = displayPriority.landLocked;
           }
           var rowClickedOn = Math.floor((this.trueMousePosition.y - beginningOfUnitList) / 75);
-          game.train(units[rowClickedOn], this.selectedTile);
-          this.unitTypeSelect = units[rowClickedOn];
-          setMovesLeftSelect(this.selectedTile);
-          this.savedSquare = this.selectedTile;
+          if (game.train(units[rowClickedOn], this.selectedTile)) {
+            this.unitTypeSelect = units[rowClickedOn];
+            setMovesLeftSelect(this.selectedTile);
+            this.savedSquare = this.selectedTile;
+          }
         }
       }
 
