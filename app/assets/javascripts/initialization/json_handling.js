@@ -163,27 +163,31 @@ updateGlobalBoardFromJSON = function(data, globalBoard) {
     square.terrain = squareJSON.terrain;
     square.structure = squareJSON.structure;
     square.player = player;
-    updateUnitsFromJSON(square.units, squareJSON.units);
+    updateUnitsFromJSON(square, squareJSON.units);
   }
 }
 
-updateUnitsFromJSON = function(units, unitsJSON) {
+updateUnitsFromJSON = function(square, unitsJSON) {
+
+  square.units = [];
 
   for (var i = 0; i < unitsJSON.length; i++){
 
     var unitJSON = unitsJSON[i];
-    var unit = units[i];
 
-    if (unitsJSON.playerNumber == 0) {
+    if (unitJSON.playerNumber == 0) {
       var player = null;
-    } else if (unitsJSON.playerNumber == 1) {
+    } else if (unitJSON.playerNumber == 1) {
       var player = game.playerOne;
-    } else if (unitsJSON.playerNumber == 2) {
+    } else if (unitJSON.playerNumber == 2) {
       var player = game.playerTwo;
     }
 
-    unit.type = unitJSON.type;
-    unit.movesLeft = unitJSON.movesLeft;
-    unit.player = player;
+    newUnit = new Unit;
+    newUnit.type = unitJSON.type;
+    newUnit.movesLeft = unitJSON.movesLeft;
+    newUnit.player = player;
+
+    square.units.push(newUnit);
   }
 }

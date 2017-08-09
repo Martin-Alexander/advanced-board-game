@@ -3,8 +3,7 @@ App.game = App.cable.subscriptions.create("GameChannel", {
   disconnected: function() {},
   received: function(data) {
     if (currentPlayer.number != data.playerNumber) {
-      var gameData = JSON.parse(data.game);
-      game.globalBoard = gameData.globalBoard;
+      updateGameFromJSON(JSON.parse(data.game));
     }
   }
 });
