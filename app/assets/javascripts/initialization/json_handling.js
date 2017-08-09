@@ -6,6 +6,9 @@ JSONifyGame = function() {
   // Set turn number
   gameJSON.turnNumber = game.turnNumber;
 
+  // Game over?
+  gameJSON.over = game.over;  
+
   // Set players
   gameJSON.playerOne = JSONifyPlayer(game.playerOne);
   gameJSON.playerTwo = JSONifyPlayer(game.playerTwo);
@@ -49,6 +52,7 @@ JSONifyVision = function(player) {
       y: visionSquare.y,
       status: visionSquare.status,
       structure: visionSquare.structure,
+      terrain: visionSquare.terrain,
       playerNumber: playerNumber
     });
   }
@@ -105,6 +109,7 @@ JSONifyUnit = function(square) {
 updateGameFromJSON = function(gameJSON) {
 
   game.turnNumber = gameJSON.turnNumber;
+  game.over = gameJSON.over;
 
   updatePlayerFromJSON(game.playerOne, gameJSON.playerOne);
   updatePlayerFromJSON(game.playerTwo, gameJSON.playerTwo);
@@ -141,6 +146,7 @@ updateVisionFromJSON = function(vision, visionJSON) {
 
     visionSquare.status = visionSquareJSON.status;
     visionSquare.structure = visionSquareJSON.structure;
+    visionSquare.terrain = visionSquareJSON.terrain;
     visionSquare.player = player;
   }
 }

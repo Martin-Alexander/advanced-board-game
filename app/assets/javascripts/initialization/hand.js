@@ -42,12 +42,16 @@ function Hand() {
       clickedTile = null;
     }
 
+    if (game.over) { this.selectedTile = null; }
+
     // Clicked outside of board bounds?
     // if (!clickedTile) { return false; }
 
     // Are you clicking a box?
     if (this.trueMousePosition.x > canvasWidth - rightBoxWidth || (this.trueMousePosition.y > canvasHeight - leftBoxHeight && this.trueMousePosition.x < leftBoxWidth)) { 
       
+      if (game.over) { return false; }
+
       // If you clicked on a sidebar container
       if (currentPlayer.isTurnPlayer && this.trueMousePosition.x > canvasWidth - rightBoxWidth + 10 && this.trueMousePosition.x < canvasWidth - 10 && this.trueMousePosition.y > beginningOfUnitList && this.selectedTile) {
         if (this.trainTabOpenned == false) {
@@ -85,9 +89,9 @@ function Hand() {
 
     // Not gonna be the most DRY flow control, but hopefully it'll be easy to understand
 
-    if (this.selectedTile == null && clickedTile && clickedTile.player == currentPlayer && clickedTile.units.length > 0) {
+    if (this.selectedTile == null && clickedTile && clickedTile.player == currentPlayer && clickedTile.units.length > 0 && !game.over) {
       // Without prior selection clicking on a square that has units of yours
-      
+
       this.selectedTile = clickedTile;
 
       setUnitTypeSelect(this.selectedTile);
@@ -101,7 +105,7 @@ function Hand() {
 
       setMovesLeftSelect(this.selectedTile);
 
-    } else if (this.selectedTile == null && clickedTile && clickedTile.player == currentPlayer && clickedTile.structure == "base") {
+    } else if (this.selectedTile == null && clickedTile && clickedTile.player == currentPlayer && clickedTile.structure == "base" && !game.over) {
       // Without prior selection clicking on a square that has a base of yours
 
       // Only fires when base is empty!
@@ -331,10 +335,10 @@ function Hand() {
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - 120, 0 - hand.offset.y + 18);
     canvasContext.scale(1.5, 1.5);
 
-    if (tileiconVisionSquare.status == "black") {
+    if (!game.over && tileiconVisionSquare.status == "black") {
       drawSource("black", 0, 0);
     } else {
-      if (tileiconVisionSquare.status == "fog") {
+      if (!game.over && tileiconVisionSquare.status == "fog") {
         var foggy = true;
       } else {
         var foggy = false;

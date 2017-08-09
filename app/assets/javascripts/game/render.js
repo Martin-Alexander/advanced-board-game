@@ -7,19 +7,26 @@ function clearCanvas() {
 
 function renderBoard() {
 
-  //  Looks nicer
-  for (var i = 0; i < xSize * ySize; i++) {
-    var visionSquare = currentPlayer.vision.data[i];
-    var square = game.globalBoard.data[i];
-
-    if (visionSquare.status == "black") {
-      placeFog(visionSquare, "black");
-    } else if (visionSquare.status == "fog") {
-      placeFogTile(visionSquare) 
-    } else if (visionSquare.status == "visible") {
+  if (game.over) {
+    for (var i = 0; i < xSize * ySize; i++) {
+      var square = game.globalBoard.data[i];
       placeTile(square);
     }
+  } else {
+    for (var i = 0; i < xSize * ySize; i++) {
+      var visionSquare = currentPlayer.vision.data[i];
+      var square = game.globalBoard.data[i];
+
+      if (visionSquare.status == "black") {
+        placeFog(visionSquare, "black");
+      } else if (visionSquare.status == "fog") {
+        placeFogTile(visionSquare) 
+      } else if (visionSquare.status == "visible") {
+        placeTile(square);
+      }
+    }
   }
+
 }
 
 function renderingLoop() {
