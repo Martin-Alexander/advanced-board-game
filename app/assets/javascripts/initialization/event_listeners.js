@@ -9,6 +9,8 @@ function initializeMouseListener() {
         hand.tab(); break;
       case 70:
         hand.build("farm"); break;
+      case 66:
+        hand.build("base"); break;
     }
   });
 
