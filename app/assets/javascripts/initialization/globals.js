@@ -50,3 +50,8 @@ const unitCostLookup = {
   garrison: 1,
   ship: 1 
 }
+
+const pillageLootLookup = {
+  base: 16,
+  farm: 4
+}

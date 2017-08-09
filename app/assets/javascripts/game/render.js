@@ -15,7 +15,7 @@ function renderBoard() {
     if (visionSquare.status == "black") {
       placeFog(visionSquare, "black");
     } else if (visionSquare.status == "fog") {
-      placeFogTile(square) 
+      placeFogTile(visionSquare) 
     } else if (visionSquare.status == "visible") {
       placeTile(square);
     }
@@ -25,12 +25,10 @@ function renderBoard() {
 function renderingLoop() {
   window.setInterval(function() {
     clearCanvas();
+    game.updateVision(currentPlayer);
     fillBackground();
     renderBoard();
     hand.render();
-  }, 60);
-  window.setInterval(function() {
-    game.updateVision(currentPlayer);
   }, 60);
 }
 

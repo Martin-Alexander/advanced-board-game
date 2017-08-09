@@ -125,12 +125,19 @@ function Hand() {
     } else if (clickedTile && this.unitTypeSelect && this.selectedTile != clickedTile) {
       // While having a unit type select you click another square
     
-      if (clickedTile.player && clickedTile.player != currentPlayer) {
+      if (clickedTile.player && clickedTile.player != currentPlayer && clickedTile.units.length > 0) {
         // Fight
         if (game.fight(this.selectedTile, clickedTile)) {
 
           this.selectedTile = null;
           this.unitTypeSelect = null;
+        }
+      } else if (clickedTile.player && clickedTile.player != currentPlayer && clickedTile.units.length == 0 && clickedTile.structure) {
+        // Pillage
+        if (game.pillage(this.selectedTile, clickedTile)) {
+
+          this.selectedTile = null;
+          this.unitTypeSelect = null; 
         }
       } else {
         // Regular Move

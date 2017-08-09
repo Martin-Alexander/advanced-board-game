@@ -241,6 +241,36 @@ game.fight = function(fromSquare, toSquare) {
   }
 }
 
+game.pillage = function(fromSquare, toSquare) {
+  if (fromSquare.power() > 0) {
+
+    fromSquare.inactivateAll();
+    if (toSquare.structure == "base") {
+      toSquare.player.numberOfBases--;
+      fromSquare.player.gold += pillageLootLookup.base;
+      if (toSquare.player.numberOfBases == 0) { this.winner(fromSquare.player); }
+    } else if (toSquare.structure == "farm") {
+      toSquare.player.numberOfFarms--;
+      fromSquare.player.gold += pillageLootLookup.farm;
+    }
+
+    toSquare.structure = null;
+
+    if (fromSquare.units.length == 0 && fromSquare.structure == null) { fromSquare.player = null; }
+    if (toSquare.units.length == 0 && toSquare.structure == null) { toSquare.player = null; }
+
+    this.sendToServer();
+
+    return true;
+  } else {
+    return false;
+  }
+}
+
+game.winner = function(player) {
+  alert("Player " + player.number + "wins!");
+}
+
 game.updateVision = function(player) {
   for (var i = 0; i < xSize * ySize; i++) {
 
