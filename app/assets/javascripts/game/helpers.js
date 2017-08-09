@@ -119,6 +119,10 @@ function findPowerRange(square) {
   } else if (counter > 4) {
     return 2;
   } else {
-    return 1;
+    if (square.units.length > 1) {
+      return 2;
+    } else {
+      return 1;
+    }
   }
 }

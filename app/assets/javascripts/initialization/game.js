@@ -131,7 +131,7 @@ game.generateNewBoard = function() {
   for (var i = 0; i < xSize * ySize; i++) {
 
     var square = self.globalBoard.data[i];
-    if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 12) && square.x > 4 && square.y > 4) {
+    if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > xSize * 0.4) && square.x > 4 && square.y > 4) {
       
       square.addUnit("scout", game.playerOne);
       square.addUnit("scout", game.playerOne);
@@ -156,7 +156,16 @@ game.generateNewBoard = function() {
   if (!complete) {
     for (var i = 0; i < xSize * ySize; i++) {
       var square = self.globalBoard.data[i];
-      if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 8)) {
+      if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 4)) {
+
+        square.addUnit("scout", game.playerOne);
+        square.addUnit("scout", game.playerOne);
+        square.addUnit("scout", game.playerOne);
+
+        square.addUnit("garrison", game.playerOne);
+        square.addUnit("knight", game.playerOne);
+        square.addUnit("worker", game.playerOne);
+
         square.player = this.playerOne;
         square.structure = "base";
 
@@ -195,7 +204,7 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
 }
 
 game.fight = function(fromSquare, toSquare, type, amount, movesLeft) {
-  
+
 }
 
 game.updateVision = function(player) {
