@@ -304,6 +304,8 @@ game.nextTurn = function() {
     }
   }
 
+  this.turnplayer().gold += Math.floor(this.turnplayer().numberOfFarms / 4) - this.turnplayer().numberOfBases;
+
   this.sendToServer();
 }
 
