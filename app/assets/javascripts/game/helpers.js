@@ -87,6 +87,22 @@ function deleteUnit(square, type, amount, movesLeft) {
   square.units = newUnitsForSquare;
 }
 
+function deleteUnitByType(square, type, amount) {
+
+  var newUnitsForSquare = [];
+  var numberOfUnitsDeleted = 0;
+
+  for (var i = 0; i < square.units.length; i++) {
+    if (square.units[i].type == type && square.units[i].movesLeft > 0 && numberOfUnitsDeleted < amount) {
+            numberOfUnitsDeleted++;
+    } else {
+      newUnitsForSquare.push(square.units[i]);
+    }
+  }
+
+  square.units = newUnitsForSquare;
+}
+
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -102,27 +118,52 @@ function elementIsInArray(element, array) {
 
 // Returns the power range of square for use in shield rendering
 function findPowerRange(square) {
-  
-  var counter = 0;
-  for (var i = 0; i < square.units.length; i++) {
-    counter += powerLookup[square.units[i].type];
-  }
 
-  if (counter > 500) {
+  if (powerOf(square) > 500) {
     return 6;
-  } else if (counter > 256) {
+  } else if (powerOf(square) > 256) {
     return 5;
-  } else if (counter > 64) {
+  } else if (powerOf(square) > 64) {
     return 4;
-  } else if (counter > 16) {
+  } else if (powerOf(square) > 16) {
     return 3;
-  } else if (counter > 4) {
+  } else if (powerOf(square) > 4) {
     return 2;
   } else {
     if (square.units.length > 1) {
       return 2;
     } else {
       return 1;
+    }
+  }
+}
+
+// Returns the total power of a square
+function powerOf(square) {
+
+  var counter = 0;
+  for (var i = 0; i < square.units.length; i++) {
+    counter += powerLookup[square.units[i].type];
+  }
+
+  return counter;  
+}
+
+// Applies a given amount of damage to a square
+function damage(square, damage) {
+  var damageRemaining = damage;
+
+  square.units.sort(function(a, b) {
+    return powerLookup[b.type] - powerLookup[a.type];
+  });
+
+  while (damageRemaining > 0) {
+    if (square.units.length > 0 && powerLookup[square.units[0].type] <= damageRemaining) {
+      damageRemaining -= powerLookup[square.units[0].type];
+      deleteUnitByType(square, square.units[0].type, 1);
+      if (square.units.length == 0) { break; }
+    } else {
+      break;
     }
   }
 }
