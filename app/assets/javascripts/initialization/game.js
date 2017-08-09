@@ -269,6 +269,15 @@ game.sendToServer = function() {
       playerNumber: currentPlayer.number
     }
   });
+
+}
+
+game.train = function(type, location) {
+  if (currentPlayer.gold >= unitCostLookup[type]) {
+    currentPlayer.gold -= unitCostLookup[type];
+
+    location.addUnit(type, currentPlayer);
+  }
 }
 
 // Temporary for testing purposes

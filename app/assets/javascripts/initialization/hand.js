@@ -57,6 +57,7 @@ function Hand() {
             var units = displayPriority.landLocked;
           }
           var rowClickedOn = Math.floor((this.trueMousePosition.y - beginningOfUnitList) / 75);
+          game.train(units[rowClickedOn], this.selectedTile);
         }
       }
 
