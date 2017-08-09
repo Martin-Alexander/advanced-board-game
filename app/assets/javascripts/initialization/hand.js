@@ -199,14 +199,14 @@ function Hand() {
         canvasContext.translate((fromSquare.x - fromSquare.y) * (tileWidth / 2 + 0), (fromSquare.x + fromSquare.y) * (tileHeight / 2));
         canvasContext.font = "18px sans-serif";
         canvasContext.fillStyle = 'red';
-        canvasContext.fillText("-" + fromDamage, 0, 0);   
+        canvasContext.fillText("-" + fromDamage, -10, 0);   
         canvasContext.restore();
 
         canvasContext.save();
         canvasContext.translate((toSquare.x - toSquare.y) * (tileWidth / 2 + 0), (toSquare.x + toSquare.y) * (tileHeight / 2));
         canvasContext.font = "18px sans-serif";
         canvasContext.fillStyle = 'red';
-        canvasContext.fillText("-" + toDamage, 0, 0);   
+        canvasContext.fillText("-" + toDamage, -10, 0);   
         canvasContext.restore();
 
         this.drawDamageCounter--;
