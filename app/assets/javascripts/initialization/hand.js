@@ -122,7 +122,7 @@ function Hand() {
       this.unitTypeSelect = null;
       this.moveLeftSelectPointer = 0;
 
-    } else if (this.unitTypeSelect && this.selectedTile != clickedTile) {
+    } else if (clickedTile && this.unitTypeSelect && this.selectedTile != clickedTile) {
       // While having a unit type select you click another square
     
       if (clickedTile.player && clickedTile.player != currentPlayer) {
@@ -313,8 +313,10 @@ function Hand() {
   function drawTileicon() {
 
     if (hand.selectedTile) {
+      var tileiconVisionSquare = currentPlayer.vision.square(hand.selectedTile.x, hand.selectedTile.y);
       var tileiconSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
     } else {
+      var tileiconVisionSquare = currentPlayer.vision.square(hand.hoverTile.x, hand.hoverTile.y);
       var tileiconSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
     }
 
@@ -322,9 +324,19 @@ function Hand() {
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - 120, 0 - hand.offset.y + 18);
     canvasContext.scale(1.5, 1.5);
 
-    var toDraw = findImagesSources(tileiconSquare);
-    for (var i = 0; i < toDraw.length; i++) {
-      drawSource(toDraw[i], 0, 0);
+    if (tileiconVisionSquare.status == "black") {
+      drawSource("black", 0, 0);
+    } else {
+      if (tileiconVisionSquare.status == "fog") {
+        var foggy = true;
+      } else {
+        var foggy = false;
+      }
+
+      var toDraw = findImagesSources(tileiconSquare, foggy);
+      for (var i = 0; i < toDraw.length; i++) {
+        drawSource(toDraw[i], 0, 0);
+      }
     }
     canvasContext.restore();
   }
@@ -336,6 +348,7 @@ function Hand() {
     } else {
       var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
     }
+    if (currentPlayer.vision.square(hoverSquare.x, hoverSquare.y).status != "visible") { return false; }
     var typesInThisSquare = unitTypeMapper(hoverSquare);
     canvasContext.save();
     canvasContext.translate(canvasWidth / 2 - hand.offset.x - (rightBoxWidth - 10), 0 - hand.offset.y + beginningOfUnitList);
