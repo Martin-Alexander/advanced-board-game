@@ -58,7 +58,7 @@ JSONifyGame = function() {
   gameJSON.p2 = JSONifyPlayer(game.playerTwo);
 
   // Set global board
-  gameJSON.gb = JSONifyGlobalBoard(game.globalBoard);
+  gameJSON.g = JSONifyGlobalBoard(game.globalBoard);
 
   return gameJSON;
 }
