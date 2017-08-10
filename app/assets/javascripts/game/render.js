@@ -7,8 +7,8 @@ function clearCanvas() {
 
 function renderBoard() {
 
-  // if (game.over) {
-  if (true) {
+  if (game.over) {
+  // if (true) {
     for (var i = 0; i < xSize * ySize; i++) {
       var square = game.globalBoard.data[i];
       placeTile(square);
