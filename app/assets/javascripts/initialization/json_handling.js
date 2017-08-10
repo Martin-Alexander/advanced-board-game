@@ -233,11 +233,11 @@ updateUnitsFromJSON = function(square, unitsJSON) {
 
     var unitJSON = unitsJSON[i];
 
-    if (unitJSON.playerNumber == 0) {
+    if (unitJSON.p == 0) {
       var player = null;
-    } else if (unitJSON.playerNumber == 1) {
+    } else if (unitJSON.p == 1) {
       var player = game.playerOne;
-    } else if (unitJSON.playerNumber == 2) {
+    } else if (unitJSON.p == 2) {
       var player = game.playerTwo;
     }
 

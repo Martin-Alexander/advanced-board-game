@@ -304,7 +304,7 @@ game.pillage = function(fromSquare, toSquare) {
     if (fromSquare.units.length == 0 && fromSquare.structure == null) { fromSquare.player = null; }
     if (toSquare.units.length == 0 && toSquare.structure == null) { toSquare.player = null; }
 
-    this.sendToServer();
+    // this.sendToServer();
 
     return true;
   } else {
