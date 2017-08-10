@@ -17,8 +17,8 @@ const baseCost = 1;
 
 const scoutMoves = 4;
 const garrisonMoves = 0;
-const knightMoves = 1;
-const workerMoves = 1;
+const knightMoves = 2;
+const workerMoves = 2;
 const shipMoves = 6;
 
 const movesLeftLookup = {

@@ -3,7 +3,17 @@ App.game = App.cable.subscriptions.create("GameChannel", {
   disconnected: function() {},
   received: function(data) {
     if (currentPlayer.number != data.playerNumber) {
-      updateGameFromJSON(JSON.parse(data.game));
+      if (data.token == "hi") {
+        console.log(data.fromSquare[0]);
+        hand.drawDamage = {
+          fromSquare: game.globalBoard.square(parseInt(data.fromSquare[0]), parseInt(data.fromSquare[1])),
+          toSquare: game.globalBoard.square(parseInt(data.toSquare[0]), parseInt(data.toSquare[1])),
+          fromDamage: parseInt(data.fromDamage),
+          toDamage: parseInt(data.toDamage)
+        };
+      } else {
+        updateGameFromJSON(JSON.parse(data.game));
+      }
     }
   }
 });
