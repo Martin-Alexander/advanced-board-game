@@ -185,6 +185,15 @@ function damage(damage) {
   return totalDamage;
 }
 
+function numberOfActiveUnits() {
+  var counter = 0;
+  for (var i = 0; i < this.units.length; i++) {
+    if (this.units[i].movesLeft > 0) {
+      counter++;
+    }
+  }
+  return counter;
+}
 
 Square.prototype.neighbours = neighbours;
 Square.prototype.addUnit = addUnit;
@@ -196,4 +205,5 @@ Square.prototype.inactivateAll = inactivateAll;
 Square.prototype.power = power;
 Square.prototype.attackPower = attackPower;
 Square.prototype.damage = damage;
+Square.prototype.numberOfActiveUnits = numberOfActiveUnits;
 VisionSquare.prototype.neighbours = visionNeighbours;
