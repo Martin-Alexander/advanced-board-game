@@ -134,13 +134,13 @@ game.generateNewBoard = function() {
     var square = self.globalBoard.data[i];
     if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > xSize * 0.4) && square.x > 4 && square.y > 4) {
       
-      square.addUnit("scout", game.playerOne);
-      square.addUnit("scout", game.playerOne);
-      square.addUnit("scout", game.playerOne);
+      // square.addUnit("scout", game.playerOne);
+      // square.addUnit("scout", game.playerOne);
+      // square.addUnit("scout", game.playerOne);
 
-      square.addUnit("garrison", game.playerOne);
-      square.addUnit("knight", game.playerOne);
-      square.addUnit("worker", game.playerOne);
+      // square.addUnit("garrison", game.playerOne);
+      // square.addUnit("knight", game.playerOne);
+      // square.addUnit("worker", game.playerOne);
 
       square.player = this.playerOne;
       square.structure = "base";
@@ -159,13 +159,13 @@ game.generateNewBoard = function() {
       var square = self.globalBoard.data[i];
       if (hasAtLeastManyNeighbours(square, "grass", 8) && square.terrain == "grass" && Math.abs(square.x - square.y > 4)) {
 
-        square.addUnit("scout", game.playerOne);
-        square.addUnit("scout", game.playerOne);
-        square.addUnit("scout", game.playerOne);
+        // square.addUnit("scout", game.playerOne);
+        // square.addUnit("scout", game.playerOne);
+        // square.addUnit("scout", game.playerOne);
 
-        square.addUnit("garrison", game.playerOne);
-        square.addUnit("knight", game.playerOne);
-        square.addUnit("worker", game.playerOne);
+        // square.addUnit("garrison", game.playerOne);
+        // square.addUnit("knight", game.playerOne);
+        // square.addUnit("worker", game.playerOne);
 
         square.player = this.playerOne;
         square.structure = "base";
@@ -193,7 +193,7 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
     fromSquare.units.length > 0 &&  
     fromSquare.player.isTurnPlayer &&
     fromSquare.player == currentPlayer &&
-    toSquare.terrain == "grass" &&
+    ((toSquare.terrain == "grass" && (type != "ship" || (toSquare.isCostal() && toSquare.structure == "base"))) || (toSquare.terrain == "water" && type == "ship")) &&
     (toSquare.player == null || toSquare.player == currentPlayer) &&
     areAdjacent(fromSquare, toSquare)
   ) {
@@ -349,13 +349,7 @@ game.nextTurn = function() {
 
   for (var i = 0; i < xSize * ySize; i++) {
     for (var j = 0; j < game.globalBoard.data[i].units.length; j++) {
-      if (game.globalBoard.data[i].units[j].type == "scout") {
-        game.globalBoard.data[i].units[j].movesLeft = scoutMoves;
-      } else if (game.globalBoard.data[i].units[j].type == "garrison") {
-        game.globalBoard.data[i].units[j].movesLeft = garrisonMoves;
-      } else {
-        game.globalBoard.data[i].units[j].movesLeft = knightMoves;
-      }
+      game.globalBoard.data[i].units[j].movesLeft = movesLeftLookup[game.globalBoard.data[i].units[j].type];
     }
   }
 
@@ -389,7 +383,7 @@ game.train = function(type, location) {
 }
 
 game.build = function(struction, location) {
-  if (location.player == currentPlayer && location.structure == null && location.count("worker", 1)) {
+  if (game.turnplayer() == currentPlayer  && location.player == currentPlayer && location.structure == null && location.count("worker", 1)) {
     deleteUnit(location, "worker", 1, 1);
     location.structure = struction
     if (struction == "farm") {
