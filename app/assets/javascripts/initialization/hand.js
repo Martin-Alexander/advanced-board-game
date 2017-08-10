@@ -143,12 +143,20 @@ function Hand() {
           this.selectedTile = null;
           this.unitTypeSelect = null; 
         }
+      } else if (clickedTile && this.selectedTile.terrain == "grass" && clickedTile.terrain == "water" && this.unitTypeSelect != "ship") {
+        // Embarking
+
+        game.embark(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect) 
+
+        this.selectedTile = null;
+        this.unitTypeSelect = null;
+
       } else {
         // Regular Move
 
         if (this.moveLeftSelect > 1) {
 
-          if (game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)) {
+          if (game.move(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect)) {
             this.moveLeftSelect--;
             this.selectedTile = clickedTile;
           } else {
@@ -158,7 +166,7 @@ function Hand() {
 
         } else {
 
-          game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)
+          game.move(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect)
 
           this.selectedTile = null;
           this.unitTypeSelect = null;
