@@ -170,8 +170,20 @@ game.generateNewBoard = function() {
         square.player = this.playerOne;
         square.structure = "base";
 
+        for (var i = 0; i < 8; i++) {
+          square.neighbours[i].player = this.playerOne;
+          square.neighbours[i].structure = "farm";
+        }
+        this.playerOne.numberOfFarms = 8;
+
         this.globalBoard.square(square.y, square.x).player = this.playerTwo;
         this.globalBoard.square(square.y, square.x).structure = "base";
+        
+        for (var i = 0; i < 8; i++) {
+          this.globalBoard.square(square.y, square.x).neighbours[i].player = this.playerTwo;
+          this.globalBoard.square(square.y, square.x).neighbours[i].structure = "farm";
+        }
+        this.playerTwo.numberOfFarms = 8;
 
         break
       }  
