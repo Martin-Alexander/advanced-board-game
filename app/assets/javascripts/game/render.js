@@ -7,7 +7,7 @@ function clearCanvas() {
 
 function renderBoard() {
 
-  if (game.over) {
+  if (game.over || revealMap) {
   // if (true) {
     for (var i = 0; i < xSize * ySize; i++) {
       var square = game.globalBoard.data[i];
