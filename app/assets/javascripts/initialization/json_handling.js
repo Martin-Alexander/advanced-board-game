@@ -1,3 +1,11 @@
+var typeCode = {
+  scout: 's',
+  knight: 'k',
+  garrison: 'g',
+  worker: 'w',
+  ship: 'h'
+}
+
 var typeDecode = {
   s: "scout",
   k: "knight",
@@ -122,7 +130,7 @@ JSONifyGlobalBoard = function() {
     boardJSON.push({
       x: square.x,
       y: square.y,
-      t: structureCode[square.terrain],
+      t: terrainCode[square.terrain],
       s: structureCode[square.structure],
       p: playerNumber,
       u: JSONifyUnit(square)
@@ -242,10 +250,3 @@ updateUnitsFromJSON = function(square, unitsJSON) {
   }
 }
 
-var typeCode = {
-  scout: 's',
-  knight: 'k',
-  garrison: 'g',
-  worker: 'w',
-  ship: 'h'
-}

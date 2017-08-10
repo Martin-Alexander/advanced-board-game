@@ -161,7 +161,7 @@ function findImagesSources(square, foggy = false) {
 
 // Draws a give source at a specified ABSOLUTE location
 function drawSource(source, x, y) {
-  if (drawFromSourceLookup[source] == undefined) { console.log (souce); }
+  if (drawFromSourceLookup[source] == undefined) { console.log (source); }
   canvasContext.drawImage(
     sourceImage, 
     1 + (65 * drawFromSourceLookup[source].x), 1 + (49 * drawFromSourceLookup[source].y), tileWidth, 49,
