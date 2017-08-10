@@ -138,7 +138,7 @@ function findImagesSources(square, foggy = false) {
       } else {
         output.push(unitTypeMapper(square)[0] + square.player.number);
       }
-      if (square.player = currentPlayer && square.numberOfActiveUnits() == 0) {
+      if (square.player == currentPlayer && square.numberOfActiveUnits() == 0) {
         output.push("shield0" + findPowerRange(square));
       } else {
         output.push("shield" + square.player.number + "" + findPowerRange(square));
@@ -161,6 +161,7 @@ function findImagesSources(square, foggy = false) {
 
 // Draws a give source at a specified ABSOLUTE location
 function drawSource(source, x, y) {
+  if (drawFromSourceLookup[source] == undefined) { console.log (souce); }
   canvasContext.drawImage(
     sourceImage, 
     1 + (65 * drawFromSourceLookup[source].x), 1 + (49 * drawFromSourceLookup[source].y), tileWidth, 49,
