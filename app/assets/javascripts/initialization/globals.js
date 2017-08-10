@@ -1,5 +1,7 @@
 // Global variables
 
+var revealMap = false;
+
 const xSize = 30;
 const ySize = 30;
 const tileWidth = 64;
