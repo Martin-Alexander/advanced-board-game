@@ -1,20 +1,64 @@
+var typeDecode = {
+  s: "scout",
+  k: "knight",
+  g: "garrison",
+  w: "worker",
+  h: "ship"
+}
+
+var terrainCode = {
+  grass: 'g',
+  mountain: 'm',
+  water: 'w'
+}
+
+var terrainDecode = {
+  g: "grass", 
+  m: "mountain",
+  w: "water"
+}
+
+var statusCode = {
+  visible: 'v',
+  black: 'b',
+  fog: 'f'
+}
+
+var statusDecode = {
+  v: "visible",
+  b: "black",
+  f: "fog"
+}
+
+var structureCode = {
+  null: 'n',
+  farm: 'f',
+  base: 'b'
+}
+
+var structureDecode = {
+  n: null,
+  f: "farm",
+  b: "base"
+}
+
 // Returns a JSON-friendly object of game data
 JSONifyGame = function() {
 
   var gameJSON = {};
 
   // Set turn number
-  gameJSON.turnNumber = game.turnNumber;
+  gameJSON.t = game.turnNumber;
 
   // Game over?
-  gameJSON.over = game.over;  
+  gameJSON.o = game.over;  
 
   // Set players
-  gameJSON.playerOne = JSONifyPlayer(game.playerOne);
-  gameJSON.playerTwo = JSONifyPlayer(game.playerTwo);
+  gameJSON.p1 = JSONifyPlayer(game.playerOne);
+  gameJSON.p2 = JSONifyPlayer(game.playerTwo);
 
   // Set global board
-  gameJSON.globalBoard = JSONifyGlobalBoard(game.globalBoard);
+  gameJSON.gb = JSONifyGlobalBoard(game.globalBoard);
 
   return gameJSON;
 }
@@ -23,12 +67,12 @@ JSONifyGame = function() {
 JSONifyPlayer = function(player) {
 
   return {
-    number: player.number,
-    isTurnPlayer: player.isTurnPlayer,
-    gold: player.gold,
-    vision: JSONifyVision(player),
-    numberOfFarms: player.numberOfFarms,
-    numberOfBases: player.numberOfBases    
+    n: player.number,
+    t: player.isTurnPlayer,
+    g: player.gold,
+    v: JSONifyVision(player),
+    f: player.numberOfFarms,
+    b: player.numberOfBases    
   };
 }
 
@@ -50,10 +94,10 @@ JSONifyVision = function(player) {
     visionJSON.push({
       x: visionSquare.x,
       y: visionSquare.y,
-      status: visionSquare.status,
-      structure: visionSquare.structure,
-      terrain: visionSquare.terrain,
-      playerNumber: playerNumber
+      s: statusCode[visionSquare.status],
+      r: structureCode[visionSquare.structure],
+      t: terrainCode[visionSquare.terrain],
+      p: playerNumber
     });
   }
 
@@ -78,10 +122,10 @@ JSONifyGlobalBoard = function() {
     boardJSON.push({
       x: square.x,
       y: square.y,
-      terrain: square.terrain,
-      structure: square.structure,
-      playerNumber: playerNumber,
-      units: JSONifyUnit(square)
+      t: structureCode[square.terrain],
+      s: structureCode[square.structure],
+      p: playerNumber,
+      u: JSONifyUnit(square)
     });
   }
 
@@ -97,9 +141,9 @@ JSONifyUnit = function(square) {
 
     var unit = square.units[i];
     unitsJSON.push({
-      type: unit.type,
-      movesLeft: unit.movesLeft,
-      playerNumber: unit.player.number
+      t: typeCode[unit.type],
+      m: unit.movesLeft,
+      p: unit.player.number
     });
   }
 
@@ -108,24 +152,24 @@ JSONifyUnit = function(square) {
 
 updateGameFromJSON = function(gameJSON) {
 
-  game.turnNumber = gameJSON.turnNumber;
-  game.over = gameJSON.over;
+  game.turnNumber = gameJSON.t;
+  game.over = gameJSON.o;
 
-  updatePlayerFromJSON(game.playerOne, gameJSON.playerOne);
-  updatePlayerFromJSON(game.playerTwo, gameJSON.playerTwo);
+  updatePlayerFromJSON(game.playerOne, gameJSON.p1);
+  updatePlayerFromJSON(game.playerTwo, gameJSON.p2);
 
-  updateGlobalBoardFromJSON(game.globalBoard.data, gameJSON.globalBoard);
+  updateGlobalBoardFromJSON(game.globalBoard.data, gameJSON.g);
 }
 
 updatePlayerFromJSON = function(player, playerJSON) {
 
-  player.isTurnPlayer = playerJSON.isTurnPlayer;
-  player.gold = playerJSON.gold;
+  player.isTurnPlayer = playerJSON.t;
+  player.gold = playerJSON.g;
 
-  updateVisionFromJSON(player.vision.data, playerJSON.vision);
+  updateVisionFromJSON(player.vision.data, playerJSON.v);
 
-  player.numberOfFarms = playerJSON.numberOfFarms;
-  player.numberOfBases = playerJSON.numberOfBases;
+  player.numberOfFarms = playerJSON.f;
+  player.numberOfBases = playerJSON.b;
 
 }
 
@@ -136,17 +180,17 @@ updateVisionFromJSON = function(vision, visionJSON) {
     var visionSquareJSON = visionJSON[i];
     var visionSquare = vision[i];
 
-    if (visionSquareJSON.playerNumber == 0) {
+    if (visionSquareJSON.p == 0) {
       var player = null;
-    } else if (visionSquareJSON.playerNumber == 1) {
+    } else if (visionSquareJSON.p == 1) {
       var player = game.playerOne;
-    } else if (visionSquareJSON.playerNumber == 2) {
+    } else if (visionSquareJSON.p == 2) {
       var player = game.playerTwo;
     }
 
-    visionSquare.status = visionSquareJSON.status;
-    visionSquare.structure = visionSquareJSON.structure;
-    visionSquare.terrain = visionSquareJSON.terrain;
+    visionSquare.status = statusDecode[visionSquareJSON.s];
+    visionSquare.structure = structureDecode[visionSquareJSON.r];
+    visionSquare.terrain = terrainDecode[visionSquareJSON.t];
     visionSquare.player = player;
   }
 }
@@ -158,18 +202,18 @@ updateGlobalBoardFromJSON = function(data, globalBoard) {
     var squareJSON = globalBoard[i];
     var square = data[i];
 
-    if (squareJSON.playerNumber == 0) {
+    if (squareJSON.p == 0) {
       var player = null;
-    } else if (squareJSON.playerNumber == 1) {
+    } else if (squareJSON.p == 1) {
       var player = game.playerOne;
-    } else if (squareJSON.playerNumber == 2) {
+    } else if (squareJSON.p == 2) {
       var player = game.playerTwo;
     }
 
-    square.terrain = squareJSON.terrain;
-    square.structure = squareJSON.structure;
+    square.terrain = terrainDecode[squareJSON.t];
+    square.structure = structureDecode[squareJSON.s];
     square.player = player;
-    updateUnitsFromJSON(square, squareJSON.units);
+    updateUnitsFromJSON(square, squareJSON.u);
   }
 }
 
@@ -190,10 +234,18 @@ updateUnitsFromJSON = function(square, unitsJSON) {
     }
 
     newUnit = new Unit;
-    newUnit.type = unitJSON.type;
-    newUnit.movesLeft = unitJSON.movesLeft;
+    newUnit.type = typeDecode[unitJSON.t];
+    newUnit.movesLeft = unitJSON.m;
     newUnit.player = player;
 
     square.units.push(newUnit);
   }
+}
+
+var typeCode = {
+  scout: 's',
+  knight: 'k',
+  garrison: 'g',
+  worker: 'w',
+  ship: 'h'
 }
