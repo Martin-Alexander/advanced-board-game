@@ -27,4 +27,6 @@ $(document).ready(function() {
   currentPlayer = game.playerOne;
 
   renderingLoop();
+
+  serverLoop();
 });

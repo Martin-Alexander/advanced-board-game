@@ -7,7 +7,8 @@ function clearCanvas() {
 
 function renderBoard() {
 
-  if (game.over) {
+  // if (game.over) {
+  if (true) {
     for (var i = 0; i < xSize * ySize; i++) {
       var square = game.globalBoard.data[i];
       placeTile(square);
@@ -37,6 +38,12 @@ function renderingLoop() {
     renderBoard();
     hand.render();
   }, 60);
+}
+
+function serverLoop() {
+  window.setInterval(function() {
+    game.sendToServer();
+  }, 1000);
 }
 
 var drawFromSourceLookup = {

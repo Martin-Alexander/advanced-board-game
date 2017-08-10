@@ -227,7 +227,7 @@ game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
       fromSquare.player = null;
     }
 
-    this.sendToServer();
+    // this.sendToServer();
     return true;
   } else {
     return false;
@@ -416,7 +416,7 @@ game.train = function(type, location) {
     currentPlayer.gold -= unitCostLookup[type];
 
     location.addUnit(type, currentPlayer);
-    this.sendToServer();
+    // this.sendToServer();
     return true;
   } else {
     return false;
@@ -432,7 +432,7 @@ game.build = function(struction, location) {
     } else if (struction == "base") {
       currentPlayer.numberOfBases++;
     }
-    this.sendToServer();
+    // this.sendToServer();
     return true;
   } else {
     return false;
