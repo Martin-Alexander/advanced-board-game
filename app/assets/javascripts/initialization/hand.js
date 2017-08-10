@@ -112,7 +112,7 @@ function Hand() {
 
       this.selectedTile = clickedTile;
 
-    } else if (this.selectedTile == null && clickedTile && clickedTile.player != currentPlayer && clickedTile) {
+    } else if (this.selectedTile == null && clickedTile && (clickedTile.player != currentPlayer || clickedTile.structure == "farm") && clickedTile) {
       // Without prior selection clicking a square that you do not own
 
       canvasContext.translate(Math.floor(canvasCenter.x - this.trueMousePosition.x), Math.floor(canvasCenter.y - this.trueMousePosition.y));
