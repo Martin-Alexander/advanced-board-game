@@ -261,7 +261,24 @@ game.fight = function(fromSquare, toSquare) {
     if (fromSquare.units.length == 0 && fromSquare.structure == null) { fromSquare.player = null; }
     if (toSquare.units.length == 0 && toSquare.structure == null) { toSquare.player = null; }
     
-    this.sendToServer();
+    this.sendToServer({drawDamage: {
+      fromSquare: fromSquare,
+      toSquare: toSquare,
+      fromDamage: fromSquareDamage,
+      toDamage: toSquareDamage
+    }});
+
+    $.ajax({
+      method: "POST",
+      url: "/damage",
+      data: {
+        playerNumber: currentPlayer.number,
+        fromSquare: [fromSquare.x, fromSquare.y],
+        toSquare: [toSquare.x, toSquare.y],
+        fromDamage: fromSquareDamage,
+        toDamage: toSquareDamage
+      }
+    });
 
     return true;
   } else {
