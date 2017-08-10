@@ -42,7 +42,9 @@ function renderingLoop() {
 
 function serverLoop() {
   window.setInterval(function() {
-    game.sendToServer();
+    if (currentPlayer.isTurnPlayer) {
+      game.sendToServer();
+    }
   }, 1000);
 }
 
