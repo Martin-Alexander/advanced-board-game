@@ -2,7 +2,7 @@ App.game = App.cable.subscriptions.create("GameChannel", {
   connected: function() {},
   disconnected: function() {},
   received: function(data) {
-    if (currentPlayer.number != data.playerNumber) {
+    if (currentPlayer.number != data.playerNumber && !currentPlayer.isTurnPlayer) {
       if (data.token == "hi") {
         console.log(data.fromSquare[0]);
         hand.drawDamage = {
