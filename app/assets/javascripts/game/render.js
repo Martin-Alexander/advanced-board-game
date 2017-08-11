@@ -183,10 +183,10 @@ function drawSquare(square, x, y, foggy = false) {
   var toDraw = findImagesSources(square, foggy);
   for (var i = 0; i < toDraw.length; i++) {
     drawSource(toDraw[i], x, y);
-    if (i == 1 && hand.selectedTile == square) {
+    if (i == 2 && hand.selectedTile == square) {
       drawSquareShape("rgba(255, 255, 255, 0.8)", hand.selectedTile.x, hand.selectedTile.y);
     }
-    if (i == 1 && hand.hoverTile && hand.hoverTile.x == square.x && hand.hoverTile.y == square.y) {
+    if (i == 2 && hand.hoverTile && hand.hoverTile.x == square.x && hand.hoverTile.y == square.y) {
       drawSquareShape("rgba(255, 255, 255, 0.2)", hand.hoverTile.x, hand.hoverTile.y);
     }
   }
