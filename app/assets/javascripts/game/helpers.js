@@ -33,14 +33,30 @@ function areAdjacent(squareOne, squareTwo) {
 // Returns an ordered array of unit types
 function unitTypeMapper(square) {
   var output = [];
-  var properOrder = ["garrison", "knight", "scout", "ship", "worker"];
-  for (var i = 0; i < properOrder.length; i++) {
-    for (var j = 0; j < square.units.length; j++) {
-      if (square.units[j].type == properOrder[i]) {
-        output.push(square.units[j].type);
-        break;
+  if (square.terrain == "grass") {
+    var properOrder = ["garrison", "knight", "scout", "ship", "worker"];
+    for (var i = 0; i < properOrder.length; i++) {
+      for (var j = 0; j < square.units.length; j++) {
+        if (square.units[j].type == properOrder[i]) {
+          output.push(square.units[j].type);
+          break;
+        }
       }
     }
+  } else if (square.terrain == "water") {
+    if (square.units.length > 0) { output.push("ship"); }
+
+    var properOrder = ["garrison", "knight", "scout", "worker"];
+    for (var i = 0; i < properOrder.length; i++) {
+      for (var j = 0; j < square.units.length; j++) {
+        for (var k = 0; k < square.units[j].transport.length; k++) {
+          if (square.units[j].transport[k].type == properOrder[i]) {
+            output.push(square.units[j].transport[k].type);
+            break
+          }
+        }
+      }
+    } 
   }
   return output;
 }
