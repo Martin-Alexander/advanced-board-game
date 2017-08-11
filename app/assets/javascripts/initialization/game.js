@@ -486,6 +486,8 @@ game.nextTurn = function() {
     }
   }
 
+  hand.selectedTile = null;
+
   this.turnplayer().gold += Math.floor(this.turnplayer().numberOfFarms / 4) - this.turnplayer().numberOfBases;
 
   this.sendToServer();
