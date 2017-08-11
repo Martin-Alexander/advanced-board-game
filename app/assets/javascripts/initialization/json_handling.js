@@ -148,14 +148,38 @@ JSONifyUnit = function(square) {
   for (var i = 0; i < square.units.length; i++) {
 
     var unit = square.units[i];
-    unitsJSON.push({
-      t: typeCode[unit.type],
-      m: unit.movesLeft,
-      p: unit.player.number
-    });
+
+    if (unit.type == "ship") {
+      unitsJSON.push({
+        t: typeCode[unit.type],
+        m: unit.movesLeft,
+        p: unit.player.number,
+        r: JSONifyTranspost(unit.transport)
+      });
+    } else {
+      unitsJSON.push({
+        t: typeCode[unit.type],
+        m: unit.movesLeft,
+        p: unit.player.number
+      });
+    }
   }
 
   return unitsJSON;
+}
+
+JSONifyTranspost = function(transport) {
+  var transportOutput = [];
+
+  for (var i = 0; i < transport.length; i++) {
+    transportOutput.push({
+      t: typeCode[transport[i].type],
+      m: transport[i].movesLeft,
+      p: transport[i].player.number
+    });
+  }
+
+  return transportOutput;
 }
 
 updateGameFromJSON = function(gameJSON) {
@@ -241,12 +265,35 @@ updateUnitsFromJSON = function(square, unitsJSON) {
       var player = game.playerTwo;
     }
 
-    newUnit = new Unit;
-    newUnit.type = typeDecode[unitJSON.t];
-    newUnit.movesLeft = unitJSON.m;
-    newUnit.player = player;
+    if (typeDecode[unitJSON.t] == "ship") {
+      newUnit = new Unit;
+      newUnit.type = typeDecode[unitJSON.t];
+      newUnit.movesLeft = unitJSON.m;
+      newUnit.player = player;
+      newUnit.transport = updateTransportFromJSON(unitJSON.r, player);
+    } else { 
+      newUnit = new Unit;
+      newUnit.type = typeDecode[unitJSON.t];
+      newUnit.movesLeft = unitJSON.m;
+      newUnit.player = player;
+    }
 
     square.units.push(newUnit);
   }
 }
 
+updateTransportFromJSON = function(transportJSON, player) {
+
+  var output = [];
+
+  for (var i = 0; i < transportJSON.length; i++) {
+    var newUnit = new Unit;
+    newUnit.type = typeDecode[transportJSON[i].t];
+    newUnit.movesLeft = transportJSON[i].m;
+    newUnit.player = player;
+
+    output.push(newUnit);
+  }
+
+  return output;
+}
