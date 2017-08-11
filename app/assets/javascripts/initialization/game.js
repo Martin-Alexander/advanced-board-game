@@ -201,6 +201,16 @@ game.generateNewBoard = function() {
       }  
     }    
   }
+
+  var waterCounter = 0;
+  for (var i = 0; i < xSize * ySize; i++) {
+    if (this.globalBoard.data[i].terrain == "water") {
+      waterCounter++;
+    }
+  }
+  if (waterCounter / this.globalBoard.data.length < 0.33) {
+    this.generateNewBoard();
+  }
 }
 
 game.embark = function(fromSquare, toSquare, type, movesLeft) {
