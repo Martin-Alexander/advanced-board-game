@@ -472,9 +472,9 @@ game.updateVision = function(player) {
 // Updates game number, swaps turnplayer, and refreshes all units moves
 game.nextTurn = function() {
 
-  // if (this.over || !currentPlayer.isTurnPlayer) { 
-  //   return false; 
-  // }
+  if (this.over || !currentPlayer.isTurnPlayer) { 
+    return false; 
+  }
 
   game.turnNumber++;
   game.playerOne.isTurnPlayer = !game.playerOne.isTurnPlayer;
