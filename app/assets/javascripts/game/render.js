@@ -79,7 +79,7 @@ var drawFromSourceLookup = {
   shield23: { x: 2, y: 5 },
   shield24: { x: 3, y: 5 },
   shield25: { x: 4, y: 5 },
-  shield26: { x: 1, y: 6 },
+  shield26: { x: 0, y: 6 },
   fogbase1: { x: 2, y: 6 },
   fogbase2: { x: 3, y: 6 },
   shield01: { x: 0, y: 7 },

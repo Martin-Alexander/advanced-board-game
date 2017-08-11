@@ -17,7 +17,7 @@ const rightBoxWidth = 250;
 const farmIncome = 4;
 const baseCost = 1;
 
-const scoutMoves = 4;
+const scoutMoves = 6;
 const garrisonMoves = 0;
 const knightMoves = 2;
 const workerMoves = 1;
@@ -38,7 +38,7 @@ const displayPriority = {
 }
 
 const powerLookup = {
-  scout: 1,
+  scout: 2,
   knight: 4,
   worker: 0,
   garrison: 8,
