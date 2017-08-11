@@ -246,8 +246,8 @@ game.fight = function(fromSquare, toSquare) {
     console.log(Math.ceil(toSquarePower / 2));
     console.log(Math.ceil(fromSquarePower / 2));
 
-    var fromSquareDamage = fromSquare.damage(Math.ceil(toSquarePower / 2));
-    var toSquareDamage = toSquare.damage(Math.ceil(fromSquarePower / 2));
+    var fromSquareDamage = fromSquare.damage(Math.ceil(toSquarePower / 2), true);
+    var toSquareDamage = toSquare.damage(Math.ceil(fromSquarePower / 2), false);
 
     hand.drawDamage = {
       fromSquare: fromSquare,

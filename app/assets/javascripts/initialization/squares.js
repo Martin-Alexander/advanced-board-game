@@ -163,7 +163,7 @@ function power() {
 }
 
 // Applies a given amount of damage to a square
-function damage(damage) {
+function damage(damage, attack) {
   var damageRemaining = damage;
   var totalDamage = 0;
 
@@ -171,15 +171,28 @@ function damage(damage) {
     return powerLookup[b.type] - powerLookup[a.type];
   });
 
-  while (damageRemaining > 0) {
-    if (this.units.length > 0 && powerLookup[this.units[0].type] <= damageRemaining) {
-      damageRemaining -= powerLookup[this.units[0].type];
-      totalDamage += powerLookup[this.units[0].type];
-      deleteUnitByType(this, this.units[0].type, 1);
-      if (this.units.length == 0) { break; }
-    } else {
-      break;
+  if (attack) {
+    while (damageRemaining > 0) {
+      if (this.units.length > 0 && powerLookup[this.units[0].type] <= damageRemaining && this.units[0].movesLeft > 0) {
+        damageRemaining -= powerLookup[this.units[0].type];
+        totalDamage += powerLookup[this.units[0].type];
+        deleteUnitByType(this, this.units[0].type, 1);
+        if (this.units.length == 0) { break; }
+      } else {
+        break;
+      }
     }
+  } else {
+    while (damageRemaining > 0) {
+      if (this.units.length > 0 && powerLookup[this.units[0].type] <= damageRemaining) {
+        damageRemaining -= powerLookup[this.units[0].type];
+        totalDamage += powerLookup[this.units[0].type];
+        deleteUnitByType(this, this.units[0].type, 1);
+        if (this.units.length == 0) { break; }
+      } else {
+        break;
+      }
+    }    
   }
 
   return totalDamage;
