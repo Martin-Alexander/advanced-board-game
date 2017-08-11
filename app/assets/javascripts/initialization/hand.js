@@ -17,6 +17,7 @@ function Hand() {
 
   this.unitTypeSelect = null;
   this.moveLeftSelect = null;
+  this.transportSelect = 0;
   this.moveLeftSelectPointer = 0;
 
   this.inherentPriority = ["knight", "scout", "ship", "worker", "garrison"];
@@ -143,12 +144,20 @@ function Hand() {
           this.selectedTile = null;
           this.unitTypeSelect = null; 
         }
+      } else if (clickedTile && this.selectedTile.terrain == "grass" && clickedTile.terrain == "water" && this.unitTypeSelect != "ship") {
+        // Embarking
+
+        game.embark(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect) 
+
+        this.selectedTile = null;
+        this.unitTypeSelect = null;
+
       } else {
         // Regular Move
 
         if (this.moveLeftSelect > 1) {
 
-          if (game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)) {
+          if (game.move(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect)) {
             this.moveLeftSelect--;
             this.selectedTile = clickedTile;
           } else {
@@ -158,7 +167,7 @@ function Hand() {
 
         } else {
 
-          game.move(this.selectedTile, clickedTile, this.unitTypeSelect, 1, this.moveLeftSelect)
+          game.move(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect)
 
           this.selectedTile = null;
           this.unitTypeSelect = null;
@@ -225,14 +234,14 @@ function Hand() {
         canvasContext.translate((fromSquare.x - fromSquare.y) * (tileWidth / 2 + 0), (fromSquare.x + fromSquare.y) * (tileHeight / 2));
         canvasContext.font = "18px sans-serif";
         canvasContext.fillStyle = 'red';
-        canvasContext.fillText("-" + fromDamage, -10, 0);   
+        canvasContext.fillText(0 - fromDamage, -10, 0);   
         canvasContext.restore();
 
         canvasContext.save();
         canvasContext.translate((toSquare.x - toSquare.y) * (tileWidth / 2 + 0), (toSquare.x + toSquare.y) * (tileHeight / 2));
         canvasContext.font = "18px sans-serif";
         canvasContext.fillStyle = 'red';
-        canvasContext.fillText("-" + toDamage, -10, 0);   
+        canvasContext.fillText(0 - toDamage, -10, 0);   
         canvasContext.restore();
 
         this.drawDamageCounter--;
@@ -323,12 +332,22 @@ function Hand() {
 
   function drawTileicon() {
 
-    if (hand.selectedTile) {
+    // if (hand.selectedTile) {
+    //   var tileiconVisionSquare = currentPlayer.vision.square(hand.selectedTile.x, hand.selectedTile.y);
+    //   var tileiconSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
+    // } else {
+    //   var tileiconVisionSquare = currentPlayer.vision.square(hand.hoverTile.x, hand.hoverTile.y);
+    //   var tileiconSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    // }
+
+    if (hand.selectedTile && hand.selectedTile.structure == "base") {
       var tileiconVisionSquare = currentPlayer.vision.square(hand.selectedTile.x, hand.selectedTile.y);
       var tileiconSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
-    } else {
+    } else if (hand.hoverTile) {
       var tileiconVisionSquare = currentPlayer.vision.square(hand.hoverTile.x, hand.hoverTile.y);
       var tileiconSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    } else {
+      return false;
     }
 
     canvasContext.save();
@@ -354,11 +373,17 @@ function Hand() {
 
   // Does not assume that the hover square has any units
   function populateSideBarContainers() {
-    if (hand.selectedTile) {
+    // if (hand.selectedTile) {
+    //   var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
+    // } else {
+      // var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    // }
+    if (hand.selectedTile && (hand.selectedTile.structure == "base" || unitTypeMapper(hand.selectedTile).length > 1)) {
       var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
-    } else {
+    } else if (hand.hoverTile) {
       var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
     }
+
     if (currentPlayer.vision.square(hoverSquare.x, hoverSquare.y).status != "visible") { return false; }
     var typesInThisSquare = unitTypeMapper(hoverSquare);
     canvasContext.save();
@@ -375,9 +400,12 @@ function Hand() {
       canvasContext.font = "18px serif";
       canvasContext.fillStyle = "black"
       canvasContext.fillText(capitalize(typesInThisSquare[i]), 80, 25 + i * 75);
-      canvasContext.font = "14px serif";
+      canvasContext.font = "16px serif";
       canvasContext.fillText("Total: " + hoverSquare.count(typesInThisSquare[i], 0), 80, 45 + i * 75);
-      canvasContext.fillText("Ready: " + hoverSquare.count(typesInThisSquare[i], 1), 80, 65 + i * 75);
+      if (hoverSquare.player == currentPlayer) {
+        canvasContext.font = "12px serif";
+        canvasContext.fillText("Ready: " + hoverSquare.count(typesInThisSquare[i], 1), 80, 65 + i * 75);
+      }
     }
     canvasContext.restore();
   }
@@ -437,12 +465,13 @@ function Hand() {
   // unless it's a garrison
   function setUnitTypeSelect(square) {
 
+    var units = square.allUnitsIncludingTransport();
     var found = false;
     for (var i = 0; i < hand.inherentPriority.length; i++) {
-      for (var j = 0; j < square.units.length; j++) {
+      for (var j = 0; j < units.length; j++) {
         if (found) { break; }
-        if (square.units[j].type == hand.inherentPriority[i] && square.units[j].movesLeft > 0) {
-          hand.unitTypeSelect = square.units[j].type;
+        if (units[j].type == hand.inherentPriority[i] && units[j].movesLeft > 0) {
+          hand.unitTypeSelect = units[j].type;
           found = true;
           break
         }

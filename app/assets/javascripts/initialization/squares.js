@@ -76,6 +76,7 @@ function visionNeighbours() {
 function addUnit(type, player) {
   var newUnit = new Unit;
   newUnit.type = type;
+  if (type == "ship") { newUnit.transport = []; }
   newUnit.player = player;
   newUnit.movesLeft = movesLeftLookup[type];
 
@@ -208,6 +209,43 @@ function numberOfActiveUnits() {
   return counter;
 }
 
+function hasAnEmptyShip() {
+
+  for (var i = 0; i < this.units.length; i++) {
+    if (this.units[i].type == "ship" && !this.units[i].full()) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function returnAnEmptyShip() {
+  if (!this.hasAnEmptyShip()) { return false; }
+  for (var i = 0; i < this.units.length; i++) {
+    if (this.units[i].type == "ship") {
+      return this.units[i];
+    }
+  }
+}
+
+function allUnitsIncludingTransport() {
+  var output = [];
+  output.push(this.units);
+
+  for (var i = 0; i < this.units.length; i++) {
+    if (this.units[i].type == "ship") {
+      for (var j = 0; j < this.units[i].transport.length; j++) {
+        output.push(this.units[i].transport[j]);
+      }
+    }
+  }
+
+  return output;
+}
+
+Square.prototype.allUnitsIncludingTransport = allUnitsIncludingTransport;
+Square.prototype.returnAnEmptyShip = returnAnEmptyShip;
+Square.prototype.hasAnEmptyShip = hasAnEmptyShip;
 Square.prototype.neighbours = neighbours;
 Square.prototype.addUnit = addUnit;
 Square.prototype.count = count;

@@ -13,4 +13,29 @@ function Unit() {
   this.player;    // Although this can be determined by the player status of the
                   // square that the unit is in I may want to allow for a "spy"
                   // unit to be able to occupy enemy squares
+  this.transport;
 }
+
+function embark(unit) {
+  this.transport.push(unit);
+}
+
+function full() {
+  if (this.transport.length > 7) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function hasTransport() {
+  if (this.transport && this.transport.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Unit.prototype.embark = embark;
+Unit.prototype.full = full;
+Unit.prototype.hasTransport = hasTransport;

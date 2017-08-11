@@ -203,13 +203,50 @@ game.generateNewBoard = function() {
   }
 }
 
-// Handles moving 
-game.move = function(fromSquare, toSquare, type, amount, movesLeft) {
+game.embark = function(fromSquare, toSquare, type, movesLeft) {
 
   if (hand.shiftDown) {
     var amount = fromSquare.exactCount(type, movesLeft);
   } else if (hand.ctrlDown && fromSquare.exactCount(type, movesLeft) > 1) {
     var amount = Math.floor(fromSquare.exactCount(type, movesLeft) / 2);
+  } else {
+    var amount = 1;
+  }
+
+  if (
+    fromSquare.units.length > 0 &&  
+    fromSquare.player.isTurnPlayer &&
+    fromSquare.player == currentPlayer &&
+    toSquare.terrain == "water" &&
+    toSquare.player == currentPlayer &&
+    toSquare.hasAnEmptyShip() &&
+    areAdjacent(fromSquare, toSquare)
+  ) {
+
+    deleteUnit(fromSquare, type, amount, movesLeft);
+    var newUnit = new Unit;
+    newUnit.type = type;
+    newUnit.movesLeft = movesLeft;
+    newUnit.player = toSquare.player;
+    var ship = toSquare.returnAnEmptyShip();
+    ship.embark(newUnit);
+
+    return true;
+  } else {
+    return false;
+  }
+
+}
+
+// Handles moving 
+game.move = function(fromSquare, toSquare, type, movesLeft) {
+
+  if (hand.shiftDown) {
+    var amount = fromSquare.exactCount(type, movesLeft);
+  } else if (hand.ctrlDown && fromSquare.exactCount(type, movesLeft) > 1) {
+    var amount = Math.floor(fromSquare.exactCount(type, movesLeft) / 2);
+  } else {
+    var amount = 1;
   }
 
   // When/if spies are implemented this will have to change
