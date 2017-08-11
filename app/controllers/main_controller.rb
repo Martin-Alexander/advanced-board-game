@@ -42,6 +42,14 @@ class MainController < ApplicationController
     Game.first.data = ""
   end
 
+  def is_there_a_game
+    if Game.first.data.length > 0
+      render text: "true"
+    else
+      render text: "false"
+    end
+  end
+
   def join_as(status, other_player_status) 
     ActionCable.server.broadcast "game_channel", {
       joinAs: status,
