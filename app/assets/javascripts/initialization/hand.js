@@ -376,7 +376,7 @@ function Hand() {
     // } else {
       // var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
     // }
-    if (hand.selectedTile.structure == "base") {
+    if (hand.selectedTile && hand.selectedTile.structure == "base") {
       var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
     } else {
       var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
