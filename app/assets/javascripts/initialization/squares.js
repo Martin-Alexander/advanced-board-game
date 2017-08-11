@@ -87,9 +87,10 @@ function addUnit(type, player) {
 // The number of units in a square of a given type with at least this many moves left
 function count(type, movesLeft = false) {
   var counter = 0;
+  var units = this.allUnitsIncludingTransport();
 
-    for (var i = 0; i < this.units.length; i++) {
-      if (this.units[i].type == type && this.units[i].movesLeft >= movesLeft) {
+    for (var i = 0; i < units.length; i++) {
+      if (units[i].type == type && units[i].movesLeft >= movesLeft) {
         counter++;
       }
     }
@@ -100,9 +101,10 @@ function count(type, movesLeft = false) {
 // The number of units in a square of a given type with exactly this many moves left
 function exactCount(type, movesLeft) {
   var counter = 0;
+  var units = this.allUnitsIncludingTransport();
 
-    for (var i = 0; i < this.units.length; i++) {
-      if (this.units[i].type == type && this.units[i].movesLeft == movesLeft) {
+    for (var i = 0; i < units.length; i++) {
+      if (units[i].type == type && units[i].movesLeft == movesLeft) {
         counter++;
       }
     }
@@ -115,10 +117,11 @@ function exactCount(type, movesLeft) {
 // WARNING: assumes that no unit will have movesLeft of over 10
 function listOfMovesLeft(type) {
   var output = [];
+  var units = this.allUnitsIncludingTransport();
 
-  for (var i = 0; i < this.units.length; i++) {
-    if (!elementIsInArray(this.units[i].movesLeft, output) && this.units[i].type == type) {
-      output.push(this.units[i].movesLeft);
+  for (var i = 0; i < units.length; i++) {
+    if (!elementIsInArray(units[i].movesLeft, output) && units[i].type == type) {
+      output.push(units[i].movesLeft);
     }
   }
 
@@ -212,7 +215,7 @@ function numberOfActiveUnits() {
 function hasAnEmptyShip() {
 
   for (var i = 0; i < this.units.length; i++) {
-    if (this.units[i].type == "ship" && !this.units[i].full()) {
+    if (this.units[i].type == "ship" && this.units[i].transport.length < 8) {
       return true;
     }
   }
@@ -222,7 +225,7 @@ function hasAnEmptyShip() {
 function returnAnEmptyShip() {
   if (!this.hasAnEmptyShip()) { return false; }
   for (var i = 0; i < this.units.length; i++) {
-    if (this.units[i].type == "ship") {
+    if (this.units[i].type == "ship" && !this.units[i].full()) {
       return this.units[i];
     }
   }
@@ -230,7 +233,9 @@ function returnAnEmptyShip() {
 
 function allUnitsIncludingTransport() {
   var output = [];
-  output.push(this.units);
+  for (var i = 0; i < this.units.length; i++) {
+    output.push(this.units[i]);
+  }
 
   for (var i = 0; i < this.units.length; i++) {
     if (this.units[i].type == "ship") {
@@ -243,6 +248,29 @@ function allUnitsIncludingTransport() {
   return output;
 }
 
+
+function removeFromTransport(type, movesLeft) {
+
+  for (var i = 0; i < this.units.length; i++) {
+    if (this.units[i].type == "ship") {
+      var newTransport = [];
+      var done = false;
+      for (var j = 0; j < this.units[i].transport.length; j++) {
+        if (this.units[i].transport[j].type != type || this.units[i].transport[j].movesLeft != movesLeft || done) {
+          newTransport.push(this.units[i].transport[j]);
+        } else {
+          done = true;
+        }
+      }
+      if (done) { 
+        this.units[i].transport = newTransport;
+        break; 
+      }
+    }
+  }
+}
+
+Square.prototype.removeFromTransport = removeFromTransport;
 Square.prototype.allUnitsIncludingTransport = allUnitsIncludingTransport;
 Square.prototype.returnAnEmptyShip = returnAnEmptyShip;
 Square.prototype.hasAnEmptyShip = hasAnEmptyShip;

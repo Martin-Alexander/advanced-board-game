@@ -201,6 +201,16 @@ game.generateNewBoard = function() {
       }  
     }    
   }
+
+  var waterCounter = 0;
+  for (var i = 0; i < xSize * ySize; i++) {
+    if (this.globalBoard.data[i].terrain == "water") {
+      waterCounter++;
+    }
+  }
+  if (waterCounter / this.globalBoard.data.length < 0.20) {
+    this.generateNewBoard();
+  }
 }
 
 game.embark = function(fromSquare, toSquare, type, movesLeft) {
@@ -223,14 +233,57 @@ game.embark = function(fromSquare, toSquare, type, movesLeft) {
     areAdjacent(fromSquare, toSquare)
   ) {
 
-    deleteUnit(fromSquare, type, amount, movesLeft);
-    var newUnit = new Unit;
-    newUnit.type = type;
-    newUnit.movesLeft = movesLeft;
-    newUnit.player = toSquare.player;
-    var ship = toSquare.returnAnEmptyShip();
-    ship.embark(newUnit);
+  for (var i = 0; i < amount; i++) {
+    if (toSquare.hasAnEmptyShip()) {
+      console.log(toSquare.returnAnEmptyShip());
+      console.log("hey");
+      deleteUnit(fromSquare, type, 1, movesLeft);
+      var newUnit = new Unit;
+      newUnit.type = type;
+      newUnit.movesLeft = 0;
+      newUnit.player = toSquare.player;
+      var ship = toSquare.returnAnEmptyShip();
+      ship.embark(newUnit);
+    }
+  }
 
+    return true;
+  } else {
+    return false;
+  }
+
+}
+
+// Assumes movesLeft is not 0
+game.disembark = function(fromSquare, toSquare, type, movesLeft) {
+
+  if (hand.shiftDown) {
+    var amount = fromSquare.exactCount(type, movesLeft);
+  } else if (hand.ctrlDown && fromSquare.exactCount(type, movesLeft) > 1) {
+    var amount = Math.floor(fromSquare.exactCount(type, movesLeft) / 2);
+  } else {
+    var amount = 1;
+  }
+
+  if (
+    fromSquare.player.isTurnPlayer &&
+    fromSquare.player == currentPlayer &&
+    toSquare.terrain == "grass" &&
+    (toSquare.player == null || toSquare.player == currentPlayer) &&
+    areAdjacent(fromSquare, toSquare)
+  ) {
+
+    for (var i = 0; i < amount; i++) {
+      var newUnit = new Unit;
+      newUnit.type = type;
+      newUnit.movesLeft = movesLeft - 1;
+      newUnit.player = fromSquare.player;
+
+      toSquare.units.push(newUnit);
+      fromSquare.removeFromTransport(type, movesLeft);
+    }
+
+    toSquare.player = fromSquare.player
     return true;
   } else {
     return false;
@@ -419,19 +472,21 @@ game.updateVision = function(player) {
 // Updates game number, swaps turnplayer, and refreshes all units moves
 game.nextTurn = function() {
 
-  if (this.over || !currentPlayer.isTurnPlayer) { 
-    return false; 
-  }
+  // if (this.over || !currentPlayer.isTurnPlayer) { 
+  //   return false; 
+  // }
 
   game.turnNumber++;
   game.playerOne.isTurnPlayer = !game.playerOne.isTurnPlayer;
   game.playerTwo.isTurnPlayer = !game.playerTwo.isTurnPlayer;
 
   for (var i = 0; i < xSize * ySize; i++) {
-    for (var j = 0; j < game.globalBoard.data[i].units.length; j++) {
-      game.globalBoard.data[i].units[j].movesLeft = movesLeftLookup[game.globalBoard.data[i].units[j].type];
+    for (var j = 0; j < game.globalBoard.data[i].allUnitsIncludingTransport().length; j++) {
+      game.globalBoard.data[i].allUnitsIncludingTransport()[j].movesLeft = movesLeftLookup[game.globalBoard.data[i].allUnitsIncludingTransport()[j].type];
     }
   }
+
+  hand.selectedTile = null;
 
   this.turnplayer().gold += Math.floor(this.turnplayer().numberOfFarms / 4) - this.turnplayer().numberOfBases;
 
@@ -464,7 +519,7 @@ game.train = function(type, location) {
 
 game.build = function(struction, location) {
   if (game.turnplayer() == currentPlayer  && location.player == currentPlayer && location.structure == null && location.count("worker", 1)) {
-    deleteUnit(location, "worker", 1, 1);
+    deleteUnit(location, "worker", 1, hand.moveLeftSelect);
     location.structure = struction
     if (struction == "farm") {
       currentPlayer.numberOfFarms++;

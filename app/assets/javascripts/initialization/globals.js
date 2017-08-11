@@ -1,9 +1,9 @@
 // Global variables
 
-var revealMap = false;
+var revealMap = true;
 
-const xSize = 30;
-const ySize = 30;
+const xSize = 40;
+const ySize = 40;
 const tileWidth = 64;
 const tileHeight = 32;
 
@@ -20,7 +20,7 @@ const baseCost = 1;
 const scoutMoves = 6;
 const garrisonMoves = 0;
 const knightMoves = 2;
-const workerMoves = 1;
+const workerMoves = 2git ;
 const shipMoves = 6;
 
 const movesLeftLookup = {
