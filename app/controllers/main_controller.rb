@@ -43,11 +43,16 @@ class MainController < ApplicationController
   end
 
   def is_there_a_game
-    if Game.first.data.length > 0
-      render text: "true"
-    else
-      render text: "false"
-    end
+    player_one = Game.first.player_one
+    player_two = Game.first.player_two
+    game_exists = Game.first.data.length > 0
+
+    render json: {
+      player_one: player_one,
+      player_two: player_two,
+      game_exists: game_exists
+    }
+
   end
 
   def join_as(status, other_player_status) 
