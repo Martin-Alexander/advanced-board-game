@@ -50,7 +50,7 @@ function unitTypeMapper(square) {
     for (var i = 0; i < properOrder.length; i++) {
       for (var j = 0; j < square.units.length; j++) {
         for (var k = 0; k < square.units[j].transport.length; k++) {
-          if (square.units[j].transport[k].type == properOrder[i]) {
+          if (square.units[j].transport[k].type == properOrder[i] && !elementIsInArray(square.units[j].transport[k].type, output)) {
             output.push(square.units[j].transport[k].type);
             break
           }

@@ -202,7 +202,7 @@ function numberOfActiveUnits() {
 function hasAnEmptyShip() {
 
   for (var i = 0; i < this.units.length; i++) {
-    if (this.units[i].type == "ship" && !this.units[i].full()) {
+    if (this.units[i].type == "ship" && this.units[i].transport.length < 8) {
       return true;
     }
   }
@@ -212,7 +212,7 @@ function hasAnEmptyShip() {
 function returnAnEmptyShip() {
   if (!this.hasAnEmptyShip()) { return false; }
   for (var i = 0; i < this.units.length; i++) {
-    if (this.units[i].type == "ship") {
+    if (this.units[i].type == "ship" && !this.units[i].full()) {
       return this.units[i];
     }
   }
@@ -256,7 +256,6 @@ function removeFromTransport(type, movesLeft) {
     }
   }
 }
-
 
 Square.prototype.removeFromTransport = removeFromTransport;
 Square.prototype.allUnitsIncludingTransport = allUnitsIncludingTransport;

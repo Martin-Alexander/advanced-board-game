@@ -234,13 +234,17 @@ game.embark = function(fromSquare, toSquare, type, movesLeft) {
   ) {
 
   for (var i = 0; i < amount; i++) {
-    deleteUnit(fromSquare, type, amount, movesLeft);
-    var newUnit = new Unit;
-    newUnit.type = type;
-    newUnit.movesLeft = 0;
-    newUnit.player = toSquare.player;
-    var ship = toSquare.returnAnEmptyShip();
-    ship.embark(newUnit);
+    if (toSquare.hasAnEmptyShip()) {
+      console.log(toSquare.returnAnEmptyShip());
+      console.log("hey");
+      deleteUnit(fromSquare, type, 1, movesLeft);
+      var newUnit = new Unit;
+      newUnit.type = type;
+      newUnit.movesLeft = 0;
+      newUnit.player = toSquare.player;
+      var ship = toSquare.returnAnEmptyShip();
+      ship.embark(newUnit);
+    }
   }
 
     return true;

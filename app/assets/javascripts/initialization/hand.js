@@ -385,10 +385,10 @@ function Hand() {
     // } else {
       // var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
     // }
-    if (hand.selectedTile && (hand.selectedTile.structure == "base" || unitTypeMapper(hand.selectedTile).length > 1)) {
-      var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
-    } else if (hand.hoverTile) {
+    if (hand.hoverTile && game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y) && game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y).units.length > 0) {
       var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    } else if (hand.selectedTile) {
+      var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
     } else {
       return false;
     }
