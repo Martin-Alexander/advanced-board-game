@@ -1,6 +1,6 @@
 // Global variables
 
-var revealMap = true;
+var revealMap = false;
 
 const xSize = 40;
 const ySize = 40;
