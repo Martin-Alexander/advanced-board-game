@@ -340,12 +340,14 @@ function Hand() {
     //   var tileiconSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
     // }
 
-    if (hand.selectedTile.structure == "base") {
+    if (hand.selectedTile && hand.selectedTile.structure == "base") {
       var tileiconVisionSquare = currentPlayer.vision.square(hand.selectedTile.x, hand.selectedTile.y);
       var tileiconSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
-    } else {
+    } else if (hand.hoverTile) {
       var tileiconVisionSquare = currentPlayer.vision.square(hand.hoverTile.x, hand.hoverTile.y);
       var tileiconSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    } else {
+      return false;
     }
 
     canvasContext.save();
@@ -376,9 +378,9 @@ function Hand() {
     // } else {
       // var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
     // }
-    if (hand.selectedTile && hand.selectedTile.structure == "base") {
+    if (hand.selectedTile && (hand.selectedTile.structure == "base" || unitTypeMapper(hand.selectedTile).length > 1)) {
       var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
-    } else {
+    } else if (hand.hoverTile) {
       var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
     }
 
@@ -463,12 +465,13 @@ function Hand() {
   // unless it's a garrison
   function setUnitTypeSelect(square) {
 
+    var units = square.allUnitsIncludingTransport();
     var found = false;
     for (var i = 0; i < hand.inherentPriority.length; i++) {
-      for (var j = 0; j < square.units.length; j++) {
+      for (var j = 0; j < units.length; j++) {
         if (found) { break; }
-        if (square.units[j].type == hand.inherentPriority[i] && square.units[j].movesLeft > 0) {
-          hand.unitTypeSelect = square.units[j].type;
+        if (units[j].type == hand.inherentPriority[i] && units[j].movesLeft > 0) {
+          hand.unitTypeSelect = units[j].type;
           found = true;
           break
         }

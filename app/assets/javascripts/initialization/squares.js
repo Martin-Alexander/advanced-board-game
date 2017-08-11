@@ -173,7 +173,7 @@ function damage(damage) {
   });
 
   while (damageRemaining > 0) {
-    if (this.units.length > 0 && powerLookup[this.units[0].type] <= damageRemaining) {
+    if (this.units.length > 0 && powerLookup[this.units[0].type] <= damageRemaining && this.units[0].movesLeft > 0) {
       damageRemaining -= powerLookup[this.units[0].type];
       totalDamage += powerLookup[this.units[0].type];
       deleteUnitByType(this, this.units[0].type, 1);
@@ -215,6 +215,22 @@ function returnAnEmptyShip() {
   }
 }
 
+function allUnitsIncludingTransport() {
+  var output = [];
+  output.push(this.units);
+
+  for (var i = 0; i < this.units.length; i++) {
+    if (this.units[i].type == "ship") {
+      for (var j = 0; j < this.units[i].transport.length; j++) {
+        output.push(this.units[i].transport[j]);
+      }
+    }
+  }
+
+  return output;
+}
+
+Square.prototype.allUnitsIncludingTransport = allUnitsIncludingTransport;
 Square.prototype.returnAnEmptyShip = returnAnEmptyShip;
 Square.prototype.hasAnEmptyShip = hasAnEmptyShip;
 Square.prototype.neighbours = neighbours;

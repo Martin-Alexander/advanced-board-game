@@ -28,5 +28,14 @@ function full() {
   }
 }
 
+function hasTransport() {
+  if (this.transport && this.transport.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 Unit.prototype.embark = embark;
 Unit.prototype.full = full;
+Unit.prototype.hasTransport = hasTransport;
