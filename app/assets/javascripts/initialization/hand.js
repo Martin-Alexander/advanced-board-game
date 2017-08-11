@@ -58,6 +58,7 @@ function Hand() {
         if (this.trainTabOpenned == false) {
           var rowClickedOn = Math.floor((this.trueMousePosition.y - beginningOfUnitList) / 75);
           this.unitTypeSelect = unitTypeMapper(this.selectedTile)[rowClickedOn];
+          this.savedSquare = this.selectedTile;
           refreshInherentPriority();
           this.inherentPriority.splice(0, 0, this.unitTypeSelect);
           setMovesLeftSelect(this.selectedTile);
@@ -154,10 +155,15 @@ function Hand() {
 
       } else if (clickedTile && clickedTile.terrain == "grass" && this.selectedTile.terrain == "water" && this.unitTypeSelect != "ship") {
 
-        game.disembark(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect);
+        if (game.disembark(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect)) {
 
-        this.selectedTile = null;
-        this.unitTypeSelect = null;
+          this.selectedTile = clickedTile;
+          this.moveLeftSelect -= 1;
+        } else {
+          this.selectedTile = null;
+          this.unitTypeSelect = null; 
+        }
+
 
       } else {
         // Regular Move
