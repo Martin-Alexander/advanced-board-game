@@ -20,7 +20,7 @@ function Hand() {
   this.transportSelect = 0;
   this.moveLeftSelectPointer = 0;
 
-  this.inherentPriority = ["knight", "scout", "ship", "worker", "garrison"];
+  this.inherentPriority = ["ship", "knight", "scout", "worker", "garrison"];
   this.savedSquare = null;
 
   this.trainTab = false;
@@ -147,7 +147,14 @@ function Hand() {
       } else if (clickedTile && this.selectedTile.terrain == "grass" && clickedTile.terrain == "water" && this.unitTypeSelect != "ship") {
         // Embarking
 
-        game.embark(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect) 
+        game.embark(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect);
+
+        this.selectedTile = null;
+        this.unitTypeSelect = null;
+
+      } else if (clickedTile && clickedTile.terrain == "grass" && this.selectedTile.terrain == "water" && this.unitTypeSelect != "ship") {
+
+        game.disembark(this.selectedTile, clickedTile, this.unitTypeSelect, this.moveLeftSelect);
 
         this.selectedTile = null;
         this.unitTypeSelect = null;
@@ -382,6 +389,8 @@ function Hand() {
       var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
     } else if (hand.hoverTile) {
       var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    } else {
+      return false;
     }
 
     if (currentPlayer.vision.square(hoverSquare.x, hoverSquare.y).status != "visible") { return false; }
@@ -491,7 +500,7 @@ function Hand() {
   }
 
   function refreshInherentPriority() {
-    var truePriority = ["knight", "scout", "ship", "worker", "garrison"];
+    var truePriority = ["ship", "knight", "scout", "worker", "garrison"];
     hand.inherentPriority = [];
 
     for (var i = 0; i < truePriority.length; i++) {
