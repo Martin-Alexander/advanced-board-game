@@ -17,6 +17,7 @@ function Hand() {
 
   this.unitTypeSelect = null;
   this.moveLeftSelect = null;
+  this.transportSelect = 0;
   this.moveLeftSelectPointer = 0;
 
   this.inherentPriority = ["knight", "scout", "ship", "worker", "garrison"];
@@ -233,14 +234,14 @@ function Hand() {
         canvasContext.translate((fromSquare.x - fromSquare.y) * (tileWidth / 2 + 0), (fromSquare.x + fromSquare.y) * (tileHeight / 2));
         canvasContext.font = "18px sans-serif";
         canvasContext.fillStyle = 'red';
-        canvasContext.fillText("-" + fromDamage, -10, 0);   
+        canvasContext.fillText(0 - fromDamage, -10, 0);   
         canvasContext.restore();
 
         canvasContext.save();
         canvasContext.translate((toSquare.x - toSquare.y) * (tileWidth / 2 + 0), (toSquare.x + toSquare.y) * (tileHeight / 2));
         canvasContext.font = "18px sans-serif";
         canvasContext.fillStyle = 'red';
-        canvasContext.fillText("-" + toDamage, -10, 0);   
+        canvasContext.fillText(0 - toDamage, -10, 0);   
         canvasContext.restore();
 
         this.drawDamageCounter--;
@@ -331,7 +332,15 @@ function Hand() {
 
   function drawTileicon() {
 
-    if (hand.selectedTile) {
+    // if (hand.selectedTile) {
+    //   var tileiconVisionSquare = currentPlayer.vision.square(hand.selectedTile.x, hand.selectedTile.y);
+    //   var tileiconSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
+    // } else {
+    //   var tileiconVisionSquare = currentPlayer.vision.square(hand.hoverTile.x, hand.hoverTile.y);
+    //   var tileiconSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    // }
+
+    if (hand.selectedTile.structure == "base") {
       var tileiconVisionSquare = currentPlayer.vision.square(hand.selectedTile.x, hand.selectedTile.y);
       var tileiconSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
     } else {
@@ -362,11 +371,17 @@ function Hand() {
 
   // Does not assume that the hover square has any units
   function populateSideBarContainers() {
-    if (hand.selectedTile) {
+    // if (hand.selectedTile) {
+    //   var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
+    // } else {
+      // var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
+    // }
+    if (hand.selectedTile.structure == "base") {
       var hoverSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
     } else {
       var hoverSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
     }
+
     if (currentPlayer.vision.square(hoverSquare.x, hoverSquare.y).status != "visible") { return false; }
     var typesInThisSquare = unitTypeMapper(hoverSquare);
     canvasContext.save();
@@ -383,9 +398,12 @@ function Hand() {
       canvasContext.font = "18px serif";
       canvasContext.fillStyle = "black"
       canvasContext.fillText(capitalize(typesInThisSquare[i]), 80, 25 + i * 75);
-      canvasContext.font = "14px serif";
+      canvasContext.font = "16px serif";
       canvasContext.fillText("Total: " + hoverSquare.count(typesInThisSquare[i], 0), 80, 45 + i * 75);
-      canvasContext.fillText("Ready: " + hoverSquare.count(typesInThisSquare[i], 1), 80, 65 + i * 75);
+      if (hoverSquare.player == currentPlayer) {
+        canvasContext.font = "12px serif";
+        canvasContext.fillText("Ready: " + hoverSquare.count(typesInThisSquare[i], 1), 80, 65 + i * 75);
+      }
     }
     canvasContext.restore();
   }
