@@ -208,7 +208,7 @@ game.generateNewBoard = function() {
       waterCounter++;
     }
   }
-  if (waterCounter / this.globalBoard.data.length < 0.25) {
+  if (waterCounter / this.globalBoard.data.length < 0.20) {
     this.generateNewBoard();
   }
 }
@@ -517,7 +517,7 @@ game.train = function(type, location) {
 
 game.build = function(struction, location) {
   if (game.turnplayer() == currentPlayer  && location.player == currentPlayer && location.structure == null && location.count("worker", 1)) {
-    deleteUnit(location, "worker", 1, 1);
+    deleteUnit(location, "worker", 1, hand.moveLeftSelect);
     location.structure = struction
     if (struction == "farm") {
       currentPlayer.numberOfFarms++;
