@@ -514,7 +514,10 @@ game.sendToServer = function(over = false) {
       if (over) {
         $.ajax({
           method: "POST",
-          url: "/game_over"
+          url: "/game_over",
+          data: {
+            game: JSON.stringify(JSONifyGame())
+          }
         });  
       }
     }

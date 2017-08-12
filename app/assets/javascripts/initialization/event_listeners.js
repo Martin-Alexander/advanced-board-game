@@ -15,6 +15,12 @@ function initializeMouseListener() {
         hand.shiftDown = false; break;
       case 17:
         hand.ctrlDown = false; break;
+      case 27:
+        if (currentPlayer && currentPlayer.number == 1) {
+          game.winner(game.playerTwo);
+        } else if (currentPlayer && currentPlayer.number == 2) {
+          game.winner(game.playerOne);
+        }
     }
   });
 

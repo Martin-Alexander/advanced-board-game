@@ -46,6 +46,10 @@ class MainController < ApplicationController
   end
 
   def game_over
+    ActionCable.server.broadcast "game_channel", {
+      gameOver: true,
+      game: params[:game]
+    }
     Game.first.update(player_one: false)
     Game.first.update(player_two: false)
     Game.first.update(data: "")
