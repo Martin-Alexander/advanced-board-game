@@ -6,6 +6,7 @@ function newGame() {
 
   // Game gets a board
   game.globalBoard = new Board;
+  game.anEmptyBoard();
 
   // Set players
   game.playerOne = new Player;
@@ -25,7 +26,4 @@ function newGame() {
   game.playerTwo.numberOfBases = 1;  
   game.playerTwo.vision = new Board;
   game.playerTwo.blind();
-
-  // A randomly generated board
-  game.generateNewBoard();
 }

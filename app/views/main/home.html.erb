@@ -5,8 +5,47 @@
 <%= image_tag "texture_2.png", id: "texture-2-source" %>
 <%= image_tag "background.jpg", id: "background" %>
 
+
+<div id="join-game-prompt">
+  <h1></h1>
+  <h2></h2>
+  <h2></h2>
+  <h2>Observer</h2>
+</div>
+
 <style>
+  
+  body {
+    position: relative;
+  }
+
   img {
     display: none;
+  }
+
+  #join-game-prompt {
+    position: absolute;
+    top: 20vh;
+    left: calc(50vw - (200px));
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    height: 300px;
+    width: 400px;
+    background-color: white; 
+  }
+
+  #join-game-prompt > h2 {
+    margin-top: 15px;
+    cursor: pointer;
+  }
+
+  #join-game-prompt > h2:hover {
+    color: blue;
+  }
+
+  #join-game-prompt > h1 { 
+    margin-top: 20px;
+    margin-bottom: 30px;
   }
 </style>

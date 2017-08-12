@@ -211,6 +211,8 @@ game.generateNewBoard = function() {
   if (waterCounter / this.globalBoard.data.length < 0.20) {
     this.generateNewBoard();
   }
+
+  boardHasBeenGenerated = true;
 }
 
 game.embark = function(fromSquare, toSquare, type, movesLeft) {
@@ -409,6 +411,9 @@ game.winner = function(player) {
 }
 
 game.updateVision = function(player) {
+
+  if (!boardHasBeenGenerated) { return false; }
+
   for (var i = 0; i < xSize * ySize; i++) {
 
     var visionSquare = player.vision.data[i];
@@ -494,6 +499,9 @@ game.nextTurn = function() {
 }
 
 game.sendToServer = function() {
+
+  if (!boardHasBeenGenerated) { return false; }
+
   $.ajax({
     method: "POST",
     url: "/input",
@@ -530,6 +538,18 @@ game.build = function(struction, location) {
     return true;
   } else {
     return false;
+  }
+}
+
+game.anEmptyBoard = function() {
+
+  for (var y = 0; y < ySize; y++) {
+    for (var x = 0; x < xSize; x++) {
+      
+    var newSquare = new Square(x, y);
+
+    this.globalBoard.data.push(newSquare);
+    }
   }
 }
 

@@ -7,6 +7,8 @@ function clearCanvas() {
 
 function renderBoard() {
 
+  if (!boardHasBeenGenerated) { return false; }
+
   if (game.over || revealMap) {
   // if (true) {
     for (var i = 0; i < xSize * ySize; i++) {

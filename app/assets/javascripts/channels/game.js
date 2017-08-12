@@ -2,9 +2,9 @@ App.game = App.cable.subscriptions.create("GameChannel", {
   connected: function() {},
   disconnected: function() {},
   received: function(data) {
+    boardHasBeenGenerated = true;
     if (currentPlayer.number != data.playerNumber && !currentPlayer.isTurnPlayer) {
       if (data.token == "hi") {
-        console.log(data.fromSquare[0]);
         hand.drawDamage = {
           fromSquare: game.globalBoard.square(parseInt(data.fromSquare[0]), parseInt(data.fromSquare[1])),
           toSquare: game.globalBoard.square(parseInt(data.toSquare[0]), parseInt(data.toSquare[1])),
