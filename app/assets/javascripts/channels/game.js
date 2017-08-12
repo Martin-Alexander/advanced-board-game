@@ -19,7 +19,7 @@ App.game = App.cable.subscriptions.create("GameChannel", {
       } else {
         updateGameFromJSON(JSON.parse(data.game));
       }
-    if (currentPlayer.isTurnPlayer) { document.title = "Your Turn!"; }
+    if (currentPlayer.isTurnPlayer) { document.title = "!!! YOUR TURN !!! 8===> ~~~~ ;) ;) hello pls show boob and vagene"; }
     }
   }
 });
