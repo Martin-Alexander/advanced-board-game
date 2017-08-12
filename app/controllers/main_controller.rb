@@ -3,7 +3,7 @@ class MainController < ApplicationController
   end
 
   def input
-    Game.first.data = params[:game]
+    Game.first.update(data: params[:game])
     Game.create(data: params[:game])
     ActionCable.server.broadcast "game_channel", {
       playerNumber: params[:playerNumber],
@@ -48,7 +48,7 @@ class MainController < ApplicationController
   def game_over
     Game.first.update(player_one: false)
     Game.first.update(player_two: false)
-    Game.first.data = ""
+    Game.first.update(data: "")
   end
 
   def is_there_a_game

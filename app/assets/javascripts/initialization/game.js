@@ -405,8 +405,7 @@ game.pillage = function(fromSquare, toSquare) {
 }
 
 game.winner = function(player) {
-  this.over = true;
-  this.sendToServer();
+  this.sendToServer(true);
   alert("Player " + player.number + "wins!");
 }
 
@@ -498,9 +497,11 @@ game.nextTurn = function() {
   this.sendToServer();
 }
 
-game.sendToServer = function() {
+game.sendToServer = function(over = false) {
 
-  if (!boardHasBeenGenerated) { return false; }
+  if (!boardHasBeenGenerated || this.over) { return false; }
+
+  if (over) { this.over = true; }
 
   $.ajax({
     method: "POST",
@@ -508,6 +509,14 @@ game.sendToServer = function() {
     data: {
       game: JSON.stringify(JSONifyGame()),
       playerNumber: currentPlayer.number
+    },
+    success: function() {
+      if (over) {
+        $.ajax({
+          method: "POST",
+          url: "/game_over"
+        });  
+      }
     }
   });
 

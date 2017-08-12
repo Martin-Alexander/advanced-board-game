@@ -2,8 +2,8 @@ App.game = App.cable.subscriptions.create("GameChannel", {
   connected: function() {},
   disconnected: function() {},
   received: function(data) {
-    boardHasBeenGenerated = true;
-    if (currentPlayer.number != data.playerNumber && !currentPlayer.isTurnPlayer) {
+    if ((currentPlayer.number != data.playerNumber && !currentPlayer.isTurnPlayer) || !boardHasBeenGenerated) {
+      boardHasBeenGenerated = true;
       if (data.token == "hi") {
         hand.drawDamage = {
           fromSquare: game.globalBoard.square(parseInt(data.fromSquare[0]), parseInt(data.fromSquare[1])),
@@ -14,6 +14,7 @@ App.game = App.cable.subscriptions.create("GameChannel", {
       } else {
         updateGameFromJSON(JSON.parse(data.game));
       }
+    if (currentPlayer.isTurnPlayer) { document.title = "Your Turn!"; }
     }
   }
 });
