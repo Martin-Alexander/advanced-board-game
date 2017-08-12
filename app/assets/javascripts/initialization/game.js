@@ -378,7 +378,12 @@ game.fight = function(fromSquare, toSquare) {
 }
 
 game.pillage = function(fromSquare, toSquare) {
-  if (fromSquare.attackPower() > 0) {
+  if (fromSquare.attackPower() > 0 &&
+    ((fromSquare.terrain == "grass" && toSquare.terrain == "grass") ||
+    (fromSquare.terrain == "water" && toSquare.terrain == "water") ||
+    (fromSquare.terrain == "water" && toSquare.terrain == "grass")) &&
+    areAdjacent(fromSquare, toSquare)
+  ) {
 
     fromSquare.inactivateAll();
     if (toSquare.structure == "base") {
