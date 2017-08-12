@@ -328,16 +328,15 @@ game.move = function(fromSquare, toSquare, type, movesLeft) {
 
 game.fight = function(fromSquare, toSquare) {
 
-  if (fromSquare.attackPower() > 0) {
+  if (
+    fromSquare.attackPower() > 0 &&
+    ((fromSquare.terrain == "grass" && toSquare.terrain == "grass") ||
+    (fromSquare.terrain == "water" && toSquare.terrain == "water") ||
+    (fromSquare.terrain == "water" && toSquare.terrain == "grass")) &&
+    areAdjacent(fromSquare, toSquare)
+    ) {
     var toSquarePower = toSquare.power();
     var fromSquarePower = fromSquare.attackPower();
-
-    console.log(toSquarePower);
-    console.log(fromSquarePower);
-
-    console.log(Math.ceil(toSquarePower / 2));
-    console.log(Math.ceil(fromSquarePower / 2));
-
     var fromSquareDamage = fromSquare.damage(Math.ceil(toSquarePower / 2), true);
     var toSquareDamage = toSquare.damage(Math.ceil(fromSquarePower / 2), false);
 
