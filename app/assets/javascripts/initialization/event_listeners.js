@@ -72,7 +72,7 @@ function initializeMouseListener() {
   });
 
   canvas.addEventListener("mousemove", function(event) {
-
+    document.title = "Muh Game";
     setMouseInput();
   });
 
