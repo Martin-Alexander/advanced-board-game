@@ -27,18 +27,26 @@ class MainController < ApplicationController
     player_one = Game.first.player_one
     player_two = Game.first.player_two
 
-    if role == "observer"
-      join_as("observer")
-    elsif role == "playerOne"
-      player_one ? join_as("playerOne", player_one) : join_as("observer", player_one)
-    elsif role == "playerTwo"
-      player_two ? join_as("playerTwo", player_two) : join_as("observer", player_two)
+    if role == "playerOne" && !player_one
+
+      Game.first.update(player_one: true)
+      join_as("playerOne", player_two);
+      
+    elsif role == "playerTwo" && !player_two
+
+      Game.first.update(player_two: true)
+      join_as("playerTwo", player_one);
+
+    else 
+
+      join_as("observer", player_one && player_two) 
+
     end
   end
 
   def game_over
-    Game.first.player_one = false
-    Game.first.player_two = false
+    Game.first.update(player_one: false)
+    Game.first.update(player_two: false)
     Game.first.data = ""
   end
 
@@ -55,10 +63,10 @@ class MainController < ApplicationController
 
   end
 
-  def join_as(status, other_player_status) 
-    ActionCable.server.broadcast "game_channel", {
-      joinAs: status,
-      otherPlayer: other_player_status
+  def join_as(role, other_player_ready) 
+    render json: {
+      role: role,
+      otherPlayerReady: other_player_ready
     }
   end
 end
