@@ -5,6 +5,7 @@ function Square(x, y) {
   this.structure; // null, "farm", "base"
   this.player;    // A player object or null
   this.units = [];
+  this.unitsProduced = 0;
 }
 
 function VisionSquare(x, y) {
@@ -180,7 +181,7 @@ function properPower() {
 // Applies a given amount of damage to a square
 function damage(damage, attack) {
   var damageRemaining = damage;
-  var totalDamage = 0;
+  var totalKills = 0;
 
   this.units.sort(function(a, b) {
     return powerLookup[b.type] - powerLookup[a.type];
@@ -190,7 +191,7 @@ function damage(damage, attack) {
     while (damageRemaining > 0) {
       if (this.units.length > 0 && powerLookup[this.units[0].type] <= damageRemaining && this.units[0].movesLeft > 0) {
         damageRemaining -= powerLookup[this.units[0].type];
-        totalDamage += powerLookup[this.units[0].type];
+        totalKills++;
         deleteUnitByType(this, this.units[0].type, 1);
         if (this.units.length == 0) { break; }
       } else {
@@ -201,7 +202,7 @@ function damage(damage, attack) {
     while (damageRemaining > 0) {
       if (this.units.length > 0 && powerLookup[this.units[0].type] <= damageRemaining) {
         damageRemaining -= powerLookup[this.units[0].type];
-        totalDamage += powerLookup[this.units[0].type];
+        totalKills++;
         deleteUnitByType(this, this.units[0].type, 1);
         if (this.units.length == 0) { break; }
       } else {
@@ -210,7 +211,7 @@ function damage(damage, attack) {
     }    
   }
 
-  return totalDamage;
+  return totalKills;
 }
 
 function numberOfActiveUnits() {

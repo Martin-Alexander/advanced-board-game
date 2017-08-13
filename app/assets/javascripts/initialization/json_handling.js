@@ -245,7 +245,6 @@ updateGlobalBoardFromJSON = function(data, globalBoard) {
     square.terrain = terrainDecode[squareJSON.t];
     square.structure = structureDecode[squareJSON.s];
     square.player = player;
-    square.unitsProduced = 0;
     updateUnitsFromJSON(square, squareJSON.u);
   }
 }

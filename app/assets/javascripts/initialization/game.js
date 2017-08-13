@@ -487,7 +487,7 @@ game.nextTurn = function() {
     for (var j = 0; j < game.globalBoard.data[i].allUnitsIncludingTransport().length; j++) {
       game.globalBoard.data[i].allUnitsIncludingTransport()[j].movesLeft = movesLeftLookup[game.globalBoard.data[i].allUnitsIncludingTransport()[j].type];
     }
-    game.globalBoard.data[i] = 0;
+    game.globalBoard.data[i].unitsProduced = 0;
   }
 
   hand.selectedTile = null;
