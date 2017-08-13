@@ -23,7 +23,9 @@ const knightMoves = 2;
 const workerMoves = 2;
 const shipMoves = 6;
 
-const damageDistribution = [0.25, 0.5, 0.75, 1, 1, 1.5, 2, 2.5];
+const startingGold = 24;
+
+const damageDistribution = [0.5, 0.75, 1, 1, 1, 1, 1.5, 2];
 const productionPerTurn = 8;
 
 var serverLoopRate = 1000;
@@ -60,6 +62,6 @@ const unitCostLookup = {
 }
 
 const pillageLootLookup = {
-  base: 16,
-  farm: 4
+  base: 10,
+  farm: 2
 }

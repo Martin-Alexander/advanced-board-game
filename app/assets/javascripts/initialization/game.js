@@ -320,7 +320,8 @@ game.move = function(fromSquare, toSquare, type, movesLeft) {
       fromSquare.player = null;
     }
 
-    // this.sendToServer();
+    hand.shiftDown = false;
+    hand.ctrlDown = false;
     return true;
   } else {
     return false;
@@ -334,7 +335,9 @@ game.fight = function(fromSquare, toSquare) {
     fromSquare.player.isTurnPlayer &&
     ((fromSquare.terrain == "grass" && toSquare.terrain == "grass") ||
     (fromSquare.terrain == "water" && toSquare.terrain == "water") ||
-    (fromSquare.terrain == "water" && toSquare.terrain == "grass")) &&
+    (fromSquare.terrain == "water" && toSquare.terrain == "grass") ||
+    (fromSquare.terrain == "grass" && fromSquare.structure == "base" && toSquare.terrain == "water")
+    ) &&
     areAdjacent(fromSquare, toSquare)
     ) {
     var toSquarePower = toSquare.power();
@@ -533,6 +536,9 @@ game.train = function(type, location) {
     location.addUnit(type, currentPlayer);
     location.unitsProduced++;
 
+
+    hand.shiftDown = false;
+    hand.ctrlDown = false;
     return true;
   } else {
     return false;
