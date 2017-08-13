@@ -525,7 +525,7 @@ game.sendToServer = function(over = false) {
 
 game.train = function(type, location) {
   if (currentPlayer.gold >= unitCostLookup[type] &&
-    (location.unitsProduced == undefined || location.unitsProduced < 8)) {
+    (location.unitsProduced == undefined || location.unitsProduced < productionPerTurn)) {
     currentPlayer.gold -= unitCostLookup[type];
 
     location.addUnit(type, currentPlayer);
