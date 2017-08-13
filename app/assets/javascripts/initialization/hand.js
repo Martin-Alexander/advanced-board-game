@@ -245,30 +245,26 @@ function Hand() {
 
         canvasContext.save();
         canvasContext.translate((fromSquare.x - fromSquare.y) * (tileWidth / 2 + 0), (fromSquare.x + fromSquare.y) * (tileHeight / 2));
-        canvasContext.font="18px verdana";
-        canvasContext.shadowColor="black";
-        canvasContext.shadowBlur=5;
-        canvasContext.lineWidth=5;
+        canvasContext.font = "18px verdana";
+        canvasContext.shadowColor = "black";
+        canvasContext.shadowBlur = 5;
+        canvasContext.lineWidth = 5;
         canvasContext.fillText(0 - fromDamage, -10, this.drawDamageCounter - 40); 
-        canvasContext.shadowBlur=0;
-        canvasContext.fillStyle="red";
-        canvasContext.fillText(0 - fromDamage, -10, this.drawDamageCounter - 40);   
-        canvasContext.font = "18px sans-serif";
-        canvasContext.fillStyle = 'red';         
+        canvasContext.shadowBlur = 0;
+        canvasContext.fillStyle = "red";
+        canvasContext.fillText(0 - fromDamage, -10, this.drawDamageCounter - 40);        
         canvasContext.restore();
 
         canvasContext.save();
         canvasContext.translate((toSquare.x - toSquare.y) * (tileWidth / 2 + 0), (toSquare.x + toSquare.y) * (tileHeight / 2));
-        canvasContext.font="18px verdana";
-        canvasContext.shadowColor="black";
-        canvasContext.shadowBlur=5;
-        canvasContext.lineWidth=5;
+        canvasContext.font = "18px verdana";
+        canvasContext.shadowColor = "black";
+        canvasContext.shadowBlur = 5;
+        canvasContext.lineWidth = 5;
         canvasContext.fillText(0 - toDamage, -10, this.drawDamageCounter - 40); 
-        canvasContext.shadowBlur=0;
-        canvasContext.fillStyle="red";
+        canvasContext.shadowBlur = 0;
+        canvasContext.fillStyle = "red";
         canvasContext.fillText(0 - toDamage, -10, this.drawDamageCounter - 40);   
-        canvasContext.font = "18px sans-serif";
-        canvasContext.fillStyle = 'red';
         canvasContext.restore();
 
         this.drawDamageCounter--;
