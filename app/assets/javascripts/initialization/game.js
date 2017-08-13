@@ -76,7 +76,8 @@ game.generateNewBoard = function() {
       var newSquare = new Square(x, y);
       newSquare.player = null;
       newSquare.structure = null;
-      newSquare.terrain = "grass"
+      newSquare.terrain = "grass";
+      newSquare.unitsProduced = 0;
 
       this.globalBoard.data.push(newSquare);
     }
@@ -486,6 +487,7 @@ game.nextTurn = function() {
     for (var j = 0; j < game.globalBoard.data[i].allUnitsIncludingTransport().length; j++) {
       game.globalBoard.data[i].allUnitsIncludingTransport()[j].movesLeft = movesLeftLookup[game.globalBoard.data[i].allUnitsIncludingTransport()[j].type];
     }
+    game.globalBoard.data[i] = 0;
   }
 
   hand.selectedTile = null;
@@ -524,16 +526,15 @@ game.sendToServer = function(over = false) {
 }
 
 game.train = function(type, location) {
-  if (currentPlayer.gold >= unitCostLookup[type] &&
-    (location.unitsProduced == undefined || location.unitsProduced < productionPerTurn)) {
+  if (
+    currentPlayer.gold >= unitCostLookup[type] &&
+    location.unitsProduced < productionPerTurn
+    ) {
     currentPlayer.gold -= unitCostLookup[type];
 
     location.addUnit(type, currentPlayer);
-    if (location.unitsProduced) {
-      location.unitsProduced++;
-    } else {
-      location.unitsProduced = 1;
-    }
+    location.unitsProduced++;
+
     // this.sendToServer();
     return true;
   } else {

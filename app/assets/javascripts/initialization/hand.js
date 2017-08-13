@@ -345,14 +345,6 @@ function Hand() {
 
   function drawTileicon() {
 
-    // if (hand.selectedTile) {
-    //   var tileiconVisionSquare = currentPlayer.vision.square(hand.selectedTile.x, hand.selectedTile.y);
-    //   var tileiconSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
-    // } else {
-    //   var tileiconVisionSquare = currentPlayer.vision.square(hand.hoverTile.x, hand.hoverTile.y);
-    //   var tileiconSquare = game.globalBoard.square(hand.hoverTile.x, hand.hoverTile.y);
-    // }
-
     if (hand.selectedTile && hand.selectedTile.structure == "base") {
       var tileiconVisionSquare = currentPlayer.vision.square(hand.selectedTile.x, hand.selectedTile.y);
       var tileiconSquare = game.globalBoard.square(hand.selectedTile.x, hand.selectedTile.y);
@@ -379,6 +371,36 @@ function Hand() {
       var toDraw = findImagesSources(tileiconSquare, foggy);
       for (var i = 0; i < toDraw.length; i++) {
         drawSource(toDraw[i], 0, 0);
+      }
+    }
+    canvasContext.restore();
+
+    canvasContext.save()
+    canvasContext.translate(canvasWidth / 2 - hand.offset.x - rightBoxWidth, 0 - hand.offset.y);
+    canvasContext.font = "17px serif";
+    canvasContext.fillStyle = "black";
+    if (tileiconVisionSquare.status == "black") {
+      canvasContext.fillText("Unexplored", 20, 35);
+      canvasContext.fillText("x: " + tileiconSquare.x + ", y: " + tileiconSquare.y, 20, 55);
+    } else if (tileiconVisionSquare.status == "fog") {
+      if (tileiconVisionSquare.structure) {
+        canvasContext.fillText(capitalize(tileiconVisionSquare.structure), 20, 35);
+      } else {
+        canvasContext.fillText(capitalize(tileiconVisionSquare.terrain), 20, 35);
+      }
+      canvasContext.fillText("x: " + tileiconSquare.x + ", y: " + tileiconSquare.y, 20, 55);
+    } else if (tileiconVisionSquare.status == "visible") {
+      if (tileiconSquare.structure) {
+        canvasContext.fillText(capitalize(tileiconSquare.structure), 20, 35);
+      } else {
+        canvasContext.fillText(capitalize(tileiconSquare.terrain), 20, 35);
+      }
+      canvasContext.fillText("x: " + tileiconSquare.x + ", y: " + tileiconSquare.y, 20, 55);
+      if (tileiconSquare.structure == "base") {
+        canvasContext.fillText("Production: " + (8 - tileiconSquare.unitsProduced), 20, 95);
+      }
+      if (tileiconSquare.units.length > 0) {
+        canvasContext.fillText("Strength: " + tileiconSquare.properPower(), 20, 75);
       }
     }
     canvasContext.restore();
