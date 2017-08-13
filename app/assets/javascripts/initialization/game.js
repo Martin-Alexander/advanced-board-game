@@ -524,10 +524,16 @@ game.sendToServer = function(over = false) {
 }
 
 game.train = function(type, location) {
-  if (currentPlayer.gold >= unitCostLookup[type]) {
+  if (currentPlayer.gold >= unitCostLookup[type] &&
+    (location.unitsProduced == undefined || location.unitsProduced < 8)) {
     currentPlayer.gold -= unitCostLookup[type];
 
     location.addUnit(type, currentPlayer);
+    if (location.unitsProduced) {
+      location.unitsProduced++;
+    } else {
+      location.unitsProduced = 1;
+    }
     // this.sendToServer();
     return true;
   } else {
