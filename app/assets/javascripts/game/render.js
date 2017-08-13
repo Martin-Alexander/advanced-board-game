@@ -33,7 +33,7 @@ function renderBoard() {
 }
 
 function renderingLoop() {
-  window.setInterval(function() {
+  serverLoopId = window.setInterval(function() {
     clearCanvas();
     game.updateVision(currentPlayer);
     fillBackground();
