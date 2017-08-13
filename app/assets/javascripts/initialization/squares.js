@@ -166,6 +166,17 @@ function power() {
   return counter;  
 }
 
+// Power determining method without random element
+function properPower() {
+
+  var counter = 0;
+  for (var i = 0; i < this.units.length; i++) {
+    counter += powerLookup[this.units[i].type];
+  }
+
+  return counter;  
+}
+
 // Applies a given amount of damage to a square
 function damage(damage, attack) {
   var damageRemaining = damage;

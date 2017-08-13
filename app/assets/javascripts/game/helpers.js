@@ -137,15 +137,15 @@ function elementIsInArray(element, array) {
 // Returns the power range of square for use in shield rendering
 function findPowerRange(square) {
 
-  if (square.power() > 500) {
+  if (square.properPower() > 500) {
     return 6;
-  } else if (square.power() > 256) {
+  } else if (square.properPower() > 256) {
     return 5;
-  } else if (square.power() > 64) {
+  } else if (square.properPower() > 64) {
     return 4;
-  } else if (square.power() > 16) {
+  } else if (square.properPower() > 16) {
     return 3;
-  } else if (square.power() > 4) {
+  } else if (square.properPower() > 4) {
     return 2;
   } else {
     if (square.units.length > 1) {
