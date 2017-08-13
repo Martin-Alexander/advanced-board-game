@@ -33,7 +33,7 @@ function renderBoard() {
 }
 
 function renderingLoop() {
-  serverLoopId = window.setInterval(function() {
+  window.setInterval(function() {
     clearCanvas();
     game.updateVision(currentPlayer);
     fillBackground();
@@ -43,7 +43,7 @@ function renderingLoop() {
 }
 
 function serverLoop() {
-  window.setInterval(function() {
+  serverLoopId = window.setInterval(function() {
     if (currentPlayer.isTurnPlayer) {
       game.sendToServer();
     }
