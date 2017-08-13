@@ -26,6 +26,8 @@ const shipMoves = 6;
 const damageDistribution = [0.25, 0.5, 0.75, 1, 1, 1.5, 2, 2.5];
 const productionPerTurn = 8;
 
+var serverLoopRate = 1000;
+
 const movesLeftLookup = {
   scout: scoutMoves,
   knight: knightMoves,

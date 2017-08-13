@@ -47,7 +47,7 @@ function serverLoop() {
     if (currentPlayer.isTurnPlayer) {
       game.sendToServer();
     }
-  }, 1000);
+  }, serverLoopRate);
 }
 
 var drawFromSourceLookup = {
