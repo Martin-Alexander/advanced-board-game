@@ -330,6 +330,7 @@ game.fight = function(fromSquare, toSquare) {
 
   if (
     fromSquare.attackPower() > 0 &&
+    fromSquare.player.isTurnPlayer &&
     ((fromSquare.terrain == "grass" && toSquare.terrain == "grass") ||
     (fromSquare.terrain == "water" && toSquare.terrain == "water") ||
     (fromSquare.terrain == "water" && toSquare.terrain == "grass")) &&

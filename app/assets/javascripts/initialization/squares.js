@@ -149,7 +149,7 @@ function attackPower() {
   var counter = 0;
   for (var i = 0; i < this.units.length; i++) {
     if (this.units[i].movesLeft > 0) {
-      counter += powerLookup[this.units[i].type];
+      counter += powerLookup[this.units[i].type] * randomSample(damageDistribution);
     }
   }
 
@@ -160,7 +160,7 @@ function power() {
 
   var counter = 0;
   for (var i = 0; i < this.units.length; i++) {
-    counter += powerLookup[this.units[i].type];
+    counter += powerLookup[this.units[i].type] * randomSample(damageDistribution);
   }
 
   return counter;  
@@ -168,7 +168,7 @@ function power() {
 
 // Applies a given amount of damage to a square
 function damage(damage, attack) {
-  var damageRemaining = damage * randomSample(damageDistribution);
+  var damageRemaining = damage;
   var totalDamage = 0;
 
   this.units.sort(function(a, b) {
