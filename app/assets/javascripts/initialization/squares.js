@@ -281,6 +281,7 @@ function removeFromTransport(type, movesLeft) {
   }
 }
 
+Square.prototype.properPower = properPower;
 Square.prototype.removeFromTransport = removeFromTransport;
 Square.prototype.allUnitsIncludingTransport = allUnitsIncludingTransport;
 Square.prototype.returnAnEmptyShip = returnAnEmptyShip;
