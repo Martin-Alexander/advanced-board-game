@@ -168,7 +168,7 @@ function power() {
 
 // Applies a given amount of damage to a square
 function damage(damage, attack) {
-  var damageRemaining = damage;
+  var damageRemaining = damage * randomSample(damageDistribution);
   var totalDamage = 0;
 
   this.units.sort(function(a, b) {

@@ -23,6 +23,8 @@ const knightMoves = 2;
 const workerMoves = 2;
 const shipMoves = 6;
 
+const damageDistribution = [0.5, 0.75, 0.75, 1, 1, 1, 1, 1.5, 1.5, 2]
+
 const movesLeftLookup = {
   scout: scoutMoves,
   knight: knightMoves,
