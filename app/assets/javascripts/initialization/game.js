@@ -395,8 +395,6 @@ game.pillage = function(fromSquare, toSquare) {
     if (fromSquare.units.length == 0 && fromSquare.structure == null) { fromSquare.player = null; }
     if (toSquare.units.length == 0 && toSquare.structure == null) { toSquare.player = null; }
 
-    // this.sendToServer();
-
     return true;
   } else {
     return false;
@@ -520,9 +518,6 @@ game.sendToServer = function(over = false) {
           }
         });  
       }
-      if (currentPlayer.isTurnPlayer) {
-        sendToServer();
-      }
     }
   });
 
@@ -538,7 +533,6 @@ game.train = function(type, location) {
     location.addUnit(type, currentPlayer);
     location.unitsProduced++;
 
-    // this.sendToServer();
     return true;
   } else {
     return false;
@@ -554,7 +548,6 @@ game.build = function(struction, location) {
     } else if (struction == "base") {
       currentPlayer.numberOfBases++;
     }
-    // this.sendToServer();
     return true;
   } else {
     return false;

@@ -43,11 +43,11 @@ function renderingLoop() {
 }
 
 function serverLoop() {
-  // window.setInterval(function() {
+  window.setInterval(function() {
     if (currentPlayer.isTurnPlayer) {
       game.sendToServer();
     }
-  // }, 1000);
+  }, 1000);
 }
 
 var drawFromSourceLookup = {
