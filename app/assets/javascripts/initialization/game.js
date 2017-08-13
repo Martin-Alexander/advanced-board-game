@@ -520,6 +520,9 @@ game.sendToServer = function(over = false) {
           }
         });  
       }
+      if (currentPlayer.isTurnPlayer) {
+        this.sendToServer();
+      }
     }
   });
 
