@@ -35,20 +35,20 @@ $(document).ready(function() {
 });
 
 $(window).on("blur focus", function(e) {
-    var prevType = $(this).data("prevType");
+  var prevType = $(this).data("prevType");
 
-    if (prevType != e.type) {   //  reduce double fire issues
-        switch (e.type) {
-            // case "blur":
-            //     document.title = "YOUR TURN!!!";
-            //     break;
-            case "focus":
-                document.title = "Muh Game";
-                break;
-        }
+  if (prevType != e.type) {   //  reduce double fire issues
+    switch (e.type) {
+      // case "blur":
+      //     document.title = "YOUR TURN!!!";
+      //     break;
+      case "focus":
+        document.title = "Muh Game";
+        break;
     }
+  }
 
-    $(this).data("prevType", e.type);
+  $(this).data("prevType", e.type);
 })
 
 

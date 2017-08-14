@@ -236,19 +236,21 @@ game.embark = function(fromSquare, toSquare, type, movesLeft) {
     areAdjacent(fromSquare, toSquare)
   ) {
 
-  for (var i = 0; i < amount; i++) {
-    if (toSquare.hasAnEmptyShip()) {
-      console.log(toSquare.returnAnEmptyShip());
-      console.log("hey");
-      deleteUnit(fromSquare, type, 1, movesLeft);
-      var newUnit = new Unit;
-      newUnit.type = type;
-      newUnit.movesLeft = 0;
-      newUnit.player = toSquare.player;
-      var ship = toSquare.returnAnEmptyShip();
-      ship.embark(newUnit);
+    for (var i = 0; i < amount; i++) {
+      if (toSquare.hasAnEmptyShip()) {
+        console.log(toSquare.returnAnEmptyShip());
+        console.log("hey");
+        deleteUnit(fromSquare, type, 1, movesLeft);
+        var newUnit = new Unit;
+        newUnit.type = type;
+        newUnit.movesLeft = 0;
+        newUnit.player = toSquare.player;
+        var ship = toSquare.returnAnEmptyShip();
+        ship.embark(newUnit);
+      }
     }
-  }
+
+    if (fromSquare.units.length == 0 && fromSquare.structure == null) { fromSquare.player = null; }
 
     return true;
   } else {
