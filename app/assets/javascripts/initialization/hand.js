@@ -479,16 +479,16 @@ function Hand() {
         canvasContext.fillText("Player Two's Turn", 20, 40);
       }
     } else {
-      canvasContext.font = "12px serif";
+      canvasContext.font = "14px serif";
       canvasContext.fillText("Waiting for other players...", 20, 40);
       canvasContext.font = "18px serif";
     }
     canvasContext.fillText("Turn: " + game.turnNumber, leftBoxWidth - 110, 40)
     if (currentPlayer == game.observer) {
       canvasContext.fillText("P1 Income: " + (Math.floor(game.playerOne.numberOfFarms / farmIncome) - game.playerOne.numberOfBases), 20, 100);
-      canvasContext.fillText("P2 Income: " + (Math.floor(game.playerTwo.numberOfFarms / farmIncome) - game.playerTwo.numberOfBases), leftBoxWidth - 110, 100);
+      canvasContext.fillText("P2 Income: " + (Math.floor(game.playerTwo.numberOfFarms / farmIncome) - game.playerTwo.numberOfBases), leftBoxWidth - 120, 100);
       canvasContext.fillText("P1 Gold: " + game.playerOne.gold, 20, 150);
-      canvasContext.fillText("P2 Gold: " + game.playerTwo.gold, leftBoxWidth - 110, 150);      
+      canvasContext.fillText("P2 Gold: " + game.playerTwo.gold, leftBoxWidth - 120, 150);      
     } else {
       canvasContext.fillText("Income: " + (Math.floor(currentPlayer.numberOfFarms / farmIncome) - currentPlayer.numberOfBases), 20, 100);
       canvasContext.fillText("Gold: " + currentPlayer.gold, leftBoxWidth - 110, 100);
