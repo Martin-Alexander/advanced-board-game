@@ -35,7 +35,7 @@ function renderBoard() {
 function renderingLoop() {
   window.setInterval(function() {
     clearCanvas();
-    game.updateVision(currentPlayer);
+    if (currentPlayer != game.observer) { game.updateVision(currentPlayer); }
     fillBackground();
     renderBoard();
     hand.render();

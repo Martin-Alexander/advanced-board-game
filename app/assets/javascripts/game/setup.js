@@ -27,13 +27,6 @@ $(document).ready(function() {
   game.generateNewBoard();
   startGamePrompt();
 
-  // Each player has a browser, and this variables deterines which player that is
-
-  // renderingLoop();
-
-  // serverLoop();
-
-  // startGamePrompt();
 });
 
 $(window).on("blur focus", function(e) {
@@ -79,6 +72,7 @@ function startGamePrompt() {
         $("#join-game-prompt h2:nth-child(3)").text("Player Two");
         $("#join-game-prompt h2:nth-child(3)").on("click", function() { join("playerTwo"); });
       }
+      $("#join-game-prompt h2:nth-child(4)").on("click", function() { join("observer"); });
     }
   });
 }
@@ -104,7 +98,7 @@ function startGameAs(role) {
   $("#join-game-prompt").css({ display: "none" });
 
   if (role == "observer") {
-    currentPlayer = "observer";
+    currentPlayer = game.observer;
   } else if (role == "playerOne") {
     currentPlayer = game.playerOne;
   } else if (role == "playerTwo") {

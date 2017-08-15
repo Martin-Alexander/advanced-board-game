@@ -3,6 +3,7 @@ var game = {
   turnNumber: 0,
   playerOne: undefined,
   playerTwo: undefined,
+  observer: undefined,
   turnplayer: function() {
     if (this.playerOne.isTurnPlayer) {
       return this.playerOne;

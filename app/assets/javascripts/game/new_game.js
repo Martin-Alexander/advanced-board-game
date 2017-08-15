@@ -26,4 +26,13 @@ function newGame() {
   game.playerTwo.numberOfBases = 1;  
   game.playerTwo.vision = new Board;
   game.playerTwo.blind();
+
+  game.observer = new Player;
+  game.observer.number = 3;
+  game.observer.isTurnPlayer = false;
+  game.observer.gold = 0;
+  game.observer.numberOfFarms = 0;
+  game.observer.numberOfBases = 0;  
+  game.observer.vision = new Board;
+  game.observer.observerVision();
 }
