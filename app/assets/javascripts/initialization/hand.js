@@ -472,24 +472,29 @@ function Hand() {
     canvasContext.fillStyle = "black"
     if (currentPlayer.isTurnPlayer) {
       canvasContext.fillText("Your Turn!", 20, 40);
+    } else if (currentPlayer == game.observer) {
+      if (game.playerOne.isTurnPlayer) {
+        canvasContext.fillText("Player One's Turn", 20, 40);
+      } else {
+        canvasContext.fillText("Player Two's Turn", 20, 40);
+      }
     } else {
+      canvasContext.font = "12px serif";
       canvasContext.fillText("Waiting for other players...", 20, 40);
+      canvasContext.font = "18px serif";
     }
-
-    // The game turn
     canvasContext.fillText("Turn: " + game.turnNumber, leftBoxWidth - 110, 40)
-
-    // How much gold you have
-    canvasContext.fillText("Gold: " + currentPlayer.gold, 20, 100);
-
-    // How much gold you make per turn
-    canvasContext.fillText("Income: " + (Math.floor(currentPlayer.numberOfFarms / farmIncome) - currentPlayer.numberOfBases), leftBoxWidth - 110, 100);
-
-    // Number of farms
-    canvasContext.fillText("Farms: " + currentPlayer.numberOfFarms, 20, 150);
-
-    // Number of bases
-    canvasContext.fillText("Bases: " + currentPlayer.numberOfBases, leftBoxWidth - 110, 150);
+    if (currentPlayer == game.observer) {
+      canvasContext.fillText("P1 Income: " + (Math.floor(game.playerOne.numberOfFarms / farmIncome) - game.playerOne.numberOfBases), 20, 100);
+      canvasContext.fillText("P2 Income: " + (Math.floor(game.playerTwo.numberOfFarms / farmIncome) - game.playerTwo.numberOfBases), leftBoxWidth - 110, 100);
+      canvasContext.fillText("P1 Gold: " + game.playerOne.gold, 20, 150);
+      canvasContext.fillText("P2 Gold: " + game.playerTwo.gold, leftBoxWidth - 110, 150);      
+    } else {
+      canvasContext.fillText("Income: " + (Math.floor(currentPlayer.numberOfFarms / farmIncome) - currentPlayer.numberOfBases), 20, 100);
+      canvasContext.fillText("Gold: " + currentPlayer.gold, leftBoxWidth - 110, 100);
+      canvasContext.fillText("Farms: " + currentPlayer.numberOfFarms, 20, 150);
+      canvasContext.fillText("Bases: " + currentPlayer.numberOfBases, leftBoxWidth - 110, 150);
+    }
 
     canvasContext.restore();
   }
