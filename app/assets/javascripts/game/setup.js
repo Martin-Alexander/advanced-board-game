@@ -23,7 +23,9 @@ $(document).ready(function() {
 
   initializeMouseListener();
 
-  // newGame();
+  newGame();
+  game.generateNewBoard();
+  startGamePrompt();
 
   // Each player has a browser, and this variables deterines which player that is
 
@@ -31,7 +33,7 @@ $(document).ready(function() {
 
   // serverLoop();
 
-  startGamePrompt();
+  // startGamePrompt();
 });
 
 $(window).on("blur focus", function(e) {
@@ -91,7 +93,6 @@ function join(player) {
     success: function(data) {
       startGameAs(data.role);
       if (data.otherPlayerReady) {
-        game.generateNewBoard();
         game.sendToServer();
       } 
     }
@@ -99,10 +100,6 @@ function join(player) {
 }
 
 function startGameAs(role) {
-
-  newGame(); // WITHOUT generateNewBoard()
-  renderingLoop();
-  serverLoop();
 
   $("#join-game-prompt").css({ display: "none" });
 
@@ -113,4 +110,7 @@ function startGameAs(role) {
   } else if (role == "playerTwo") {
     currentPlayer = game.playerTwo;
   }
+
+  renderingLoop();
+  serverLoop();
 }
