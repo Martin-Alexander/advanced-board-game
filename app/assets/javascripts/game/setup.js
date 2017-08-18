@@ -101,10 +101,11 @@ function startGameAs(role) {
     currentPlayer = game.observer;
   } else if (role == "playerOne") {
     currentPlayer = game.playerOne;
+    serverLoop();
   } else if (role == "playerTwo") {
     currentPlayer = game.playerTwo;
+    serverLoop();
   }
 
   renderingLoop();
-  serverLoop();
 }
