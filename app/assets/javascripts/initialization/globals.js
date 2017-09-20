@@ -28,7 +28,7 @@ const startingGold = 24;
 const damageDistribution = [0.5, 0.75, 1, 1, 1, 1, 1.5, 2];
 const productionPerTurn = 8;
 
-var serverLoopRate = 1000;
+var serverLoopRate = 1200;
 var serverLoopId;
 
 const movesLeftLookup = {
