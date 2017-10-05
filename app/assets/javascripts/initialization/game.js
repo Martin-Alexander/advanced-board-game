@@ -323,7 +323,6 @@ game.move = function(fromSquare, toSquare, type, movesLeft) {
       fromSquare.player = null;
     }
 
-    hand.shiftDown = false;
     hand.ctrlDown = false;
     return true;
   } else {
